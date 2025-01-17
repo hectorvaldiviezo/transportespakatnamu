@@ -15,7 +15,7 @@ export default function AboutUs() {
           Quiénes Somos
         </h2>
         <div className="flex flex-col md:flex-row items-center gap-12">
-          <div className="md:w-1/2">
+          <div className="md:w-1/2 px-12">
             <Carousel>
               <CarouselContent>
                 {Array.from({ length: 5 }).map((_, index) => (
@@ -40,7 +40,7 @@ export default function AboutUs() {
               el crecimiento sostenible. Nuestra visión se basa en dos pilares
               fundamentales:
             </p>
-            <p className="text-2xl font-semibold mb-6 text-secondary">
+            <p className="text-2xl font-semibold mb-6 text-foreground">
               {"Oportunidad y Competencia"}
             </p>
             <p className="text-lg">

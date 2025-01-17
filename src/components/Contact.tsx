@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-20 bg-secondary">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-12 text-center text-primary">Contáctanos</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -16,7 +16,7 @@ export default function Contact() {
             <p className="mb-4"><strong>Teléfono:</strong> 944 474 284 / 924 040 350 (Atención las 24 Horas)</p>
             <p className="mb-6"><strong>Facebook:</strong> TRANSPORTES PAKATNAMU SAC / @TRANSPASAC</p>
             <Image 
-              src="/placeholder.svg?height=300&width=400" 
+              src="/logo.jpg" 
               alt="Mapa de ubicación" 
               width={400} 
               height={300} 

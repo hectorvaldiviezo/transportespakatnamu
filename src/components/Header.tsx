@@ -1,11 +1,17 @@
 import Link from "next/link";
-
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function Header() {
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-secondary shadow-sm">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="text-2xl font-bold text-primary">
-          Transportes Pakatnamu
+        <div className="flex items-center justify-center">
+          <Avatar>
+            <AvatarImage src="/logo.jpg" alt="tp" />
+            <AvatarFallback>TP</AvatarFallback>
+          </Avatar>
+          <div className="text-2xl font-bold text-primary">
+            Transportes Pakatnamu
+          </div>
         </div>
         <nav>
           <ul className="flex space-x-4">
