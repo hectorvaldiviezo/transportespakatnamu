@@ -41,7 +41,7 @@ export default function AboutUs() {
               fundamentales:
             </p>
             <p className="text-2xl font-semibold mb-6 text-secondary">
-              "Oportunidad y Competencia"
+              {"Oportunidad y Competencia"}
             </p>
             <p className="text-lg">
               Contamos con un equipo altamente capacitado y proveedores de
