@@ -1,5 +1,7 @@
+"use client";
 import { CheckCircle } from "lucide-react";
 import Image from "next/image";
+import Tilt from "react-parallax-tilt";
 
 export default function Security() {
   const features = [
@@ -17,20 +19,22 @@ export default function Security() {
         </h2>
         <div className="flex flex-col md:flex-row items-center gap-12">
           <div className="md:w-1/2 flex items-center justify-center">
-            <Image
-              src="/logo.jpg"
-              alt="Seguridad en el transporte"
-              width={500}
-              height={300}
-              className="rounded-lg shadow-lg"
-            />
+            <Tilt>
+              <Image
+                src="/slider3.jpg"
+                alt="Seguridad en el transporte"
+                width={500}
+                height={300}
+                className="rounded-lg shadow-lg"
+              />
+            </Tilt>
           </div>
           <div className="md:w-1/2">
             <ul className="space-y-6">
               {features.map((feature, index) => (
                 <li key={index} className="flex items-center">
                   <CheckCircle className="text-green-500 mr-4 flex-shrink-0" />
-                  <span className="text-lg">{feature}</span>
+                  <span className="text-lg font-medium">{feature}</span>
                 </li>
               ))}
             </ul>
