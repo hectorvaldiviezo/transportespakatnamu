@@ -6,6 +6,7 @@ import Services from "@/components/Services";
 import Security from "@/components/Security";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import NationwideMap from "@/components/NationwideMap";
 
 export default function Home() {
   return (
@@ -14,8 +15,9 @@ export default function Home() {
       <main>
         <Hero />
         <AboutUs />
-        <Principles />
         <Services />
+        <NationwideMap />
+        <Principles />
         <Security />
         <Contact />
       </main>
