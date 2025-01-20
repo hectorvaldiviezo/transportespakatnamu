@@ -7,6 +7,7 @@ import Security from "@/components/Security";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import NationwideMap from "@/components/NationwideMap";
+import Quotation from "@/components/Quotation";
 
 export default function Home() {
   return (
@@ -14,9 +15,9 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <AboutUs />
-        <Services />
         <NationwideMap />
+        <Quotation />
+        <Services />
         <Principles />
         <Security />
         <Contact />
