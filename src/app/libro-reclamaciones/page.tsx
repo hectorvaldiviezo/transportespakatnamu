@@ -14,13 +14,13 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main>
-        <Hero />
-        <NationwideMap />
+        {/* <Hero /> */}
+        {/* <NationwideMap /> */}
         <Quotation />
-        <Services />
+        {/* <Services /> */}
         {/* <Principles /> */}
         {/* <Security /> */}
-        <Contact />
+        {/* <Contact /> */}
       </main>
       <Footer />
     </div>
