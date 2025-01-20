@@ -11,10 +11,10 @@ export default function AboutUs() {
   return (
     <section id="about" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-12 text-center text-primary">
-          Quiénes Somos
+        <h2 className="text-4xl font-anton mb-12 text-center text-blue-950">
+          ¿QUIÉNES SOMOS?
         </h2>
-        <div className="flex flex-col md:flex-row items-center gap-12">
+        <div className="flex flex-col md:flex-row items-start gap-12">
           <div className="md:w-1/2 px-12">
             <Carousel>
               <CarouselContent>
@@ -40,9 +40,10 @@ export default function AboutUs() {
               el crecimiento sostenible. Nuestra visión se basa en dos pilares
               fundamentales:
             </p>
-            <p className="text-2xl font-semibold mb-6 text-foreground">
-              {"Oportunidad y Competencia"}
-            </p>
+            <blockquote className="text-xl italic font-semibold text-gray-900 dark:text-white">
+              <p>{"Oportunidad y Competencia"}</p>
+            </blockquote>
+
             <p className="text-lg">
               Contamos con un equipo altamente capacitado y proveedores de
               primer nivel, lo que nos permite ofrecer soluciones logísticas

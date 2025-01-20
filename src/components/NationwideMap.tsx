@@ -64,19 +64,24 @@ export default function NationwideMap() {
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-12 text-center text-primary">
-          Cobertura Nacional
+        <h2 className="text-3xl font-anton mb-12 text-center text-blue-950">
+          COBERTURA NACIONAL
         </h2>
         <div className="flex flex-col md:flex-row items-center justify-center gap-12">
           <div className="w-full md:w-1/2 max-w-2xl">
             {hoveredDepartment ? (
-              <Image width={1000} height={1000} src={`/peru/${images[hoveredDepartment]}`} alt="" />
+              <Image
+                width={1000}
+                height={1000}
+                src={`/peru/${images[hoveredDepartment]}`}
+                alt=""
+              />
             ) : (
               <Image width={1000} height={1000} src={`/peru.svg`} alt="" />
             )}
           </div>
           <div className="w-full md:w-1/2">
-            <h3 className="text-2xl font-semibold mb-6 text-">
+            <h3 className="text-2xl font-semibold mb-6">
               {hoveredDepartment || "Servicio en Todo el Perú"}
             </h3>
             <p className="text-lg mb-6">

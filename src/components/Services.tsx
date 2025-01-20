@@ -36,13 +36,13 @@ export default function Services() {
         <h2 className="text-3xl font-bold mb-12 text-center text-secondary">
           Nuestros Servicios
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <Card
               key={index}
               className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <CardHeader>
+              <CardHeader className="p-4 md:p-6">
                 <div className="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-4 mx-auto">
                   <service.icon className="w-8 h-8 text-secondary" />
                 </div>
@@ -51,7 +51,7 @@ export default function Services() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-center text-gray-600">
+                <p className="text-center text-xs sm:text-base text-gray-600">
                   {service.description}
                 </p>
               </CardContent>
