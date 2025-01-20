@@ -21,9 +21,9 @@ export default function Security() {
           <div className="md:w-1/2 flex items-center justify-center">
             <Tilt>
               <Image
-                src="/slider3.jpg"
+                src="/transporte.png"
                 alt="Seguridad en el transporte"
-                width={500}
+                width={300}
                 height={300}
                 className="rounded-lg shadow-lg"
               />

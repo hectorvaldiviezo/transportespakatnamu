@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 
 const departments = [
@@ -69,9 +70,9 @@ export default function NationwideMap() {
         <div className="flex flex-col md:flex-row items-center justify-center gap-12">
           <div className="w-full md:w-1/2 max-w-2xl">
             {hoveredDepartment ? (
-              <img src={`/peru/${images[hoveredDepartment]}`} alt="" />
+              <Image width={1000} height={1000} src={`/peru/${images[hoveredDepartment]}`} alt="" />
             ) : (
-              <img src={`/peru.svg`} alt="" />
+              <Image width={1000} height={1000} src={`/peru.svg`} alt="" />
             )}
           </div>
           <div className="w-full md:w-1/2">

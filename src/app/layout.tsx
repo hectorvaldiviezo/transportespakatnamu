@@ -1,19 +1,26 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next";
+import { Anton } from "next/font/google";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: 'Transportes Pakatnamu',
-  description: 'Página web de Transportes Pakatnamu',
-}
+  title: "Transportes Pakatnamu",
+  description: "Página web de Transportes Pakatnamu",
+};
+
+const anton = Anton({
+  variable: "--font-anton",
+  weight: ["400"],
+  subsets: ["latin"],
+});
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${anton.variable}`}>{children}</body>
     </html>
-  )
+  );
 }
