@@ -17,8 +17,8 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center justify-center gap-2">
           <Avatar>
-            {/* <AvatarImage src="/tplogowhite.svg" alt="tp" /> */}
-            <AvatarFallback className="bg-transparent">TP</AvatarFallback>
+            <AvatarImage src="/tplogowhite.svg" alt="tp" />
+            <AvatarFallback className="bg-transparent text-secondary">TP</AvatarFallback>
           </Avatar>
           <div className="text-base sm:text-xl tracking-tight font-bold text-secondary flex flex-col">
             TRANSPORTES PAKATNAMU
