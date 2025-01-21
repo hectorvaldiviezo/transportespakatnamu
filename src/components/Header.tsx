@@ -15,20 +15,20 @@ export default function Header() {
   return (
     <header className="bg-transparent absolute top-0 z-50 w-full">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center justify-center gap-2">
+        <Link href="/" className="flex items-center justify-center gap-2">
           <Avatar>
-            <AvatarImage src="/tplogowhite.svg" alt="tp" />
-            <AvatarFallback>TP</AvatarFallback>
+            {/* <AvatarImage src="/tplogowhite.svg" alt="tp" /> */}
+            <AvatarFallback className="bg-transparent">TP</AvatarFallback>
           </Avatar>
           <div className="text-base sm:text-xl tracking-tight font-bold text-secondary flex flex-col">
             TRANSPORTES PAKATNAMU
           </div>
-        </div>
+        </Link>
         <nav className="hidden md:block">
           <ul className="flex space-x-4">
             <li>
               <Link
-                href="#about"
+                href="quienes-somos"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
                 ¿QUIÉNES SOMOS?
