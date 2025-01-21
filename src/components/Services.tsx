@@ -45,7 +45,7 @@ export default function Services() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="group border-none relative shadow-lg rounded-xl group-hover:shadow-xl transition-shadow duration-500 overflow-hidden h-96"
+              className="group border-none relative shadow-lg rounded-xl group-hover:shadow-xl transition-shadow duration-500 overflow-hidden h-40 md:h-96"
             >
               <Image
                 src={service.image}
