@@ -7,8 +7,8 @@ export default function Footer() {
 
   return (
     <footer className="bg-gray-800 text-white py-8">
-      <div className="container mx-auto px-4 text-center">
-        <div className="grid grid-cols-3">
+      <div className="container flex flex-col gap-2 mx-auto px-4 text-start">
+        <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
           <div>
             <div className="flex flex-col gap-3 p-3">
               <p className="flex gap-2 items-center text-sm">
@@ -19,13 +19,19 @@ export default function Footer() {
                 <MapPin className="text-white w-4 h-4" /> Carretera a Lambayeque
                 Mza. A Lote. 6 Km 4.5
               </p>
-              <p className="flex gap-2 items-center text-sm">
-                <Phone className="text-white w-4 h-4" /> 944 474 284 / 924 040
-                350 (Atención las 24 Horas)
+              <p className="flex gap-2 items-start text-sm">
+                <Phone className="text-white w-4 h-4" />
+                <div>
+                  <p>944 474 284 </p>
+                  <p>924 040 350</p>
+                </div>
               </p>
-              <p className="flex gap-2 items-center text-sm">
-                <Facebook className="text-white w-4 h-4" /> TRANSPORTES
-                PAKATNAMU SAC / @TRANSPASAC
+              <p className="flex gap-2 items-start text-sm">
+                <Facebook className="text-white w-4 h-4" />
+                <div>
+                  <p>TRANSPORTES PAKATNAMU SAC</p>
+                  <p>@TRANSPASAC</p>
+                </div>
               </p>
             </div>
           </div>
@@ -41,7 +47,7 @@ export default function Footer() {
             </Link>
           </div>
         </div>
-        <p>
+        <p className="text-center text-xs md:text-sm">
           &copy; {year} Transportes Pakatnamu. Todos los derechos reservados.
         </p>
       </div>
