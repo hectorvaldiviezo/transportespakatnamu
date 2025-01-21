@@ -20,7 +20,7 @@ export default function Home() {
         <Services />
         {/* <Principles /> */}
         {/* <Security /> */}
-        <Contact />
+        {/* <Contact /> */}
       </main>
       <Footer />
     </div>

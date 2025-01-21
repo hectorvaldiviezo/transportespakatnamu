@@ -91,11 +91,11 @@ export default function NationwideMap() {
               rincón del país, garantizando entregas seguras y puntuales sin
               importar el destino.
             </p>
-            <ul className="grid grid-cols-3 gap-2 text-sm">
+            <ul className="grid grid-cols-3 text-sm">
               {departments.map((dept) => (
                 <li
                   key={dept}
-                  className="flex items-center"
+                  className="flex items-center p-1"
                   onMouseEnter={() => setHoveredDepartment(dept)}
                   onMouseLeave={() => setHoveredDepartment("")}
                 >

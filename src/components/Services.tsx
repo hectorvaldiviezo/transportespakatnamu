@@ -5,6 +5,7 @@ import {
   FlaskRoundIcon as Flask,
   AlertTriangle,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function Services() {
   const services = [
@@ -12,21 +13,25 @@ export default function Services() {
       title: "Nacional",
       description: "Transporte de carga a nivel nacional",
       icon: Truck,
+      image: "/nacional.jpg",
     },
     {
       title: "Internacional",
       description: "Soluciones para carga internacional",
       icon: Globe,
+      image: "/internacional.jpg",
     },
     {
       title: "IQBF",
       description: "Transporte de Insumos Químicos y Bienes Fiscalizados",
       icon: Flask,
+      image: "/IQBF.jpg",
     },
     {
       title: "MATPEL",
       description: "Transporte seguro de Materiales Peligrosos",
       icon: AlertTriangle,
+      image: "/matpel.jpg",
     },
   ];
 
@@ -38,24 +43,26 @@ export default function Services() {
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
-            <Card
+            <div
               key={index}
-              className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="group border-none relative shadow-lg rounded-xl group-hover:shadow-xl transition-shadow duration-500 overflow-hidden h-96"
             >
-              <CardHeader className="p-4 md:p-6">
-                <div className="w-16 h-16 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-4 mx-auto">
-                  <service.icon className="w-8 h-8 text-secondary" />
-                </div>
-                <CardTitle className="text-center text-xl">
+              <Image
+                src={service.image}
+                alt={service.title}
+                width={1000}
+                height={2000}
+                className="h-full w-full object-cover object-center absolute z-0 group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="z-50 relative w-full h-full flex flex-col justify-end bg-primary/35 hover:bg-primary/50 transition duration-500 p-4">
+                <h2 className="text-center text-2xl font-anton text-secondary uppercase transition duration-500">
                   {service.title}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-center text-xs sm:text-base text-gray-600">
+                </h2>
+                <p className="text-xs sm:text-base font-medium text-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-500 min-h-[4rem]">
                   {service.description}
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
       </div>
