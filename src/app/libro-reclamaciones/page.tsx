@@ -8,19 +8,21 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import NationwideMap from "@/components/NationwideMap";
 import Quotation from "@/components/Quotation";
+import ComplaintForm from "@/components/ComplaintForm";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main>
-        {/* <Hero /> */}
-        {/* <NationwideMap /> */}
-        <Quotation />
-        {/* <Services /> */}
-        {/* <Principles /> */}
-        {/* <Security /> */}
-        {/* <Contact /> */}
+        <Hero
+          title="LIBRO DE RECLAMACIONES"
+          subtitle=""
+          description=""
+          src="/slider1.jpg"
+          height="h-[300px]"
+        />
+        <ComplaintForm />
       </main>
       <Footer />
     </div>

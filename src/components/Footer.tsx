@@ -11,28 +11,28 @@ export default function Footer() {
         <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
           <div>
             <div className="flex flex-col gap-3 p-3">
-              <p className="flex gap-2 items-center text-sm">
+              <div className="flex gap-2 items-center text-sm">
                 <Mail className="text-white w-4 h-4" />{" "}
                 info@transportespakatnamu.com
-              </p>
-              <p className="flex gap-2 items-center text-sm">
+              </div>
+              <div className="flex gap-2 items-center text-sm">
                 <MapPin className="text-white w-4 h-4" /> Carretera a Lambayeque
                 Mza. A Lote. 6 Km 4.5
-              </p>
-              <p className="flex gap-2 items-start text-sm">
+              </div>
+              <div className="flex gap-2 items-start text-sm">
                 <Phone className="text-white w-4 h-4" />
                 <div>
                   <p>944 474 284 </p>
                   <p>924 040 350</p>
                 </div>
-              </p>
-              <p className="flex gap-2 items-start text-sm">
+              </div>
+              <div className="flex gap-2 items-start text-sm">
                 <Facebook className="text-white w-4 h-4" />
                 <div>
                   <p>TRANSPORTES PAKATNAMU SAC</p>
                   <p>@TRANSPASAC</p>
                 </div>
-              </p>
+              </div>
             </div>
           </div>
           <div></div>

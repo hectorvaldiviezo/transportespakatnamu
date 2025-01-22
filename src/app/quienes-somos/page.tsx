@@ -14,7 +14,14 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main>
-        <Quotation />
+        <Hero
+          title="SOMOS LOGÍSTICA,"
+          subtitle=" COMPROMISO Y CONFIANZA"
+          description=""
+          src="/slider1.jpg"
+          height="h-[500px]"
+        />
+        {/* <Quotation /> */}
         <AboutUs />
         <Principles />
         <Security />

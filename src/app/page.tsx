@@ -14,7 +14,13 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main>
-        <Hero />
+        <Hero
+          title="TRANSPORTE DE CARGA"
+          subtitle="EFICIENTE Y SEGURO"
+          description="Soluciones logísticas adaptadas a tus necesidades"
+          src="/slider1.jpg"
+          height="h-screen"
+        />
         <NationwideMap />
         <Quotation />
         <Services />

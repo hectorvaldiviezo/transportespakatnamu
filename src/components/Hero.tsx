@@ -1,11 +1,25 @@
 "use client";
 import Image from "next/image";
 
-export default function Hero() {
+export interface HeroProps {
+  title: string;
+  subtitle: string;
+  description: string;
+  src: string;
+  height: string;
+}
+
+export default function Hero({
+  title,
+  subtitle,
+  description,
+  src,
+  height,
+}: HeroProps) {
   return (
-    <section className="relative h-screen flex items-center">
+    <section className={`relative ${height} flex items-center`}>
       <Image
-        src="/slider1.jpg"
+        src={src}
         alt="Transporte de carga"
         fill={true}
         style={{ objectFit: "cover" }}
@@ -15,10 +29,12 @@ export default function Hero() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-full">
           <div className="w-full mb-4 text-secondary flex flex-col items-end text-end">
-            <h1 className="text-4xl md:text-8xl font-anton">TRANSPORTE DE CARGA</h1>
-            <h1 className="text-3xl md:text-7xl font-anton text-blue-600">EFICIENTE Y SEGURO</h1>
+            <h1 className="text-4xl md:text-8xl font-anton">{title}</h1>
+            <h1 className="text-3xl md:text-7xl font-anton text-blue-600">
+              {subtitle}
+            </h1>
             <h1 className="text-xs md:text-xl mb-8 text-secondary font-semibold">
-              Soluciones logísticas adaptadas a tus necesidades
+              {description}
             </h1>
           </div>
 
