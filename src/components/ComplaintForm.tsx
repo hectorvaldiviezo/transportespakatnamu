@@ -44,6 +44,7 @@ import { Switch } from "./ui/switch";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
 const FormSchema = z.object({
   sedeId: z.string({ required_error: "Please select a sede." }),
   type: z.string({ required_error: "Please select a type." }),
@@ -52,7 +53,54 @@ const FormSchema = z.object({
   }),
   time: z.string({ required_error: "Please select a time." }),
   description: z.string({ required_error: "Please enter a description." }),
+  typeWell: z.string({ required_error: "Please select a type." }),
+  amount: z.string({ required_error: "Please enter an amount." }),
+  motive: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
 });
+
+const motives = [
+  {
+    id: "trato-profesional",
+    label:
+      "Trato profesional en la atención: la persona que te atendió no lo hizo de forma adecuada.",
+  },
+  {
+    id: "tiempo",
+    label: "Tiempo: hubo demora antes y/o durante la atención que recibiste.",
+  },
+  {
+    id: "procedimiento",
+    label:
+      "Procedimiento: no se siguió el procedimiento de atención o no estás de acuerdo con este.",
+  },
+  {
+    id: "infraestructura",
+    label:
+      "Infraestructura: el ambiente en el que se realizó la atención y/o mobiliario no están en buen estado, no hay rutas accesibles que faciliten el desplazamiento de las personas o el local queda en un sitio inseguro.",
+  },
+  {
+    id: "informacion",
+    label:
+      "Información: la orientación sobre el servicio fue inadecuada, insuficiente o imprecisa.",
+  },
+  {
+    id: "resultado",
+    label:
+      "Resultado: no se pudo obtener un resultado concreto como parte del servicio y/o no se justifica la negativa en la atención del servicio.",
+  },
+  {
+    id: "confianza",
+    label:
+      "Confianza: ocurrió una situación que afectó la confianza y credibilidad de la entidad.",
+  },
+  {
+    id: "disponibilidad",
+    label:
+      "Disponibilidad: el medio de atención (virtual, presencial o telefónico) por el que se brinda el servicio no responde a tus expectativas o tiene horarios restringidos.",
+  },
+];
 
 export default function ComplaintForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -63,6 +111,9 @@ export default function ComplaintForm() {
       date: undefined,
       time: "",
       description: "",
+      typeWell: "",
+      amount: "",
+      motive: [],
     },
   });
 
@@ -87,14 +138,22 @@ export default function ComplaintForm() {
         >
           <Tabs defaultValue="customer" className="w-full max-w-screen-md">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger className="font-anton uppercase" value="customer">Paso 1</TabsTrigger>
-              <TabsTrigger className="font-anton uppercase" value="well">Paso 2</TabsTrigger>
-              <TabsTrigger className="font-anton uppercase" value="complaint">Paso 3</TabsTrigger>
+              <TabsTrigger className="font-anton uppercase" value="customer">
+                Paso 1
+              </TabsTrigger>
+              <TabsTrigger className="font-anton uppercase" value="well">
+                Paso 2
+              </TabsTrigger>
+              <TabsTrigger className="font-anton uppercase" value="complaint">
+                Paso 3
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="customer">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-xl font-anton uppercase font-normal">Información del reclamo</CardTitle>
+                  <CardTitle className="text-xl font-anton uppercase font-normal">
+                    Información del reclamo
+                  </CardTitle>
                   <CardDescription>
                     Complete los siguientes campos para registrar su reclamo.
                   </CardDescription>
@@ -105,7 +164,9 @@ export default function ComplaintForm() {
                     name="sedeId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="uppercase font-anton">Sede</FormLabel>
+                        <FormLabel className="uppercase font-anton">
+                          Sede
+                        </FormLabel>
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
@@ -171,7 +232,9 @@ export default function ComplaintForm() {
                       name="date"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel className="uppercase font-anton">Fecha</FormLabel>
+                          <FormLabel className="uppercase font-anton">
+                            Fecha
+                          </FormLabel>
                           <Popover>
                             <PopoverTrigger asChild>
                               <FormControl>
@@ -230,7 +293,9 @@ export default function ComplaintForm() {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="uppercase font-anton">Descripción</FormLabel>
+                        <FormLabel className="uppercase font-anton">
+                          Descripción
+                        </FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="Describa su reclamo"
@@ -242,8 +307,10 @@ export default function ComplaintForm() {
                       </FormItem>
                     )}
                   />
-                  <Label htmlFor="files" className="uppercase font-anton">Archivos</Label>
-                  <Input id="files" type="file" multiple/>
+                  <Label htmlFor="files" className="uppercase font-anton">
+                    Archivos
+                  </Label>
+                  <Input id="files" type="file" multiple />
                 </CardContent>
                 <CardFooter>
                   <Button>Siguiente</Button>
@@ -251,6 +318,127 @@ export default function ComplaintForm() {
               </Card>
             </TabsContent>
             <TabsContent value="well">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-xl font-anton uppercase font-normal">
+                    Información del bien contratado
+                  </CardTitle>
+                  <CardDescription>
+                    Complete los siguientes campos para registrar su reclamo.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="typeWell"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel className="uppercase font-anton">
+                          ¿Bien o Servicio?
+                        </FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className="flex flex-col space-y-1"
+                          >
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="Bien" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Bien
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem className="flex items-center space-x-3 space-y-0">
+                              <FormControl>
+                                <RadioGroupItem value="Servicio" />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                Servicio
+                              </FormLabel>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="motive"
+                    render={() => (
+                      <FormItem className="space-y-1">
+                        <div className="mb-4">
+                          <FormLabel className="uppercase font-anton">
+                            Identifica el motivo del reclamo. Puedes seleccionar
+                            máximo 2 opciones.
+                          </FormLabel>
+                        </div>
+                        {motives.map((motive) => (
+                          <FormField
+                            key={motive.id}
+                            control={form.control}
+                            name="motive"
+                            render={({ field }) => {
+                              return (
+                                <FormItem
+                                  key={motive.id}
+                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes(motive.id)}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([
+                                              ...field.value,
+                                              motive.id,
+                                            ])
+                                          : field.onChange(
+                                              field.value?.filter(
+                                                (value) => value !== motive.id
+                                              )
+                                            );
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="text-sm font-normal">
+                                    {motive.label}
+                                  </FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                        ))}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-anton font-normal uppercase">
+                          Monto reclamado
+                        </FormLabel>
+                        <FormControl>
+                          <Input placeholder="100" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+                <CardFooter>
+                  <Button>Siguiente</Button>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+            <TabsContent value="complaint">
               <Card>
                 <CardHeader>
                   <CardTitle>Password</CardTitle>
