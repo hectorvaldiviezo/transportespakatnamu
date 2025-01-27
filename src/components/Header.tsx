@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import {
   Sheet,
@@ -11,14 +12,47 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
-export default function Header() {
+import { useEffect, useState } from "react";
+export default function Header({
+  heightToScroll = 500,
+  gradient = "bg-gradient-to-r from-navy via-navy to-danger",
+}: {
+  heightToScroll?: number;
+  gradient?: string;
+}) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > heightToScroll); // Cambia el estado si el usuario ha hecho scroll
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll); // Limpia el evento al desmontar el componente
+    };
+  }, []);
   return (
-    <header className="bg-transparent absolute top-0 z-50 w-full">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+    <header
+      className={`fixed top-0 z-50 w-full transition-colors bg-transparent duration-300 `}
+    >
+      <div
+        className={`container mx-auto px-4 py-3 m-2 rounded-xl flex justify-between items-center ${
+          isScrolled
+            ? // ? "bg-gradient-to-r from-indigo-800 to-red-900"
+              // ? "bg-gradient-to-r from-indigo-800 to-blue-800"
+              // ? "bg-gradient-to-r from-navy to-indigo-800"
+              // ? ""
+              gradient
+            : "bg-transparent"
+        }`}
+      >
         <Link href="/" className="flex items-center justify-center gap-2">
           <Avatar>
             <AvatarImage src="/tplogowhite.svg" alt="tp" />
-            <AvatarFallback className="bg-transparent text-secondary">TP</AvatarFallback>
+            <AvatarFallback className="bg-transparent text-secondary">
+              TP
+            </AvatarFallback>
           </Avatar>
           <div className="text-base sm:text-xl tracking-tight font-bold text-secondary flex flex-col">
             TRANSPORTES PAKATNAMU
@@ -28,10 +62,10 @@ export default function Header() {
           <ul className="flex space-x-4">
             <li>
               <Link
-                href="quienes-somos"
+                href="nosotros"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
-                ¿QUIÉNES SOMOS?
+                NOSOTROS
               </Link>
             </li>
             <li>
@@ -44,10 +78,10 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="#contact"
+                href="contactanos"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
-                CONTACTO
+                CONTACTÁNOS
               </Link>
             </li>
           </ul>
@@ -70,7 +104,7 @@ export default function Header() {
                       <AvatarImage src="/tplogowhite.svg" alt="tp" />
                       <AvatarFallback>TP</AvatarFallback>
                     </Avatar>
-                    <div className="text-base font-anton font-normal flex flex-col">
+                    <div className="text-base font-roboto font-normal flex flex-col">
                       TRANSPORTES PAKATNAMU
                     </div>
                   </div>
@@ -79,19 +113,19 @@ export default function Header() {
                 <nav className="grid place-items-start gap-2">
                   <Link
                     href="#about"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-anton"
+                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
                     ¿QUIÉNES SOMOS?
                   </Link>
                   <Link
                     href="#services"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-anton"
+                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
                     SERVICIOS
                   </Link>
                   <Link
                     href="#contact"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-anton"
+                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
                     CONTACTO
                   </Link>

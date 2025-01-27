@@ -138,20 +138,20 @@ export default function ComplaintForm() {
         >
           <Tabs defaultValue="customer" className="w-full max-w-screen-md">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger className="font-anton uppercase" value="customer">
+              <TabsTrigger className="font-roboto uppercase" value="customer">
                 Paso 1
               </TabsTrigger>
-              <TabsTrigger className="font-anton uppercase" value="well">
+              <TabsTrigger className="font-roboto uppercase" value="well">
                 Paso 2
               </TabsTrigger>
-              <TabsTrigger className="font-anton uppercase" value="complaint">
+              <TabsTrigger className="font-roboto uppercase" value="complaint">
                 Paso 3
               </TabsTrigger>
             </TabsList>
             <TabsContent value="customer">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-xl font-anton uppercase font-normal">
+                  <CardTitle className="text-xl font-roboto uppercase font-normal">
                     Información del reclamo
                   </CardTitle>
                   <CardDescription>
@@ -164,7 +164,7 @@ export default function ComplaintForm() {
                     name="sedeId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="uppercase font-anton">
+                        <FormLabel className="uppercase font-roboto">
                           Sede
                         </FormLabel>
                         <Select
@@ -195,7 +195,7 @@ export default function ComplaintForm() {
                     name="type"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel className="uppercase font-anton">
+                        <FormLabel className="uppercase font-roboto">
                           ¿Queja o Reclamo?
                         </FormLabel>
                         <FormControl>
@@ -232,7 +232,7 @@ export default function ComplaintForm() {
                       name="date"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel className="uppercase font-anton">
+                          <FormLabel className="uppercase font-roboto">
                             Fecha
                           </FormLabel>
                           <Popover>
@@ -293,7 +293,7 @@ export default function ComplaintForm() {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="uppercase font-anton">
+                        <FormLabel className="uppercase font-roboto">
                           Descripción
                         </FormLabel>
                         <FormControl>
@@ -307,7 +307,7 @@ export default function ComplaintForm() {
                       </FormItem>
                     )}
                   />
-                  <Label htmlFor="files" className="uppercase font-anton">
+                  <Label htmlFor="files" className="uppercase font-roboto">
                     Archivos
                   </Label>
                   <Input id="files" type="file" multiple />
@@ -320,7 +320,7 @@ export default function ComplaintForm() {
             <TabsContent value="well">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-xl font-anton uppercase font-normal">
+                  <CardTitle className="text-xl font-roboto uppercase font-normal">
                     Información del bien contratado
                   </CardTitle>
                   <CardDescription>
@@ -333,7 +333,7 @@ export default function ComplaintForm() {
                     name="typeWell"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel className="uppercase font-anton">
+                        <FormLabel className="uppercase font-roboto">
                           ¿Bien o Servicio?
                         </FormLabel>
                         <FormControl>
@@ -371,7 +371,7 @@ export default function ComplaintForm() {
                     render={() => (
                       <FormItem className="space-y-1">
                         <div className="mb-4">
-                          <FormLabel className="uppercase font-anton">
+                          <FormLabel className="uppercase font-roboto">
                             Identifica el motivo del reclamo. Puedes seleccionar
                             máximo 2 opciones.
                           </FormLabel>
@@ -422,7 +422,7 @@ export default function ComplaintForm() {
                     name="amount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-anton font-normal uppercase">
+                        <FormLabel className="font-roboto font-normal uppercase">
                           Monto reclamado
                         </FormLabel>
                         <FormControl>

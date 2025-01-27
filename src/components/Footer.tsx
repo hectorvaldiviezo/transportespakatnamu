@@ -9,7 +9,15 @@ export default function Footer() {
     <footer className="bg-gray-800 text-white py-8">
       <div className="container flex flex-col gap-2 mx-auto px-4 text-start">
         <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
-          <div>
+          <div className="flex gap-4">
+            <div>
+              <Image
+                src="/lambayequemap.svg"
+                width={150}
+                height={150}
+                alt="Transportes Pakatnamu"
+              />
+            </div>
             <div className="flex flex-col gap-3 p-3">
               <div className="flex gap-2 items-center text-sm">
                 <Mail className="text-white w-4 h-4" />{" "}

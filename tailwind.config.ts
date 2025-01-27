@@ -10,9 +10,13 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        anton: ["var(--font-anton)"],
+        roboto: ["var(--font-roboto)"],
       },
       colors: {
+        darknavy: "hsl(var(--darknavy))",
+        marine: "hsl(var(--marine))",
+        danger: "hsl(var(--danger))",
+        navy: "hsl(var(--navy))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Anton } from "next/font/google";
+import { Roboto } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -7,9 +7,9 @@ export const metadata: Metadata = {
   description: "Página web de Transportes Pakatnamu",
 };
 
-const anton = Anton({
-  variable: "--font-anton",
-  weight: ["400"],
+const roboto = Roboto({
+  variable: "--font-roboto",
+  weight: ["100", "300", "400", "500", "700", "900"],
   subsets: ["latin"],
 });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${anton.variable}`}>{children}</body>
+      <body className={`${roboto.variable}`}>{children}</body>
     </html>
   );
 }

@@ -1,0 +1,302 @@
+"use client";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { Switch } from "./ui/switch";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Textarea } from "./ui/textarea";
+import { Checkbox } from "./ui/checkbox";
+const FormSchema = z.object({
+  sedeId: z.string({ required_error: "Please select a sede." }),
+  type: z.string({ required_error: "Please select a type." }),
+  date: z.date({
+    required_error: "Please select a date.",
+  }),
+  time: z.string({ required_error: "Please select a time." }),
+  description: z.string({ required_error: "Please enter a description." }),
+  typeWell: z.string({ required_error: "Please select a type." }),
+  amount: z.string({ required_error: "Please enter an amount." }),
+  motive: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one item.",
+  }),
+});
+
+const motives = [
+  {
+    id: "trato-profesional",
+    label:
+      "Trato profesional en la atención: la persona que te atendió no lo hizo de forma adecuada.",
+  },
+  {
+    id: "tiempo",
+    label: "Tiempo: hubo demora antes y/o durante la atención que recibiste.",
+  },
+  {
+    id: "procedimiento",
+    label:
+      "Procedimiento: no se siguió el procedimiento de atención o no estás de acuerdo con este.",
+  },
+  {
+    id: "infraestructura",
+    label:
+      "Infraestructura: el ambiente en el que se realizó la atención y/o mobiliario no están en buen estado, no hay rutas accesibles que faciliten el desplazamiento de las personas o el local queda en un sitio inseguro.",
+  },
+  {
+    id: "informacion",
+    label:
+      "Información: la orientación sobre el servicio fue inadecuada, insuficiente o imprecisa.",
+  },
+  {
+    id: "resultado",
+    label:
+      "Resultado: no se pudo obtener un resultado concreto como parte del servicio y/o no se justifica la negativa en la atención del servicio.",
+  },
+  {
+    id: "confianza",
+    label:
+      "Confianza: ocurrió una situación que afectó la confianza y credibilidad de la entidad.",
+  },
+  {
+    id: "disponibilidad",
+    label:
+      "Disponibilidad: el medio de atención (virtual, presencial o telefónico) por el que se brinda el servicio no responde a tus expectativas o tiene horarios restringidos.",
+  },
+];
+
+export default function ContactForm() {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      sedeId: "",
+      type: "",
+      date: undefined,
+      time: "",
+      description: "",
+      typeWell: "",
+      amount: "",
+      motive: [],
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    toast({
+      title: "You submitted the following values:",
+      description: (
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
+      ),
+    });
+  }
+
+  return (
+    <div className="w-full py-20 px-2 flex justify-center items-center bg-muted">
+      <Form {...form}>
+        <form
+          action=""
+          className="container flex items-center justify-center w-full"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
+          <div className="w-full">
+            <div>
+              <div className="text-xl font-roboto uppercase font-bold">
+                Información de Contacto
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Complete los siguientes campos para poder establecer contacto
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4">
+              <FormField
+                control={form.control}
+                name="sedeId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="uppercase font-roboto">
+                      Sede
+                    </FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona una sede" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="1">Sede Lambayeque</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <div className="flex items-center space-x-2">
+                      <Switch id="other-sede" />
+                      <Label htmlFor="other-sede">
+                        No ocurrió en una sede física
+                      </Label>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="uppercase font-roboto">
+                      ¿Queja o Reclamo?
+                    </FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="Queja" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Queja</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="Reclamo" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Reclamo</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <FormField
+                  control={form.control}
+                  name="date"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel className="uppercase font-roboto">
+                        Fecha
+                      </FormLabel>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "dd/MM/yyyy")
+                              ) : (
+                                <span>Seleccione una fecha</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) =>
+                              date > new Date() || date < new Date("1900-01-01")
+                            }
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="time"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Hora</FormLabel>
+                      <FormControl>
+                        <Input type="time" placeholder="hora" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="uppercase font-roboto">
+                      Descripción
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Describa su reclamo"
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Label htmlFor="files" className="uppercase font-roboto">
+                Archivos
+              </Label>
+              <Input id="files" type="file" multiple />
+            </div>
+            <CardFooter>
+              <Button>Siguiente</Button>
+            </CardFooter>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
+}

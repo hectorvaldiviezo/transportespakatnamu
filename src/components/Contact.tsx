@@ -19,7 +19,7 @@ export default function Contact() {
             />
           </div>
           <div>
-            <h2 className="text-3xl font-anton mb-12 text-center text-primary">
+            <h2 className="text-3xl font-roboto mb-12 text-center text-primary">
               CONTÁCTANOS
             </h2>
             <form className="space-y-6">

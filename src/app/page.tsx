@@ -16,10 +16,13 @@ export default function Home() {
       <main>
         <Hero
           title="TRANSPORTE DE CARGA"
-          subtitle="EFICIENTE Y SEGURO"
-          description="Soluciones logísticas adaptadas a tus necesidades"
-          src="/slider1.jpg"
+          // subtitle="EFICIENTE Y SEGURO"
+          description="Conectamos destinos, "
+          descriptions={[" sin límites", " sin demoras", " sin preocupaciones"]}
+          src="/hero.jpg"
+          // src="/hero.jpg"
           height="h-screen"
+          gradient={false}
         />
         <NationwideMap />
         <Quotation />

@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { Button } from "./ui/button";
 
 const departments = [
   "Amazonas",
@@ -62,13 +63,45 @@ export default function NationwideMap() {
   const [hoveredDepartment, setHoveredDepartment] = useState("");
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-anton mb-12 text-center text-primary">
+    <section className="py-16 bg-muted">
+      <div className="container mx-auto py-16 px-4 bg-background relative shadow-lg">
+        <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
+        {/* <h2 className="text-4xl font-roboto mb-12 text-center text-[#e30613] font-bold">
           COBERTURA NACIONAL
-        </h2>
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-          <div className="w-full md:w-1/2 max-w-2xl">
+        </h2> */}
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 md:px-12">
+          <div className="w-full lg:w-1/2">
+            <div className="border-l-8 border-danger pl-4 mb-6">
+              <h3 className="text-4xl font-semibold text-danger">
+                {hoveredDepartment || "Cobertura Nacional"}
+              </h3>
+              <p className="mb-4 text-lg font-bold text-navy">
+                SERVICIO A TODO EL PERÚ
+              </p>
+            </div>
+            <p className="mb-6 text-muted-foreground text-justifyfont-roboto">
+              En Transportes Pakatnamu, nos enorgullece ofrecer nuestros
+              servicios de transporte de carga en todos los departamentos del
+              Perú. Nuestra extensa red logística nos permite llegar a cada
+              rincón del país, garantizando entregas seguras y puntuales sin
+              importar el destino.
+            </p>
+            <div className="grid grid-cols-3 sm:grid-cols-3 text-sm">
+              {departments.map((dept) => (
+                <Button
+                  key={dept}
+                  size="default"
+                  variant={hoveredDepartment === dept ? "destructive" : "ghost"}
+                  className="p-0 justify-start px-2 font-medium font-roboto"
+                  onMouseEnter={() => setHoveredDepartment(dept)}
+                  onMouseLeave={() => setHoveredDepartment("")}
+                >
+                  {dept}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div className="w-full md:w-1/2 max-w-2xl animate-fade-left animate-duration-500 animate-ease-in animate-reverse">
             {hoveredDepartment ? (
               <Image
                 width={1000}
@@ -79,35 +112,6 @@ export default function NationwideMap() {
             ) : (
               <Image width={1000} height={1000} src={`/peru.svg`} alt="" />
             )}
-          </div>
-          <div className="w-full md:w-1/2">
-            <h3 className="text-2xl font-semibold mb-6">
-              {hoveredDepartment || "Servicio en Todo el Perú"}
-            </h3>
-            <p className="text-lg mb-6">
-              En Transportes Pakatnamu, nos enorgullece ofrecer nuestros
-              servicios de transporte de carga en todos los departamentos del
-              Perú. Nuestra extensa red logística nos permite llegar a cada
-              rincón del país, garantizando entregas seguras y puntuales sin
-              importar el destino.
-            </p>
-            <ul className="grid grid-cols-3 text-sm">
-              {departments.map((dept) => (
-                <li
-                  key={dept}
-                  className="flex items-center p-1"
-                  onMouseEnter={() => setHoveredDepartment(dept)}
-                  onMouseLeave={() => setHoveredDepartment("")}
-                >
-                  <span
-                    className={`w-3 h-3 rounded-full mr-2 ${
-                      hoveredDepartment === dept ? "bg-[#ff010b]" : "bg-primary"
-                    }`}
-                  ></span>
-                  {dept}
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
       </div>

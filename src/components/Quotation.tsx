@@ -23,19 +23,19 @@ export default function Quotation() {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-full">
           <div className="w-full mb-4 text-secondary flex flex-col items-start text-start">
-            <h1 className="text-2xl md:text-6xl font-anton text-blue-600">
+            <h1 className="text-2xl md:text-6xl font-roboto text-blue-600">
               SI ESTÁS LISTO PARA ENVIAR,
             </h1>
-            <h1 className="text-2xl md:text-6xl font-anton">
+            <h1 className="text-2xl md:text-6xl font-roboto">
               NOSOTROS ESTAMOS LISTOS
             </h1>
-            <h1 className="text-2xl md:text-6xl font-anton text-">
+            <h1 className="text-2xl md:text-6xl font-roboto text-">
               PARA MOVER TU CARGA.
             </h1>
           </div>
 
           <div className="flex justify-start space-x-4">
-            <Button variant="link" className="text-white font-anton font-normal text-xl">
+            <Button variant="link" className="text-white font-roboto font-normal text-xl">
               <FileCheck className="w-7 h-7 mr-2" />
               COTIZAR AHORA
             </Button>
