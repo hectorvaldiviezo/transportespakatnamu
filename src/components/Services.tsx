@@ -37,8 +37,9 @@ export default function Services() {
 
   return (
     <section id="services" className="py-20 bg-secondary">
-      <div className="container mx-auto px-4 bg-background rounded shadow py-20">
-        <h2 className="text-4xl font-roboto mb-12 text-center text-navy font-bold">
+      <div className="container mx-auto py-20 px-10 bg-background rounded shadow relative">
+      <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
+        <h2 className="text-4xl font-roboto mb-12 text-start px-4 text-navy font-bold border-l-8 border-navy">
           NUESTROS SERVICIOS
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
