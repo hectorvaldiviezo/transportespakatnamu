@@ -4,6 +4,7 @@ import AboutUs from "@/components/AboutUs";
 import Principles from "@/components/Principles";
 import Security from "@/components/Security";
 import Footer from "@/components/Footer";
+import MisionVision from "@/components/MisionVision";
 
 export default function Home() {
   return (
@@ -21,7 +22,7 @@ export default function Home() {
         {/* <Quotation /> */}
         <AboutUs />
         {/* <Principles /> */}
-        <Security />
+        <MisionVision />
         {/* <Contact /> */}
       </main>
       <Footer />

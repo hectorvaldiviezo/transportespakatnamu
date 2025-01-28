@@ -68,20 +68,20 @@ export default function Header({
                 NOSOTROS
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href="#services"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
                 SERVICIOS
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="contactanos"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
-                CONTACTÁNOS
+                CONTÁCTANOS
               </Link>
             </li>
           </ul>
@@ -112,22 +112,16 @@ export default function Header({
                 <SheetDescription></SheetDescription>
                 <nav className="grid place-items-start gap-2">
                   <Link
-                    href="#about"
+                    href="nosotros"
                     className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
-                    ¿QUIÉNES SOMOS?
+                    NOSOTROS
                   </Link>
                   <Link
-                    href="#services"
+                    href="contactanos"
                     className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
-                    SERVICIOS
-                  </Link>
-                  <Link
-                    href="#contact"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
-                  >
-                    CONTACTO
+                    CONTÁCTANOS
                   </Link>
                 </nav>
               </SheetHeader>

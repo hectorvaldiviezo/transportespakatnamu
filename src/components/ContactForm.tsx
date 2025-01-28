@@ -46,18 +46,30 @@ import { CalendarIcon } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 const FormSchema = z.object({
-  sedeId: z.string({ required_error: "Please select a sede." }),
-  type: z.string({ required_error: "Please select a type." }),
-  date: z.date({
-    required_error: "Please select a date.",
+  document: z.string().nonempty(),
+  fullName: z.string().nonempty(),
+  email: z.string().email(),
+  phone: z.string().nonempty(),
+  telephone: z.string().nonempty(),
+  product: z.string().nonempty(),
+  origin: z.string().nonempty(),
+  destination: z.string().nonempty(),
+  typeFreight: z.enum(["viaje", "tonelada"], {
+    required_error: "Debes seleccionar un tipo de flete",
   }),
-  time: z.string({ required_error: "Please select a time." }),
-  description: z.string({ required_error: "Please enter a description." }),
-  typeWell: z.string({ required_error: "Please select a type." }),
-  amount: z.string({ required_error: "Please enter an amount." }),
-  motive: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one item.",
+  numberTravels: z.number().int().positive(),
+  freightProposal: z.string().nonempty(),
+  includeDelivery: z.enum(["si", "no"], {
+    required_error: "Debes seleccionar si incluye entrega",
   }),
+  includeLoadingOrUnloading: z.enum(
+    ["no", "solo-carga", "solo-descarga", "ambos"],
+    {
+      required_error: "Debes seleccionar si incluye carga o descarga",
+    }
+  ),
+  reference: z.string().nonempty(),
+  observations: z.string().nonempty(),
 });
 
 const motives = [
@@ -106,14 +118,21 @@ export default function ContactForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      sedeId: "",
-      type: "",
-      date: undefined,
-      time: "",
-      description: "",
-      typeWell: "",
-      amount: "",
-      motive: [],
+      document: "",
+      fullName: "",
+      email: "",
+      phone: "",
+      telephone: "",
+      product: "",
+      origin: "",
+      destination: "",
+      typeFreight: "viaje",
+      numberTravels: 0,
+      freightProposal: "",
+      includeDelivery: "no",
+      includeLoadingOrUnloading: "no",
+      reference: "",
+      observations: "",
     },
   });
 
@@ -136,7 +155,7 @@ export default function ContactForm() {
           className="container flex items-center justify-center w-full"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <div className="w-full">
+          <div className="w-full flex flex-col justify-center max-w-screen-md">
             <div>
               <div className="text-xl font-roboto uppercase font-bold">
                 Información de Contacto
@@ -145,123 +164,83 @@ export default function ContactForm() {
                 Complete los siguientes campos para poder establecer contacto
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-1 py-4 w-full">
               <FormField
                 control={form.control}
-                name="sedeId"
+                name="document"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase font-roboto">
-                      Sede
-                    </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Selecciona una sede" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="1">Sede Lambayeque</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <div className="flex items-center space-x-2">
-                      <Switch id="other-sede" />
-                      <Label htmlFor="other-sede">
-                        No ocurrió en una sede física
-                      </Label>
-                    </div>
+                    <FormLabel className="font-semibold">DNI o RUC</FormLabel>
+                    <FormControl>
+                      <Input placeholder="11111111" {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               <FormField
                 control={form.control}
-                name="type"
+                name="fullName"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel className="uppercase font-roboto">
-                      ¿Queja o Reclamo?
+                  <FormItem>
+                    <FormLabel className="font-semibold">
+                      Razon social o Nombre completo
                     </FormLabel>
                     <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex flex-col space-y-1"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Queja" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Queja</FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Reclamo" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Reclamo</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
+                      <Input
+                        placeholder="Transportes Pakatnamu SAC"
+                        {...field}
+                      />
                     </FormControl>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-semibold">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="example@gmail.com"
+                        type="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="date"
+                  name="phone"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel className="uppercase font-roboto">
-                        Fecha
-                      </FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "dd/MM/yyyy")
-                              ) : (
-                                <span>Seleccione una fecha</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date("1900-01-01")
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
+                    <FormItem>
+                      <FormLabel className="font-semibold">Celular</FormLabel>
+                      <FormControl>
+                        <Input placeholder="982648215" {...field} />
+                      </FormControl>
+                      <FormDescription></FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <FormField
                   control={form.control}
-                  name="time"
+                  name="telephone"
                   render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Hora</FormLabel>
+                    <FormItem>
+                      <FormLabel className="font-semibold">Teléfono</FormLabel>
                       <FormControl>
-                        <Input type="time" placeholder="hora" {...field} />
+                        <Input placeholder="048483" {...field} />
                       </FormControl>
+                      <FormDescription></FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -269,29 +248,211 @@ export default function ContactForm() {
               </div>
               <FormField
                 control={form.control}
-                name="description"
+                name="product"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase font-roboto">
-                      Descripción
+                    <FormLabel className="font-semibold">
+                      Producto | Descripción de la carga
                     </FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Describa su reclamo"
-                        className="resize-none"
-                        {...field}
-                      />
+                      <Textarea placeholder="Productos de ..." {...field} />
                     </FormControl>
+                    <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Label htmlFor="files" className="uppercase font-roboto">
-                Archivos
-              </Label>
-              <Input id="files" type="file" multiple />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="origin"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Punto de Partida
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Lambayeque" {...field} />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="destination"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Punto de Llegada
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="Lima" {...field} />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="typeFreight"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Tipo de Flete
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleccionar" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="viaje">Por Viaje</SelectItem>
+                          <SelectItem value="tonelada">Por Tonelada</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="numberTravels"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Numero de Viajes
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="2" type="number" {...field} />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="freightProposal"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Flete Propuesto
+                      </FormLabel>
+                      <FormControl>
+                        <Input placeholder="4000" type="number" {...field} />
+                      </FormControl>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="includeDelivery"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Incluir Reparto
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleccionar" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="si">Incluir</SelectItem>
+                          <SelectItem value="no">No Incluir</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="includeLoadingOrUnloading"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Incluir Carga o Descarga
+                      </FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleccionar" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="no">No Incluir</SelectItem>
+                          <SelectItem value="solo-carga">
+                            Incluir Solo Carga
+                          </SelectItem>
+                          <SelectItem value="solo-descarga">
+                            Incluir Solo Descarga
+                          </SelectItem>
+                          <SelectItem value="ambos">Incluir Ambos</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription></FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
+                name="reference"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-semibold">
+                      Referencia del viaje
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="Debe ser..." {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="observations"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-semibold">
+                      Observaciones de la carga
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea placeholder="La Carga lleva..." {...field} />
+                    </FormControl>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-            <CardFooter>
+            <CardFooter className="p-0">
               <Button>Siguiente</Button>
             </CardFooter>
           </div>
