@@ -21,6 +21,7 @@ export default function Home() {
           description=""
           src="/slider1.jpg"
           height="h-[300px]"
+          gradient={false}
         />
         <ComplaintForm />
       </main>

@@ -7,12 +7,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Route, ShieldCheck, Trophy, Users } from "lucide-react";
+import { Route, ShieldCheck, Trophy, Users, LucideIcon } from "lucide-react";
 
 interface Principle {
   title: string;
   description: string;
-  icon: any;
+  icon: LucideIcon;
 }
 
 export function CardPrinciple(principle: Principle) {
