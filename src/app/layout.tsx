@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Transportes Pakatnamu",
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable}`}>{children}</body>
+      <body className={`${roboto.variable}`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

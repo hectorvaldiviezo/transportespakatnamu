@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import {
   Carousel,
@@ -8,8 +9,13 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "./ui/button";
 import { FileCheck } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Quotation() {
+  const navigate = useRouter();
+  const handleQuotation = () => {
+    navigate.push("/cotizar");
+  };
   return (
     <section
       id="quotation"
@@ -42,6 +48,7 @@ export default function Quotation() {
             <Button
               variant="link"
               className="text-white font-roboto font-normal text-sm md:text-lg"
+              onClick={handleQuotation}
             >
               <FileCheck className="w-8 h-8 mr-2" />
               COTIZAR AHORA

@@ -45,20 +45,31 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+import { Separator } from "./ui/separator";
+import { useEffect } from "react";
 const FormSchema = z.object({
-  document: z.string().nonempty(),
-  fullName: z.string().nonempty(),
-  email: z.string().email(),
-  phone: z.string().nonempty(),
-  telephone: z.string().nonempty(),
-  product: z.string().nonempty(),
-  origin: z.string().nonempty(),
-  destination: z.string().nonempty(),
+  document: z.string().nonempty("Debes ingresar tu DNI o RUC"),
+  fullName: z.string().nonempty("Debes ingresar tu nombre completo"),
+  email: z.string().email("Debes ingresar un email válido"),
+  phone: z.string().nonempty("Debes ingresar tu número de celular"),
+  telephone: z.string(),
+  product: z.string().nonempty("Debes ingresar la descripción del producto"),
+  origin: z.string().nonempty("Debes ingresar el punto de partida"),
+  destination: z.string().nonempty("Debes ingresar el punto de llegada"),
   typeFreight: z.enum(["viaje", "tonelada"], {
     required_error: "Debes seleccionar un tipo de flete",
   }),
-  numberTravels: z.number().int().positive(),
-  freightProposal: z.string().nonempty(),
+  numberTravels: z
+    .string()
+    .nonempty("Debes ingresar el número de viajes")
+    .refine((value) => !isNaN(Number(value)), {
+      message: "Debes ingresar un número válido",
+    })
+    .transform((value) => Number(value))
+    .refine((value) => value > 0, {
+      message: "Debes ingresar un número mayor a 0",
+    }),
+  freightProposal: z.string().nonempty("Debes ingresar el flete propuesto"),
   includeDelivery: z.enum(["si", "no"], {
     required_error: "Debes seleccionar si incluye entrega",
   }),
@@ -68,51 +79,9 @@ const FormSchema = z.object({
       required_error: "Debes seleccionar si incluye carga o descarga",
     }
   ),
-  reference: z.string().nonempty(),
-  observations: z.string().nonempty(),
+  reference: z.string().nonempty("Debes ingresar la referencia del viaje"),
+  observations: z.string(),
 });
-
-const motives = [
-  {
-    id: "trato-profesional",
-    label:
-      "Trato profesional en la atención: la persona que te atendió no lo hizo de forma adecuada.",
-  },
-  {
-    id: "tiempo",
-    label: "Tiempo: hubo demora antes y/o durante la atención que recibiste.",
-  },
-  {
-    id: "procedimiento",
-    label:
-      "Procedimiento: no se siguió el procedimiento de atención o no estás de acuerdo con este.",
-  },
-  {
-    id: "infraestructura",
-    label:
-      "Infraestructura: el ambiente en el que se realizó la atención y/o mobiliario no están en buen estado, no hay rutas accesibles que faciliten el desplazamiento de las personas o el local queda en un sitio inseguro.",
-  },
-  {
-    id: "informacion",
-    label:
-      "Información: la orientación sobre el servicio fue inadecuada, insuficiente o imprecisa.",
-  },
-  {
-    id: "resultado",
-    label:
-      "Resultado: no se pudo obtener un resultado concreto como parte del servicio y/o no se justifica la negativa en la atención del servicio.",
-  },
-  {
-    id: "confianza",
-    label:
-      "Confianza: ocurrió una situación que afectó la confianza y credibilidad de la entidad.",
-  },
-  {
-    id: "disponibilidad",
-    label:
-      "Disponibilidad: el medio de atención (virtual, presencial o telefónico) por el que se brinda el servicio no responde a tus expectativas o tiene horarios restringidos.",
-  },
-];
 
 export default function ContactForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -136,7 +105,16 @@ export default function ContactForm() {
     },
   });
 
+  useEffect(() => {
+    const dept = sessionStorage.getItem("selectedDepartment");
+    if (dept) {
+      form.setValue("origin", dept);
+      sessionStorage.removeItem("selectedDepartment");
+    }
+  }, []);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(data);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -155,22 +133,25 @@ export default function ContactForm() {
           className="container flex items-center justify-center w-full"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <div className="w-full flex flex-col justify-center max-w-screen-md">
-            <div>
-              <div className="text-xl font-roboto uppercase font-bold">
+          <div className="w-full flex flex-col justify-center max-w-screen-md bg-background p-6 rounded-xl shadow-lg">
+            <div className="border-l-4 border-danger px-2">
+              <div className="text-2xl font-roboto uppercase font-bold text-danger">
                 Información de Contacto
               </div>
               <div className="text-sm text-muted-foreground">
                 Complete los siguientes campos para poder establecer contacto
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-1 py-4 w-full">
+            <div className="grid grid-cols-1 gap-2 py-4 w-full">
               <FormField
                 control={form.control}
                 name="document"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">DNI o RUC</FormLabel>
+                    <FormLabel className="text-darknavy font-semibold">
+                      DNI o RUC
+                      <span className="text-destructive ml-1">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="11111111" {...field} />
                     </FormControl>
@@ -184,8 +165,9 @@ export default function ContactForm() {
                 name="fullName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">
+                    <FormLabel className="text-darknavy font-semibold">
                       Razon social o Nombre completo
+                      <span className="text-destructive ml-1">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -203,7 +185,10 @@ export default function ContactForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">Email</FormLabel>
+                    <FormLabel className="text-darknavy font-semibold">
+                      Email
+                      <span className="text-destructive ml-1">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="example@gmail.com"
@@ -222,7 +207,10 @@ export default function ContactForm() {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">Celular</FormLabel>
+                      <FormLabel className="text-darknavy font-semibold">
+                        Celular
+                        <span className="text-destructive ml-1">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="982648215" {...field} />
                       </FormControl>
@@ -236,7 +224,9 @@ export default function ContactForm() {
                   name="telephone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">Teléfono</FormLabel>
+                      <FormLabel className="text-darknavy font-semibold">
+                        Teléfono
+                      </FormLabel>
                       <FormControl>
                         <Input placeholder="048483" {...field} />
                       </FormControl>
@@ -246,13 +236,15 @@ export default function ContactForm() {
                   )}
                 />
               </div>
+              <Separator className="w-full my-4" />
               <FormField
                 control={form.control}
                 name="product"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">
+                    <FormLabel className="text-darknavy font-semibold">
                       Producto | Descripción de la carga
+                      <span className="text-destructive ml-1">*</span>
                     </FormLabel>
                     <FormControl>
                       <Textarea placeholder="Productos de ..." {...field} />
@@ -268,8 +260,9 @@ export default function ContactForm() {
                   name="origin"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="text-darknavy font-semibold">
                         Punto de Partida
+                        <span className="text-destructive ml-1">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Lambayeque" {...field} />
@@ -284,8 +277,9 @@ export default function ContactForm() {
                   name="destination"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="text-darknavy font-semibold">
                         Punto de Llegada
+                        <span className="text-destructive ml-1">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="Lima" {...field} />
@@ -302,8 +296,9 @@ export default function ContactForm() {
                   name="typeFreight"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="text-darknavy font-semibold">
                         Tipo de Flete
+                        <span className="text-destructive ml-1">*</span>
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
@@ -329,11 +324,12 @@ export default function ContactForm() {
                   name="numberTravels"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="text-darknavy font-semibold">
                         Numero de Viajes
+                        <span className="text-destructive ml-1">*</span>
                       </FormLabel>
                       <FormControl>
-                        <Input placeholder="2" type="number" {...field} />
+                        <Input placeholder="1" type="number" {...field} />
                       </FormControl>
                       <FormDescription></FormDescription>
                       <FormMessage />
@@ -345,8 +341,9 @@ export default function ContactForm() {
                   name="freightProposal"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="text-darknavy font-semibold">
                         Flete Propuesto
+                        <span className="text-destructive ml-1">*</span>
                       </FormLabel>
                       <FormControl>
                         <Input placeholder="4000" type="number" {...field} />
@@ -363,8 +360,9 @@ export default function ContactForm() {
                   name="includeDelivery"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="text-darknavy font-semibold">
                         Incluir Reparto
+                        <span className="text-destructive ml-1">*</span>
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
@@ -390,8 +388,9 @@ export default function ContactForm() {
                   name="includeLoadingOrUnloading"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-semibold">
+                      <FormLabel className="text-darknavy font-semibold">
                         Incluir Carga o Descarga
+                        <span className="text-destructive ml-1">*</span>
                       </FormLabel>
                       <Select
                         onValueChange={field.onChange}
@@ -419,13 +418,15 @@ export default function ContactForm() {
                   )}
                 />
               </div>
+              <Separator className="w-full my-4" />
               <FormField
                 control={form.control}
                 name="reference"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">
+                    <FormLabel className="text-darknavy font-semibold">
                       Referencia del viaje
+                      <span className="text-destructive ml-1">*</span>
                     </FormLabel>
                     <FormControl>
                       <Textarea placeholder="Debe ser..." {...field} />
@@ -440,7 +441,7 @@ export default function ContactForm() {
                 name="observations"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-semibold">
+                    <FormLabel className="text-darknavy font-semibold">
                       Observaciones de la carga
                     </FormLabel>
                     <FormControl>
@@ -452,8 +453,8 @@ export default function ContactForm() {
                 )}
               />
             </div>
-            <CardFooter className="p-0">
-              <Button>Siguiente</Button>
+            <CardFooter className="p-0 flex justify-end">
+              <Button className="bg-navy hover:bg-navy/95">Enviar</Button>
             </CardFooter>
           </div>
         </form>

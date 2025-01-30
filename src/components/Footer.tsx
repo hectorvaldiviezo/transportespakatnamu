@@ -1,6 +1,7 @@
-import { Facebook, Mail, MapPin, Phone } from "lucide-react";
+import { Facebook, Mail, MapPin, Phone, ScrollText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -44,7 +45,16 @@ export default function Footer() {
             </div>
           </div>
           <div></div>
-          <div className="flex items-center justify-center">
+          <div className="flex flex-col gap-2 items-center justify-start">
+            <Link href="/docs/codigo_etica_TP.pdf" target="_blank">
+              <Button
+                size="default"
+                variant="link"
+                className="flex items-center gap-2 text-secondary"
+              >
+                <ScrollText className="min-w-6 min-h-6" /> Código de Ética
+              </Button>
+            </Link>
             <Link href="/libro-reclamaciones">
               <Image
                 src="/logo-libro.svg"

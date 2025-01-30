@@ -12,7 +12,7 @@ export default function Page() {
       />
       <main>
         <Hero
-          title="CONTÁCTANOS"
+          title="COTIZAR"
           description=""
           src="/freighliner.png"
           height="h-[400px]"

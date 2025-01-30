@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 const departments = [
   "Amazonas",
@@ -61,6 +62,12 @@ const images: Record<string, string> = {
 
 export default function NationwideMap() {
   const [hoveredDepartment, setHoveredDepartment] = useState("");
+  const router = useRouter();
+
+  const handleClickedDepartment = (dept: string) => {
+    sessionStorage.setItem("selectedDepartment", dept);
+    router.push("/cotizar");
+  };
 
   return (
     <section className="py-16 bg-muted">
@@ -79,12 +86,15 @@ export default function NationwideMap() {
                 SERVICIO A TODO EL PERÚ
               </p>
             </div>
-            <p className="mb-6 text-muted-foreground text-justifyfont-roboto">
+            <p className="mb-6 text-muted-foreground text-justify font-roboto">
               En Transportes Pakatnamu, nos enorgullece ofrecer nuestros
               servicios de transporte de carga en todos los departamentos del
               Perú. Nuestra extensa red logística nos permite llegar a cada
               rincón del país, garantizando entregas seguras y puntuales sin
               importar el destino.
+            </p>
+            <p className="mb-6 text-navy text-center font-bold font-roboto text-xl">
+              ¿Desde donde deseas enviar tu carga?
             </p>
             <div className="grid grid-cols-3 sm:grid-cols-3 text-sm">
               {departments.map((dept) => (
@@ -95,6 +105,7 @@ export default function NationwideMap() {
                   className="p-0 justify-start px-2 font-medium font-roboto"
                   onMouseEnter={() => setHoveredDepartment(dept)}
                   onMouseLeave={() => setHoveredDepartment("")}
+                  onClick={() => handleClickedDepartment(dept)}
                 >
                   {dept}
                 </Button>

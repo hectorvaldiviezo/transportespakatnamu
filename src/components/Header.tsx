@@ -78,10 +78,10 @@ export default function Header({
             </li> */}
             <li>
               <Link
-                href="contactanos"
+                href="cotizar"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
-                CONTÁCTANOS
+                COTIZAR
               </Link>
             </li>
           </ul>
@@ -118,10 +118,10 @@ export default function Header({
                     NOSOTROS
                   </Link>
                   <Link
-                    href="contactanos"
+                    href="cotizar"
                     className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
-                    CONTÁCTANOS
+                    COTIZAR
                   </Link>
                 </nav>
               </SheetHeader>

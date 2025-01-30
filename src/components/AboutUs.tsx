@@ -17,7 +17,7 @@ interface Principle {
 
 export function CardPrinciple(principle: Principle) {
   return (
-    <Card className="h-full">
+    <Card className="h-full py-4">
       <CardHeader className="flex flex-row gap-4 items-center">
         <div className="flex p-4 rounded-full bg-navy w-fit h-fit relative">
           <div className="absolute top-[-0.5rem] left-[-0.5rem] flex w-[calc(100%+1rem)] h-[calc(100%+1rem)] animate-pulse animate-infinite border-4 border-navy rounded-full"></div>
@@ -61,7 +61,7 @@ export default function AboutUs() {
   return (
     <section id="about" className="py-20 bg-muted">
       <div className="container mx-auto p-4">
-        <div className="flex flex-col md:flex-row items-start gap-12">
+        <div className="flex flex-col md:flex-row items-start gap-24">
           {/* <div className="md:w-1/2 px-12">
             <Carousel>
               <CarouselContent>
@@ -83,7 +83,7 @@ export default function AboutUs() {
           </div> */}
         </div>
 
-        <div className="grid grid-cols-3 grid-rows-2 gap-4">
+        <div className="grid grid-cols-3 grid-rows-2 gap-8">
           <div className="col-span-2">
             {" "}
             <div className="flex flex-col gap-3">
