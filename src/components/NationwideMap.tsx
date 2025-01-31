@@ -71,7 +71,7 @@ export default function NationwideMap() {
 
   return (
     <section className="py-16 bg-muted">
-      <div className="container mx-auto py-16 px-4 bg-background relative shadow-lg">
+      <div className="container max-w-screen-xl rounded mx-auto py-16 px-4 bg-background relative shadow-lg">
         <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
         {/* <h2 className="text-4xl font-roboto mb-12 text-center text-[#e30613] font-bold">
           COBERTURA NACIONAL

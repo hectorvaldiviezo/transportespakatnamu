@@ -38,7 +38,7 @@ export default function Hero({
             : ""
         }`}
       ></div>
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container max-w-screen-lg mx-auto px-4 relative z-10">
         <div className="max-w-full">
           <div className="w-full mb-4 text-secondary flex flex-col items-center text-center">
             <h1 className="text-4xl md:text-7xl font-bold font-roboto animate-fade-left animate-once animate-duration-1000 animate-delay-0 animate-ease-in animate-alternate animate-fill-forwards">

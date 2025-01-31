@@ -160,7 +160,7 @@ export default function ComplaintForm() {
       <Form {...form}>
         <form
           action=""
-          className="container flex items-center justify-center"
+          className="container max-w-screen-xl flex items-center justify-center"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <Tabs

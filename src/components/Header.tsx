@@ -39,7 +39,7 @@ export default function Header({
       className={`fixed top-0 z-50 w-full transition-colors bg-transparent duration-300 `}
     >
       <div
-        className={`container mx-auto px-4 py-3 m-2 rounded-xl flex justify-between items-center ${
+        className={`container max-w-screen-xl mx-auto px-4 py-3 m-2 rounded-xl flex justify-between items-center ${
           isScrolled
             ? // ? "bg-gradient-to-r from-indigo-800 to-red-900"
               // ? "bg-gradient-to-r from-indigo-800 to-blue-800"

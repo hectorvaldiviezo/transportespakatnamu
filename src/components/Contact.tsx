@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 export default function Contact() {
   return (
     <section id="contact" className="py-20 bg-secondary">
-      <div className="container mx-auto px-4">
+      <div className="container max-w-screen-lg mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="flex flex-col gap-2 justify-center items-center">
             <Image

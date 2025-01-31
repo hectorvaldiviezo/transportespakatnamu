@@ -60,7 +60,7 @@ export default function AboutUs() {
   ];
   return (
     <section id="about" className="py-20 bg-muted">
-      <div className="container mx-auto p-4">
+      <div className="container max-w-screen-xl mx-auto p-4">
         <div className="flex flex-col md:flex-row items-start gap-24">
           {/* <div className="md:w-1/2 px-12">
             <Carousel>

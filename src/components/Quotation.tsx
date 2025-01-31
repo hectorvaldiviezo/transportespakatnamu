@@ -21,7 +21,7 @@ export default function Quotation() {
       id="quotation"
       className="relative h-[300px] md:h-[450px] flex items-center bg-muted px-2"
     >
-      <div className="container mx-auto relative h-full rounded">
+      <div className="container max-w-screen-xl mx-auto relative h-full rounded">
         <Image
           src="/people.svg"
           alt="Transporte de carga"

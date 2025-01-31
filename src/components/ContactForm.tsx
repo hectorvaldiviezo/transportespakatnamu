@@ -130,7 +130,7 @@ export default function ContactForm() {
       <Form {...form}>
         <form
           action=""
-          className="container flex items-center justify-center w-full"
+          className="container max-w-screen-xl flex items-center justify-center w-full"
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <div className="w-full flex flex-col justify-center max-w-screen-md bg-background p-6 rounded-xl shadow-lg">

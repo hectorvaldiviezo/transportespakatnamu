@@ -37,7 +37,7 @@ export default function Services() {
 
   return (
     <section id="services" className="py-clamp-10-20 text-2xl px-2 bg-secondary">
-      <div className="container mx-auto py-12 md:py-20 px-4 md:px-10 bg-background rounded shadow relative">
+      <div className="container max-w-screen-xl mx-auto py-12 md:py-20 px-4 md:px-10 bg-background rounded shadow relative">
       <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
         <h2 className="text-clamp-2xl-4xl font-roboto mb-8 md:mb-12 text-start px-4 text-navy font-black border-l-4 md:border-l-8 border-navy">
           NUESTROS SERVICIOS
