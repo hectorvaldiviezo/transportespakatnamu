@@ -1,4 +1,10 @@
-import { Facebook, Mail, MapPin, Phone, ScrollText } from "lucide-react";
+import {
+  Facebook,
+  Mail,
+  MapPin,
+  Phone,
+  SquareChartGantt,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -21,22 +27,22 @@ export default function Footer() {
             </div>
             <div className="flex flex-col gap-3 p-3">
               <div className="flex gap-2 items-center text-sm">
-                <Mail className="text-white w-4 h-4" />{" "}
+                <Mail className="fill-secondary w-4 h-4 stroke-gray-800" />{" "}
                 info@transportespakatnamu.com
               </div>
               <div className="flex gap-2 items-center text-sm">
-                <MapPin className="text-white w-4 h-4" /> Carretera a Lambayeque
+                <MapPin className="fill-secondary w-4 h-4 stroke-gray-800" /> Carretera a Lambayeque
                 Mza. A Lote. 6 Km 4.5
               </div>
               <div className="flex gap-2 items-start text-sm">
-                <Phone className="text-white w-4 h-4" />
+                <Phone className="fill-secondary w-4 h-4 stroke-gray-800" />
                 <div>
                   <p>944 474 284 </p>
                   <p>924 040 350</p>
                 </div>
               </div>
               <div className="flex gap-2 items-start text-sm">
-                <Facebook className="text-white w-4 h-4" />
+                <Facebook className="fill-secondary w-4 h-4 stroke-gray-800" />
                 <div>
                   <p>TRANSPORTES PAKATNAMU SAC</p>
                   <p>@TRANSPASAC</p>
@@ -50,9 +56,10 @@ export default function Footer() {
               <Button
                 size="default"
                 variant="link"
-                className="flex items-center gap-2 text-secondary"
+                className="flex items-center gap-2 text-secondary group"
               >
-                <ScrollText className="min-w-6 min-h-6" /> Código de Ética
+                <SquareChartGantt className="min-w-6 min-h-6 group-hover:fill-muted group-hover:stroke-gray-800 transition-colors duration-200" />{" "}
+                Código de Ética
               </Button>
             </Link>
             <Link href="/libro-reclamaciones">

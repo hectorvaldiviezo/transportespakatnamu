@@ -83,14 +83,14 @@ export default function AboutUs() {
           </div> */}
         </div>
 
-        <div className="grid grid-cols-3 grid-rows-2 gap-8">
-          <div className="col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-8">
+          <div className="md:col-span-2">
             {" "}
             <div className="flex flex-col gap-3">
               <h1 className="text-4xl font-roboto mb-3 font-bold text-navy">
                 ¿Quiénes Somos?
               </h1>
-              <p className="text-lg">
+              <p className="text-lg text-justify">
                 Somos una empresa de transporte comprometida con la excelencia y
                 el crecimiento sostenible. Nuestra visión se basa en dos pilares
                 fundamentales:{" "}
@@ -99,35 +99,35 @@ export default function AboutUs() {
                 </span>
               </p>
 
-              <p className="text-lg">
+              <p className="text-lg text-justify">
                 Contamos con un equipo altamente capacitado y proveedores de
                 primer nivel, lo que nos permite ofrecer soluciones logísticas
                 adaptadas a las necesidades específicas de cada cliente.
               </p>
             </div>
           </div>
-          <div className="col-start-3">
+          <div className="md:col-start-3">
             <CardPrinciple
               title={principles[0].title}
               description={principles[0].description}
               icon={principles[0].icon}
             />
           </div>
-          <div className="row-start-2">
+          <div className="md:row-start-2">
             <CardPrinciple
               title={principles[1].title}
               description={principles[1].description}
               icon={principles[1].icon}
             />
           </div>
-          <div className="row-start-2">
+          <div className="md:row-start-2">
             <CardPrinciple
               title={principles[2].title}
               description={principles[2].description}
               icon={principles[2].icon}
             />
           </div>
-          <div className="row-start-2">
+          <div className="md:row-start-2">
             <CardPrinciple
               title={principles[3].title}
               description={principles[3].description}

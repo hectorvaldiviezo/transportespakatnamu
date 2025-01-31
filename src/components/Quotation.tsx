@@ -19,7 +19,7 @@ export default function Quotation() {
   return (
     <section
       id="quotation"
-      className="relative h-[350px] md:h-[450px] flex items-center bg-muted px-2"
+      className="relative h-[300px] md:h-[450px] flex items-center bg-muted px-2"
     >
       <div className="container mx-auto relative h-full rounded">
         <Image
@@ -33,13 +33,13 @@ export default function Quotation() {
         <div className="absolute inset-0 bg-gradient-to-l from-transparent via-navy/80 via-50% to-navy/90 rounded"></div>
         <div className="max-w-full px-4 relative h-full flex flex-col justify-center items-start shadow">
           <div className="w-full mb-4 text-secondary flex flex-col items-start text-start">
-            <h1 className="text-[clamp(1.25rem,-0.1389rem+4.4444vw,3.75rem)] leading-[clamp(1.25rem,-0.1389rem+4.4444vw,3.75rem)] font-roboto font-bold text-secondary">
+            <h1 className="text-clamp-xl-6xl font-roboto font-bold text-secondary">
               SI ESTÁS LISTO PARA ENVIAR,
             </h1>
-            <h1 className="text-[clamp(1rem,-0.1111rem+3.5556vw,3rem)] leading-[clamp(1rem,-0.1111rem+3.5556vw,3rem)] font-roboto">
+            <h1 className="text-clamp-2xl-4xl font-roboto">
               NOSOTROS ESTAMOS LISTOS
             </h1>
-            <h1 className="text-[clamp(1.25rem,-0.1389rem+4.4444vw,3.75rem)] leading-[clamp(1.25rem,-0.1389rem+4.4444vw,3.75rem)] font-roboto font-black text-border">
+            <h1 className="text-clamp-xl-6xl font-roboto font-black text-border">
               PARA MOVER TU CARGA.
             </h1>
           </div>
