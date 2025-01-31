@@ -42,9 +42,22 @@ import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { Switch } from "./ui/switch";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import {
+  Banknote,
+  BookText,
+  Building,
+  Calendar1,
+  CalendarIcon,
+  Clock,
+  CloudUpload,
+  ListTodo,
+  Search,
+  Text,
+  Truck,
+} from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
+import { searchByDNI } from "@/lib/search.actions";
 const FormSchema = z.object({
   sedeId: z.string({ required_error: "Please select a sede." }),
   type: z.string({ required_error: "Please select a type." }),
@@ -57,6 +70,10 @@ const FormSchema = z.object({
   amount: z.string({ required_error: "Please enter an amount." }),
   motive: z.array(z.string()).refine((value) => value.some((item) => item), {
     message: "You have to select at least one item.",
+  }),
+  typeDocument: z.enum(["dni", "run"]),
+  documentNumber: z.string({
+    required_error: "Please enter a document number.",
   }),
 });
 
@@ -114,8 +131,18 @@ export default function ComplaintForm() {
       typeWell: "",
       amount: "",
       motive: [],
+      typeDocument: "dni",
+      documentNumber: "",
     },
   });
+
+  const validateDocumentNumber = async () => {
+    const documentNumber = form.getValues("documentNumber");
+    try {
+      const response = await searchByDNI(documentNumber);
+      console.log(response);
+    } catch (error) {}
+  };
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
@@ -129,42 +156,55 @@ export default function ComplaintForm() {
   }
 
   return (
-    <div className="w-full py-20 px-2 flex justify-center items-center bg-primary">
+    <div className="w-full py-20 px-2 flex justify-center items-center bg-muted">
       <Form {...form}>
         <form
           action=""
           className="container flex items-center justify-center"
           onSubmit={form.handleSubmit(onSubmit)}
         >
-          <Tabs defaultValue="customer" className="w-full max-w-screen-md">
+          <Tabs
+            defaultValue="customer"
+            className="w-full max-w-screen-md flex flex-col gap-4"
+          >
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger className="font-roboto uppercase" value="customer">
+              <TabsTrigger
+                className="font-roboto uppercase py-1.5"
+                value="customer"
+              >
                 Paso 1
               </TabsTrigger>
-              <TabsTrigger className="font-roboto uppercase" value="well">
+              <TabsTrigger
+                className="font-roboto uppercase py-1.5"
+                value="well"
+              >
                 Paso 2
               </TabsTrigger>
-              <TabsTrigger className="font-roboto uppercase" value="complaint">
+              <TabsTrigger
+                className="font-roboto uppercase py-1.5"
+                value="complaint"
+              >
                 Paso 3
               </TabsTrigger>
             </TabsList>
             <TabsContent value="customer">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-xl font-roboto uppercase font-normal">
+                  <CardTitle className="text-xl font-roboto uppercase font-bold text-navy">
                     Información del reclamo
                   </CardTitle>
                   <CardDescription>
                     Complete los siguientes campos para registrar su reclamo.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 gap-4">
+                <CardContent className="grid grid-cols-1 gap-6">
                   <FormField
                     control={form.control}
                     name="sedeId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="uppercase font-roboto">
+                        <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
+                          <Building className="w-4 h-4" />
                           Sede
                         </FormLabel>
                         <Select
@@ -195,7 +235,8 @@ export default function ComplaintForm() {
                     name="type"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel className="uppercase font-roboto">
+                        <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
+                          <BookText className="w-4 h-4" />
                           ¿Queja o Reclamo?
                         </FormLabel>
                         <FormControl>
@@ -226,13 +267,14 @@ export default function ComplaintForm() {
                       </FormItem>
                     )}
                   />
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
                       name="date"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel className="uppercase font-roboto">
+                          <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
+                            <Calendar1 className="w-4 h-4" />
                             Fecha
                           </FormLabel>
                           <Popover>
@@ -279,7 +321,10 @@ export default function ComplaintForm() {
                       name="time"
                       render={({ field }) => (
                         <FormItem className="flex flex-col">
-                          <FormLabel>Hora</FormLabel>
+                          <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
+                            <Clock className="w-4 h-4" />
+                            Hora
+                          </FormLabel>
                           <FormControl>
                             <Input type="time" placeholder="hora" {...field} />
                           </FormControl>
@@ -293,7 +338,8 @@ export default function ComplaintForm() {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="uppercase font-roboto">
+                        <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
+                          <Text className="w-4 h-4" />
                           Descripción
                         </FormLabel>
                         <FormControl>
@@ -307,33 +353,40 @@ export default function ComplaintForm() {
                       </FormItem>
                     )}
                   />
-                  <Label htmlFor="files" className="uppercase font-roboto">
+                  <Label
+                    htmlFor="files"
+                    className="uppercase font-roboto flex items-center gap-2 text-darknavy"
+                  >
+                    <CloudUpload className="w-4 h-4" />
                     Archivos
                   </Label>
                   <Input id="files" type="file" multiple />
                 </CardContent>
-                <CardFooter>
-                  <Button>Siguiente</Button>
+                <CardFooter className="flex justify-end">
+                  <Button className="bg-navy hover:bg-navy/95">
+                    Siguiente
+                  </Button>
                 </CardFooter>
               </Card>
             </TabsContent>
             <TabsContent value="well">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-xl font-roboto uppercase font-normal">
+                  <CardTitle className="text-xl font-roboto uppercase font-bold text-navy">
                     Información del bien contratado
                   </CardTitle>
                   <CardDescription>
                     Complete los siguientes campos para registrar su reclamo.
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="grid grid-cols-1 gap-4">
+                <CardContent className="grid grid-cols-1 gap-6">
                   <FormField
                     control={form.control}
                     name="typeWell"
                     render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel className="uppercase font-roboto">
+                        <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
+                          <Truck className="w-4 h-4" />
                           ¿Bien o Servicio?
                         </FormLabel>
                         <FormControl>
@@ -371,7 +424,8 @@ export default function ComplaintForm() {
                     render={() => (
                       <FormItem className="space-y-1">
                         <div className="mb-4">
-                          <FormLabel className="uppercase font-roboto">
+                          <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
+                            <ListTodo className="w-4 h-4" />
                             Identifica el motivo del reclamo. Puedes seleccionar
                             máximo 2 opciones.
                           </FormLabel>
@@ -422,40 +476,91 @@ export default function ComplaintForm() {
                     name="amount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-roboto font-normal uppercase">
+                        <FormLabel className="font-roboto font-normal uppercase flex items-center gap-2 text-darknavy">
+                          <Banknote className="w-4 h-4" />
                           Monto reclamado
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="100" {...field} />
+                          <Input
+                            placeholder="100"
+                            type="number"
+                            step={0.01}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </CardContent>
-                <CardFooter>
-                  <Button>Siguiente</Button>
+                <CardFooter className="flex justify-between">
+                  <Button className="bg-navy hover:bg-navy/95">Atrás</Button>
+                  <Button className="bg-navy hover:bg-navy/95">
+                    Siguiente
+                  </Button>
                 </CardFooter>
               </Card>
             </TabsContent>
             <TabsContent value="complaint">
               <Card>
                 <CardHeader>
-                  <CardTitle>Password</CardTitle>
+                  <CardTitle className="text-xl font-roboto uppercase font-bold text-navy">
+                    Información del Cliente
+                  </CardTitle>
                   <CardDescription>
-                    Change your password here. After saving, you'll be logged
-                    out.
+                    Complete los siguientes campos para registrar su reclamo.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <div className="space-y-1">
-                    <Label htmlFor="current">Current password</Label>
-                    <Input id="current" type="password" />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="new">New password</Label>
-                    <Input id="new" type="password" />
-                  </div>
+                  <FormField
+                    control={form.control}
+                    name="documentNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-roboto font-normal uppercase flex items-center gap-2 text-darknavy">
+                          <Banknote className="w-4 h-4" />
+                          DNI
+                        </FormLabel>
+                        <div className="flex gap-4">
+                          <FormControl>
+                            <Input
+                              placeholder="54718590"
+                              maxLength={8}
+                              {...field}
+                            />
+                          </FormControl>
+                          <Button
+                            className="flex items-center gap-2"
+                            onClick={validateDocumentNumber}
+                          >
+                            <Search className="w-4 h-4" />
+                            Validar DNI
+                          </Button>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="amount"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-roboto font-normal uppercase flex items-center gap-2 text-darknavy">
+                          <Banknote className="w-4 h-4" />
+                          DNI
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="54718590"
+                            maxLength={8}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </CardContent>
                 <CardFooter>
                   <Button>Save password</Button>

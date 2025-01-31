@@ -33,8 +33,8 @@ export default function Hero({
       <div
         className={`absolute inset-0 ${
           gradient
-            // ? "bg-gradient-to-r from-[#0d0e2ace] via-[#0d0e2a93] to-[#0d0e2a81]"
-            ? "bg-gradient-to-r from-darknavy/80 via-darknavy/75 to-amber-800/20"
+            ? // ? "bg-gradient-to-r from-[#0d0e2ace] via-[#0d0e2a93] to-[#0d0e2a81]"
+              "bg-gradient-to-r from-darknavy/80 via-darknavy/75 to-red-800/40"
             : ""
         }`}
       ></div>

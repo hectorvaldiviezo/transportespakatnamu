@@ -8,7 +8,6 @@ export default function Page() {
     <div className="min-h-screen bg-gray-50">
       <Header
         heightToScroll={200}
-        gradient="bg-gradient-to-r from-navy via-navy to-amber-900"
       />
       <main>
         <Hero

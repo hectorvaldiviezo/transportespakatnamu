@@ -24,14 +24,16 @@ export default function Header({
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > heightToScroll); // Cambia el estado si el usuario ha hecho scroll
+      setIsScrolled(window.scrollY > heightToScroll);
     };
 
+    // Ejecutar al inicio para evitar que quede transparente tras la recarga
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll); // Limpia el evento al desmontar el componente
-    };
-  }, []);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [heightToScroll]);
+
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-colors bg-transparent duration-300 `}

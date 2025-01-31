@@ -13,15 +13,15 @@ import ComplaintForm from "@/components/ComplaintForm";
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header heightToScroll={250} />
       <main>
         <Hero
           title="LIBRO DE RECLAMACIONES"
           subtitle=""
           description=""
-          src="/slider1.jpg"
-          height="h-[300px]"
-          gradient={false}
+          src="/cascadiablue.jpg"
+          height="h-[400px]"
+          gradient={true}
         />
         <ComplaintForm />
       </main>
