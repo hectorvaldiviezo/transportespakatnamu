@@ -8,10 +8,11 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import NationwideMap from "@/components/NationwideMap";
 import Quotation from "@/components/Quotation";
+import Companies from "@/components/Companies";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-secondary">
       <Header />
       <main>
         <Hero
@@ -30,6 +31,7 @@ export default function Home() {
         {/* <Principles /> */}
         {/* <Security /> */}
         {/* <Contact /> */}
+        <Companies />
       </main>
       <Footer />
     </div>

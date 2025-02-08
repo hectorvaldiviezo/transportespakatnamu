@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
+import { ReactQueryClientProvider } from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Transportes Pakatnamu",
@@ -20,11 +21,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${roboto.variable}`}>
-        {children}
-        <Toaster />
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="en">
+        <body className={`${roboto.variable}`}>
+          {children}
+          <Toaster />
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }

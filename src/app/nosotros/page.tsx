@@ -22,7 +22,7 @@ export default function Home() {
         {/* <Quotation /> */}
         <AboutUs />
         {/* <Principles /> */}
-        <MisionVision />
+        {/* <MisionVision /> */}
         {/* <Contact /> */}
       </main>
       <Footer />

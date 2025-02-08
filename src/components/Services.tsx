@@ -36,12 +36,21 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" className="py-clamp-10-20 text-2xl px-2 bg-secondary">
+    <section
+      id="services"
+      className="py-clamp-10-20 text-2xl px-2 bg-secondary"
+    >
       <div className="container max-w-screen-xl mx-auto py-12 md:py-20 px-4 md:px-10 bg-background rounded shadow relative">
-      <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
-        <h2 className="text-clamp-2xl-4xl font-roboto mb-8 md:mb-12 text-start px-4 text-navy font-black border-l-4 md:border-l-8 border-navy">
-          NUESTROS SERVICIOS
-        </h2>
+        <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
+
+        <div className="mb-8 md:mb-12 border-l-4 md:border-l-8 border-danger px-4">
+          <h2 className="text-clamp-2xl-4xl mb-2 font-roboto text-start text-navy font-black">
+            Soluciones en transporte
+          </h2>
+          <p className="text-muted-foreground font-roboto font-bold text-xs md:text-base max-w-screen-md">
+            NOS ADAPTAMOS A TUS NECESIDADES
+          </p>
+        </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (
             <div

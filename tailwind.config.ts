@@ -13,8 +13,8 @@ const config: Config = {
         "clamp-10-20": "clamp(2.5rem, 1.1111rem + 4.4444vw, 5rem)",
       },
       fontSize: {
-        "clamp-xs-base": ["clamp(0.75rem, 0.6111rem + 0.4444vw, 1rem)", "1.25"],        
-        "clamp-base-2xl": ["clamp(1rem, 0.7222rem + 0.8889vw, 1.5rem)", "1"],        
+        "clamp-xs-base": ["clamp(0.75rem, 0.6111rem + 0.4444vw, 1rem)", "1.25"],
+        "clamp-base-2xl": ["clamp(1rem, 0.7222rem + 0.8889vw, 1.5rem)", "1"],
         "clamp-base-3": ["clamp(1rem, -0.1111rem + 3.5556vw, 3rem)", "1"],
         "clamp-xl-6xl": ["clamp(1.25rem, -0.1389rem + 4.4444vw, 3.75rem)", "1"],
         "clamp-2xl-4xl": ["clamp(1.5rem, 1.0833rem + 1.3333vw, 2.25rem)", "1"],
@@ -104,11 +104,16 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateX(-50px)" },
           "100%": { opacity: "1", transform: "translateX(0)" },
         },
+        scroll: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-left": "fadeLeft 1s ease-in-out both",
+        scroll: "scroll 30s linear infinite",
       },
     },
   },
