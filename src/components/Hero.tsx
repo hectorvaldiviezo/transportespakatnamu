@@ -1,6 +1,9 @@
 "use client";
 import Image from "next/image";
 import Typewriter from "typewriter-effect";
+import { Button } from "./ui/button";
+import { FileCheck, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export interface HeroProps {
   title: string;
@@ -10,6 +13,7 @@ export interface HeroProps {
   src: string;
   height: string;
   gradient: boolean;
+  complaint?: boolean;
 }
 
 export default function Hero({
@@ -20,7 +24,10 @@ export default function Hero({
   src,
   height,
   gradient = false,
+  complaint = false,
 }: HeroProps) {
+  const navigate = useRouter();
+
   return (
     <section className={`relative ${height} flex items-center`}>
       <Image
@@ -67,20 +74,17 @@ export default function Hero({
             </h1>
           </div>
 
-          <div className="flex space-x-4">
-            {/* <Button variant="default">
-              <Receipt className="w-6 h-6 mr-2" />
-              Verifica tus Comprobantes
-            </Button>
-            <Button variant="secondary">
-              <FileCheck className="w-6 h-6 mr-2" />
-              Solicita Cotización
-            </Button>
-            <Button variant="destructive">
-              <ScrollText className="w-6 h-6 mr-2" />
-              Código de Ética
-            </Button> */}
-          </div>
+          {complaint && (
+            <div className="flex justify-center gap-4">
+              <Button
+                variant="secondary"
+                onClick={() => navigate.push("/libro-reclamaciones/consulta")}
+              >
+                <Search className="w-6 h-6 mr-2" />
+                Consultar reclamo
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </section>

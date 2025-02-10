@@ -1,12 +1,5 @@
 "use client";
 import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { Button } from "./ui/button";
 import { FileCheck } from "lucide-react";
 import { useRouter } from "next/navigation";

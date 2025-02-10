@@ -38,24 +38,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "@/hooks/use-toast";
-import Link from "next/link";
-import { Switch } from "./ui/switch";
 import { format } from "date-fns";
-import {
-  Banknote,
-  BookText,
-  Building,
-  Calendar1,
-  CalendarIcon,
-  Clock,
-  CloudUpload,
-  ListTodo,
-  LoaderPinwheel,
-  Search,
-  Text,
-  Truck,
-} from "lucide-react";
+import { CalendarIcon, LoaderPinwheel, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 import { searchByDNI } from "@/lib/search.actions";
@@ -65,15 +50,32 @@ import { ComplaintRequest } from "@/components/complaints/lib/complaint.interfac
 import { useSedes } from "./sedes/lib/sedes.hook";
 import { Skeleton } from "./ui/skeleton";
 import { createComplaint } from "./complaints/lib/complaint.actions";
-const FormComplaint = z.object({
-  sedeId: z.string().min(1, "Seleccione una sede."),
-  type: z.string().min(1, "Seleccione un tipo."),
-  date: z.date({
-    required_error: "Seleccione una fecha.",
-  }),
-  time: z.string().min(1, "Seleccione una hora."),
-  description: z.string().min(1, "Ingrese una descripción."),
-});
+import { useComplaintStore } from "./complaints/lib/complaint.store";
+const FormComplaint = z
+  .object({
+    isVirtual: z.boolean(),
+    sedeVirtualId: z.string().optional(),
+    sedeId: z.string().optional(),
+    type: z.string().min(1, "Seleccione un tipo."),
+    date: z.date({
+      required_error: "Seleccione una fecha.",
+    }),
+    time: z.string().min(1, "Seleccione una hora."),
+    description: z.string().min(1, "Ingrese una descripción."),
+  })
+  .refine(
+    (data) => {
+      if (data.isVirtual) {
+        return !!data.sedeVirtualId;
+      }
+      return !!data.sedeId;
+    },
+    {
+      message: "Seleccione una sede válida.",
+      path: ["sedeVirtualId", "sedeId"], // Aplica el error a cualquiera de los dos según corresponda
+    }
+  );
+
 const FormWell = z.object({
   typeWell: z.string().min(1, "Seleccione un tipo."),
   motive: z
@@ -143,9 +145,13 @@ const motives = [
 ];
 
 export default function ComplaintForm() {
+  const navigate = useRouter();
+  const { setComplaintCode, loadComplaint } = useComplaintStore();
   const formComplaint = useForm<z.infer<typeof FormComplaint>>({
     resolver: zodResolver(FormComplaint),
     defaultValues: {
+      isVirtual: false,
+      sedeVirtualId: "",
       sedeId: "",
       type: "",
       date: undefined,
@@ -199,11 +205,18 @@ export default function ComplaintForm() {
 
   const onSubmit = async () => {
     const data: ComplaintRequest = {
-      sedeId: Number(formComplaint.getValues("sedeId")),
+      isVirtual: formComplaint.getValues("isVirtual"),
+      sedeVirtualId: formComplaint.getValues("sedeVirtualId")
+        ? Number(formComplaint.getValues("sedeVirtualId"))
+        : undefined,
+      sedeId: formComplaint.getValues("sedeId")
+        ? Number(formComplaint.getValues("sedeId"))
+        : undefined,
       type: formComplaint.getValues("type"),
       date: format(formComplaint.getValues("date"), "yyyy-MM-dd"),
       time: formComplaint.getValues("time"),
       description: formComplaint.getValues("description"),
+      motive: formWell.getValues("motive"),
       typeWell: formWell.getValues("typeWell"),
       amount: formWell.getValues("amount")
         ? Number(formWell.getValues("amount"))
@@ -217,11 +230,15 @@ export default function ComplaintForm() {
     };
 
     await createComplaint(data)
-      .then((response) => {
+      .then(async (response) => {
         successToast(response.message);
+        await setComplaintCode(response.complaintCode);
+        await loadComplaint();
+        navigate.push("/libro-reclamaciones/consulta");
       })
       .catch((error: any) => {
         errorToast(error.response.data.message);
+        // window.location.reload();
       });
   };
 
@@ -239,37 +256,7 @@ export default function ComplaintForm() {
     }
   };
 
-  const virtuales = [
-    {
-      id: "telefono",
-      label: "Teléfono",
-    },
-    {
-      id: "chat",
-      label: "Chat",
-    },
-    {
-      id: "pagina-web",
-      label: "Página Web",
-    },
-    {
-      id: "redes-sociales",
-      label: "Redes Sociales",
-    },
-    {
-      id: "correo-electronico",
-      label: "Correo Electrónico",
-    },
-  ];
-
   const sedes = useSedes(1);
-
-  const [virtual, setVirtual] = useState(false);
-
-  const handleToggleVirtual = () => {
-    setVirtual(!virtual);
-    formComplaint.setValue("sedeId", "");
-  };
 
   return (
     <div className="w-full py-20 px-2 flex justify-center items-center bg-muted">
@@ -319,80 +306,107 @@ export default function ComplaintForm() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid grid-cols-1 gap-6">
-                    <FormField
-                      control={formComplaint.control}
-                      name="sedeId"
-                      render={({ field }) => (
-                        <FormItem className="space-y-3">
-                          <FormLabel className="uppercase font-roboto font-bold flex items-center gap-2 text-darknavy">
-                            1. Sede
-                          </FormLabel>
-                          {sedes.isLoading ? (
-                            <Skeleton className="h-9 w-full" />
-                          ) : (
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                              disabled={virtual}
-                            >
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Selecciona una sede" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {sedes.data!.map((sede) => (
-                                  <SelectItem
-                                    key={sede.id}
-                                    value={sede.id.toString()}
-                                  >
-                                    {sede.razon_social} - {sede.suc_abrev}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="virtual"
-                              checked={virtual}
-                              onCheckedChange={handleToggleVirtual}
-                            />
-                            <label
-                              htmlFor="virtual"
-                              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                              El problema no ocurrió en una sede física
-                            </label>
-                          </div>
-                          {virtual && (
-                            <FormControl>
-                              <RadioGroup
+                    <div className="flex flex-col gap-2">
+                      <FormField
+                        control={formComplaint.control}
+                        name="sedeId"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="uppercase font-roboto font-bold flex items-center gap-2 text-darknavy">
+                              1. Sede
+                            </FormLabel>
+                            {sedes.isLoading ? (
+                              <Skeleton className="h-9 w-full" />
+                            ) : (
+                              <Select
                                 onValueChange={field.onChange}
-                                defaultValue={field.value}
-                                className="flex flex-col space-y-1"
+                                value={field.value}
+                                disabled={formComplaint.getValues("isVirtual")}
                               >
-                                {virtuales.map((virtual) => (
-                                  <FormItem
-                                    key={virtual.id}
-                                    className="flex items-center space-x-3 space-y-0"
-                                  >
-                                    <FormControl>
-                                      <RadioGroupItem value={virtual.id} />
-                                    </FormControl>
-                                    <FormLabel className="font-normal">
-                                      {virtual.label}
-                                    </FormLabel>
-                                  </FormItem>
-                                ))}
-                              </RadioGroup>
-                            </FormControl>
-                          )}
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Selecciona una sede" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {sedes.data!.sedes.map((sede) => (
+                                    <SelectItem
+                                      key={sede.id}
+                                      value={sede.id.toString()}
+                                    >
+                                      {sede.razon_social} - {sede.suc_abrev}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            )}
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                          <FormMessage />
-                        </FormItem>
+                      <FormField
+                        control={formComplaint.control}
+                        name="isVirtual"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-2 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={() => {
+                                  field.onChange(!field.value);
+                                  formComplaint.setValue("sedeId", "");
+                                  formComplaint.setValue("sedeVirtualId", "");
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                              El problema no ocurrió en una sede física
+                            </FormLabel>
+                          </FormItem>
+                        )}
+                      />
+
+                      {formComplaint.getValues("isVirtual") === true && (
+                        <FormField
+                          control={formComplaint.control}
+                          name="sedeVirtualId"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md px-4 py-2">
+                              <FormControl>
+                                {sedes.isLoading ? (
+                                  <Skeleton className="h-9 w-full" />
+                                ) : (
+                                  <RadioGroup
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                    className="flex flex-col space-y-1"
+                                  >
+                                    {sedes.data!.sedesVirtuals.map(
+                                      (virtual) => (
+                                        <FormItem
+                                          key={virtual.id}
+                                          className="flex items-center space-x-3 space-y-0"
+                                        >
+                                          <FormControl>
+                                            <RadioGroupItem
+                                              value={virtual.id.toString()}
+                                            />
+                                          </FormControl>
+                                          <FormLabel className="font-normal">
+                                            {virtual.name}
+                                          </FormLabel>
+                                        </FormItem>
+                                      )
+                                    )}
+                                  </RadioGroup>
+                                )}
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
                       )}
-                    />
+                    </div>
                     <FormField
                       control={formComplaint.control}
                       name="type"
@@ -404,7 +418,7 @@ export default function ComplaintForm() {
                           <FormControl>
                             <RadioGroup
                               onValueChange={field.onChange}
-                              defaultValue={field.value}
+                              value={field.value}
                               className="flex flex-col space-y-1"
                             >
                               <FormItem className="flex items-center space-x-3 space-y-0">
@@ -604,29 +618,30 @@ export default function ComplaintForm() {
                           </div>
                           {motives.map((motive) => (
                             <FormField
-                              key={motive.id}
+                              key={motive.label}
                               control={formWell.control}
                               name="motive"
                               render={({ field }) => {
                                 return (
                                   <FormItem
-                                    key={motive.id}
+                                    key={motive.label}
                                     className="flex flex-row items-start space-x-3 space-y-0"
                                   >
                                     <FormControl>
                                       <Checkbox
                                         checked={field.value?.includes(
-                                          motive.id
+                                          motive.label
                                         )}
                                         onCheckedChange={(checked) => {
                                           return checked
                                             ? field.onChange([
                                                 ...field.value,
-                                                motive.id,
+                                                motive.label,
                                               ])
                                             : field.onChange(
                                                 field.value?.filter(
-                                                  (value) => value !== motive.id
+                                                  (value) =>
+                                                    value !== motive.label
                                                 )
                                               );
                                         }}
@@ -699,6 +714,10 @@ export default function ComplaintForm() {
                     </CardTitle>
                     <CardDescription>
                       Complete los siguientes campos para registrar su reclamo.
+                      <span className="font-bold text-darknavy">
+                        Recuerde que el correo electrónico ingresado será el
+                        medio de comunicación para el seguimiento de su reclamo.
+                      </span>
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="grid grid-cols-1 gap-6">
