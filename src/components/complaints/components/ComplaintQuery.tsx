@@ -141,6 +141,17 @@ export default function ComplaintQuery({
                         </div>
                       </div>
                     )}
+                    {reclamo.attended && reclamo.dateAttended && (
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle2 className="text-green-500" size={24} />
+                        <div>
+                          <div className="font-semibold">ATENDIDO</div>
+                          <div className="text-sm text-gray-600">
+                            {reclamo.dateAttended.toString()}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     {reclamo.inProcess && reclamo.dateInProcess && (
                       <div className="flex items-center space-x-2">
                         <CheckCircle2 className="text-green-500" size={24} />
