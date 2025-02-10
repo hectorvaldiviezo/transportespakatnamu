@@ -244,10 +244,6 @@ export default function ComplaintQuery({
                       <div>{reclamo.time}</div>
                     </div>
                     <div>
-                      <Label className="text-sm text-gray-600">Registro:</Label>
-                      <div>mié 25 sep 19:50 2024</div>
-                    </div>
-                    <div>
                       <Label className="text-sm text-gray-600">Motivo:</Label>
                       {reclamo.motive.map((m, i) => (
                         <li key={i + m}>{m}</li>
