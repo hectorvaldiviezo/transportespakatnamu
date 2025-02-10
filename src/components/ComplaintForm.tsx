@@ -195,8 +195,8 @@ export default function ComplaintForm() {
           formCustomer.setValue("fullName", response.data.nombre);
         }
       })
-      .catch((error: any) => {
-        errorToast(error.response.data.message);
+      .catch(() => {
+        errorToast("error.response.data.message");
       })
       .finally(() => {
         setLoadingSearch(false);
@@ -236,8 +236,8 @@ export default function ComplaintForm() {
         await loadComplaint();
         navigate.push("/libro-reclamaciones/consulta");
       })
-      .catch((error: any) => {
-        errorToast(error.response.data.message);
+      .catch(() => {
+        errorToast("error.response.data.message");
         // window.location.reload();
       });
   };

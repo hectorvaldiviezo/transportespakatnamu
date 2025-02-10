@@ -47,6 +47,7 @@ import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 import { Separator } from "./ui/separator";
 import { useEffect } from "react";
+import { successToast } from "@/lib/core.function";
 const FormSchema = z.object({
   document: z.string().nonempty("Debes ingresar tu DNI o RUC"),
   fullName: z.string().nonempty("Debes ingresar tu nombre completo"),
@@ -114,15 +115,7 @@ export default function ContactForm() {
   }, []);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    successToast("Formulario enviado correctamente");
   }
 
   return (
