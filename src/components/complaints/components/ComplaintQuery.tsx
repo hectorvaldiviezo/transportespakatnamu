@@ -15,24 +15,34 @@ import { errorToast, successToast } from "@/lib/core.function";
 import { useComplaintStore } from "../lib/complaint.store";
 import { timeAgo } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-export default function ComplaintQuery() {
+export default function ComplaintQuery({
+  complaintCodeParam,
+}: {
+  complaintCodeParam?: string;
+}) {
   const {
-    complaintQuery: reclamo,
     complaintCode,
+    complaintQuery: reclamo,
     setComplaintCode,
     loadComplaint,
   } = useComplaintStore();
 
   const navigate = useRouter();
 
-  const handleSearch = () => {
-    try {
+  useEffect(() => {
+    if (complaintCodeParam && !complaintCode) {
+      setComplaintCode(complaintCodeParam);
       loadComplaint();
-      successToast("Reclamo encontrado");
-    } catch (error) {
-      errorToast("No se encontró el reclamo");
+    } else if (!complaintCode) {
+      loadComplaint();
     }
+  }, [complaintCodeParam]);
+
+  const handleSearch = () => {
+    setComplaintCode(complaintCode);
+    loadComplaint();
   };
 
   return (
@@ -109,13 +119,13 @@ export default function ComplaintQuery() {
                     </span>
                   </div>
                   <div className="space-y-2">
-                    {reclamo.verified && reclamo.dateVerified && (
+                    {reclamo.filed && reclamo.dateFiled && (
                       <div className="flex items-center space-x-2">
                         <CheckCircle2 className="text-green-500" size={24} />
                         <div>
-                          <div className="font-semibold">VERIFICADO</div>
+                          <div className="font-semibold">ARCHIVADO</div>
                           <div className="text-sm text-gray-600">
-                            {reclamo.dateVerified.toString()}
+                            {reclamo.dateFiled.toString()}
                           </div>
                         </div>
                       </div>
@@ -131,17 +141,6 @@ export default function ComplaintQuery() {
                         </div>
                       </div>
                     )}
-                    {reclamo.confirmed && reclamo.dateConfirmed && (
-                      <div className="flex items-center space-x-2">
-                        <CheckCircle2 className="text-green-500" size={24} />
-                        <div>
-                          <div className="font-semibold">CONFIRMADO</div>
-                          <div className="text-sm text-gray-600">
-                            {reclamo.dateConfirmed.toString()}
-                          </div>
-                        </div>
-                      </div>
-                    )}
                     {reclamo.inProcess && reclamo.dateInProcess && (
                       <div className="flex items-center space-x-2">
                         <CheckCircle2 className="text-green-500" size={24} />
@@ -153,13 +152,24 @@ export default function ComplaintQuery() {
                         </div>
                       </div>
                     )}
-                    {reclamo.filed && reclamo.dateFiled && (
+                    {reclamo.confirmed && reclamo.dateConfirmed && (
                       <div className="flex items-center space-x-2">
                         <CheckCircle2 className="text-green-500" size={24} />
                         <div>
-                          <div className="font-semibold">ARCHIVADO</div>
+                          <div className="font-semibold">CONFIRMADO</div>
                           <div className="text-sm text-gray-600">
-                            {reclamo.dateFiled.toString()}
+                            {reclamo.dateConfirmed.toString()}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {reclamo.verified && reclamo.dateVerified && (
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle2 className="text-green-500" size={24} />
+                        <div>
+                          <div className="font-semibold">VERIFICADO</div>
+                          <div className="text-sm text-gray-600">
+                            {reclamo.dateVerified.toString()}
                           </div>
                         </div>
                       </div>
