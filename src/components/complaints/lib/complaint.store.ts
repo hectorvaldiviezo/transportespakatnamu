@@ -21,7 +21,7 @@ export const useComplaintStore = create<ComplaintState>((set) => ({
         successToast("Reclamo encontrado");
       })
       .catch((error) => {
-        console.error(error);
+        errorToast("Reclamo no encontrado");
       });
   },
 }));

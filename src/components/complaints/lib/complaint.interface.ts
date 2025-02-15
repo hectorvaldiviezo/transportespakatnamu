@@ -6,6 +6,7 @@ export interface ComplaintRequest {
   date: string;
   time: string;
   description: string;
+  request: string;
   typeWell: string;
   motive: string[];
   amount: number;
@@ -15,6 +16,7 @@ export interface ComplaintRequest {
   email: string;
   phone: string;
   address: string;
+  files: File[];
 }
 
 export interface ComplaintSuccessResponse {
@@ -49,6 +51,7 @@ export interface ComplaintSearch {
   dateFiled?: Date;
   type: string;
   description: string;
+  request: string;
   typeWell: string;
   motive: string[];
   amount: number;
@@ -62,6 +65,7 @@ export interface ComplaintSearch {
   direccion: string;
   logo: string;
   sedeVirtualName?: string;
+  pdfComplaint: string;
   created_at: Date;
   updated_at: Date;
   deleted_at?: Date;

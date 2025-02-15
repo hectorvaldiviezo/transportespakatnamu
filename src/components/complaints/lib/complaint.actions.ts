@@ -4,13 +4,23 @@ import {
   ComplaintSearch,
   ComplaintSuccessResponse,
 } from "./complaint.interface";
+import { AxiosRequestConfig } from "axios";
 
 export async function createComplaint(
   complaint: ComplaintRequest
 ): Promise<ComplaintSuccessResponse> {
+  const config: AxiosRequestConfig = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  // const formData = objectToFormData(complaint);
+
   const { data } = await api.post<ComplaintSuccessResponse>(
     `/reclamo`,
-    complaint
+    complaint,
+    config
   );
   return data;
 }

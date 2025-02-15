@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckCircle2, Clock, Download, Plus, XCircle } from "lucide-react";
-import { errorToast, successToast } from "@/lib/core.function";
 import { useComplaintStore } from "../lib/complaint.store";
 import { timeAgo } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -32,13 +31,25 @@ export default function ComplaintQuery({
   const navigate = useRouter();
 
   useEffect(() => {
-    if (complaintCodeParam && !complaintCode) {
-      setComplaintCode(complaintCodeParam);
-      loadComplaint();
-    } else if (!complaintCode) {
-      loadComplaint();
+    if (!reclamo) {
+      if (complaintCodeParam) {
+        if (!complaintCode) {
+          setComplaintCode(complaintCodeParam);
+          loadComplaint();
+        } else {
+          loadComplaint();
+        }
+      } else {
+        if (complaintCode) {
+          loadComplaint();
+        }
+      }
     }
   }, [complaintCodeParam]);
+
+  const handleDownloadComplaint = (pdfComplaint: string) => {
+    window.open(pdfComplaint, "_blank");
+  };
 
   const handleSearch = () => {
     setComplaintCode(complaintCode);
@@ -196,12 +207,6 @@ export default function ComplaintQuery({
                   <p className="text-gray-700 mb-2">
                     {reclamo.answer || "Sin respuesta aún"}
                   </p>
-                  <div className="flex justify-end">
-                    <Button variant="outline" disabled={!reclamo.answer}>
-                      <Download className="max-w-3.5 max-h-3.5 mr-2" />
-                      Descargar Copia
-                    </Button>
-                  </div>
                 </div>
 
                 {/* Hoja de Reclamo */}
@@ -225,7 +230,7 @@ export default function ComplaintQuery({
                     </div>
                     <div>
                       <Label className="text-sm text-gray-600">
-                        Asignado a:
+                        Asignado a
                       </Label>
                       <div>
                         {reclamo.isVirtual
@@ -235,23 +240,23 @@ export default function ComplaintQuery({
                     </div>
                     <div>
                       <Label className="text-sm text-gray-600">
-                        Fecha evento:
+                        Fecha evento
                       </Label>
                       <div>{reclamo.date.toString()}</div>
                     </div>
                     <div>
-                      <Label className="text-sm text-gray-600">Hora:</Label>
+                      <Label className="text-sm text-gray-600">Hora</Label>
                       <div>{reclamo.time}</div>
                     </div>
                     <div>
-                      <Label className="text-sm text-gray-600">Motivo:</Label>
+                      <Label className="text-sm text-gray-600">Motivo</Label>
                       {reclamo.motive.map((m, i) => (
                         <li key={i + m}>{m}</li>
                       ))}
                     </div>
                     <div>
                       <Label className="text-sm text-gray-600">
-                        Descripción:
+                        Descripción
                       </Label>
                       <div>{reclamo.description}</div>
                     </div>
@@ -266,8 +271,13 @@ export default function ComplaintQuery({
                       </div>
                     </div> */}
                   </div>
-                  <div className="flex w-full justify-end">
-                    <Button variant="outline">
+                  <div className="flex w-full justify-end py-4">
+                    <Button
+                      className="bg-navy hover:bg-navy/90 text-white"
+                      onClick={() =>
+                        handleDownloadComplaint(reclamo.pdfComplaint)
+                      }
+                    >
                       <Download className="max-w-3.5 max-h-3.5 mr-2" />
                       Descargar hoja de reclamación
                     </Button>

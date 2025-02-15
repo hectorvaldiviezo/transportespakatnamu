@@ -37,10 +37,11 @@ export default function Quotation() {
             </h1>
           </div>
 
-          <div className="flex justify-start space-x-4">
+          <div className="flex justify-center w-full space-x-4">
             <Button
-              variant="link"
-              className="text-white font-roboto font-normal text-sm md:text-lg"
+              variant="secondary"
+              size="lg"
+              className="font-roboto font-normal text-sm md:text-lg mt-8"
               onClick={handleQuotation}
             >
               <FileCheck className="w-8 h-8 mr-2" />

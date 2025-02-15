@@ -12,6 +12,36 @@ export interface Data {
   nombre: string;
 }
 
+export interface MainRUC {
+  status: number;
+  data: DataRUC;
+}
+
+export interface DataRUC {
+  success: boolean;
+  ruc: string;
+  nombre_o_razon_social: string;
+  estado_del_contribuyente: string;
+  condicion_de_domicilio: string;
+  ubigeo: string;
+  tipo_de_via: string;
+  nombre_de_via: string;
+  codigo_de_zona: string;
+  tipo_de_zona: string;
+  numero: string;
+  interior: string;
+  lote: string;
+  dpto: string;
+  manzana: string;
+  kilometro: string;
+  distrito: string;
+  provincia: string;
+  departamento: string;
+  direccion_simple: string;
+  direccion: string;
+  actualizado_en: Date;
+}
+
 export async function searchByDNI(dni: string): Promise<Main> {
   const config: AxiosRequestConfig = {
     params: {
@@ -23,11 +53,11 @@ export async function searchByDNI(dni: string): Promise<Main> {
 }
 
 export async function searchByRUC(ruc: string) {
-  try {
-    const response = await fetch(`https://api.sunat.cloud/ruc/${ruc}`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
+  const config: AxiosRequestConfig = {
+    params: {
+      ruc,
+    },
+  };
+  const { data } = await api.get<MainRUC>(`searchPersonByRUC`, config);
+  return data;
 }

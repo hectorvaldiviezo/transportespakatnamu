@@ -42,14 +42,21 @@ import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
 import { Switch } from "./ui/switch";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, LoaderPinwheel, Search } from "lucide-react";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 import { Separator } from "./ui/separator";
-import { useEffect } from "react";
-import { successToast } from "@/lib/core.function";
+import { useEffect, useState } from "react";
+import { errorToast, successToast } from "@/lib/core.function";
+import { searchByDNI, searchByRUC } from "@/lib/search.actions";
 const FormSchema = z.object({
-  document: z.string().nonempty("Debes ingresar tu DNI o RUC"),
+  document: z
+    .string()
+    .nonempty("Debes ingresar tu DNI o RUC")
+    .regex(/^\d+$/, { message: "Solo se permiten números" }) // Solo números
+    .refine((val) => val.length === 8 || val.length === 11, {
+      message: "Debes ingresar un DNI (8 dígitos) o un RUC (11 dígitos)",
+    }),
   fullName: z.string().nonempty("Debes ingresar tu nombre completo"),
   email: z.string().email("Debes ingresar un email válido"),
   phone: z.string().nonempty("Debes ingresar tu número de celular"),
@@ -104,7 +111,46 @@ export default function ContactForm() {
       reference: "",
       observations: "",
     },
+    mode: "onChange", // Valida en cada cambio
+    criteriaMode: "all",
   });
+
+  const [loadingSearch, setLoadingSearch] = useState(false);
+
+  const validateDocumentNumber = async () => {
+    setLoadingSearch(true);
+    const documentNumber = form.getValues("document");
+    if (documentNumber.length === 8) {
+      await searchByDNI(documentNumber)
+        .then((response) => {
+          if (response.status === 200) {
+            form.setValue("fullName", response.data.nombre);
+          }
+        })
+        .catch((error: any) => {
+          errorToast(error.response.data.message);
+        })
+        .finally(() => {
+          setLoadingSearch(false);
+        });
+    } else if (documentNumber.length === 11) {
+      await searchByRUC(documentNumber)
+        .then((response) => {
+          if (response.status === 200) {
+            form.setValue("fullName", response.data.nombre_o_razon_social);
+          }
+        })
+        .catch((error: any) => {
+          errorToast(error.response.data.message);
+        })
+        .finally(() => {
+          setLoadingSearch(false);
+        });
+    } else {
+      errorToast("Debes ingresar un documento válido.");
+      setLoadingSearch(false);
+    }
+  };
 
   useEffect(() => {
     const dept = sessionStorage.getItem("selectedDepartment");
@@ -145,9 +191,29 @@ export default function ContactForm() {
                       DNI o RUC
                       <span className="text-destructive ml-1">*</span>
                     </FormLabel>
-                    <FormControl>
-                      <Input placeholder="11111111" {...field} />
-                    </FormControl>
+                    <div className="flex gap-4">
+                      <FormControl>
+                        <Input
+                          placeholder="11111111"
+                          minLength={8}
+                          maxLength={11}
+                          {...field}
+                        />
+                      </FormControl>
+                      <Button
+                        className="flex items-center gap-2"
+                        type="button"
+                        disabled={loadingSearch}
+                        onClick={validateDocumentNumber}
+                      >
+                        {loadingSearch ? (
+                          <LoaderPinwheel className="w-4 h-4 animate-spin" />
+                        ) : (
+                          <Search className="w-4 h-4" />
+                        )}
+                        <span>Validar Documento</span>
+                      </Button>
+                    </div>
                     <FormDescription></FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -164,6 +230,7 @@ export default function ContactForm() {
                     </FormLabel>
                     <FormControl>
                       <Input
+                        disabled
                         placeholder="Transportes Pakatnamu SAC"
                         {...field}
                       />

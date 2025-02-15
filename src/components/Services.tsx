@@ -25,7 +25,7 @@ export default function Services() {
       title: "IQBF",
       description: "Transporte de Insumos Químicos y Bienes Fiscalizados",
       icon: Flask,
-      image: "/IQBF.jpg",
+      image: "/IQBF2.jpg",
     },
     {
       title: "MATPEL",

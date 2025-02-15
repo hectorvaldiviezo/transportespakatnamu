@@ -51,6 +51,22 @@ import { useSedes } from "./sedes/lib/sedes.hook";
 import { Skeleton } from "./ui/skeleton";
 import { createComplaint } from "./complaints/lib/complaint.actions";
 import { useComplaintStore } from "./complaints/lib/complaint.store";
+
+const fileSchema = z
+  .array(
+    z
+      .custom<File>(
+        (file) => file instanceof File,
+        "Debe ser un archivo válido"
+      )
+      .refine(
+        (file) => file.size <= 2 * 1024 * 1024,
+        "El archivo debe pesar máximo 2MB"
+      )
+  )
+  .max(2, "Solo puedes subir hasta 2 archivos")
+  .optional();
+
 const FormComplaint = z
   .object({
     isVirtual: z.boolean(),
@@ -61,7 +77,15 @@ const FormComplaint = z
       required_error: "Seleccione una fecha.",
     }),
     time: z.string().min(1, "Seleccione una hora."),
-    description: z.string().min(1, "Ingrese una descripción."),
+    description: z
+      .string()
+      .min(200, "Mínimo 200 caracteres")
+      .max(1000, "Máximo 1000 caracteres."),
+    request: z
+      .string()
+      .min(50, "Mínimo 50 caracteres")
+      .max(1000, "Máximo 1000 caracteres."),
+    files: fileSchema,
   })
   .refine(
     (data) => {
@@ -157,7 +181,10 @@ export default function ComplaintForm() {
       date: undefined,
       time: "",
       description: "",
+      request: "",
     },
+    mode: "onChange", // Valida en cada cambio
+    criteriaMode: "all",
   });
 
   const formWell = useForm<z.infer<typeof FormWell>>({
@@ -167,6 +194,8 @@ export default function ComplaintForm() {
       motive: [],
       amount: "",
     },
+    mode: "onChange", // Valida en cada cambio
+    criteriaMode: "all",
   });
 
   const formCustomer = useForm<z.infer<typeof FormCustomer>>({
@@ -179,6 +208,8 @@ export default function ComplaintForm() {
       phone: "",
       address: "",
     },
+    mode: "onChange", // Valida en cada cambio
+    criteriaMode: "all",
   });
 
   const [loadingSearch, setLoadingSearch] = useState(false);
@@ -186,6 +217,11 @@ export default function ComplaintForm() {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [submitting, setSubmitting] = useState(false);
 
+  const files = formComplaint.watch("files", []);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+    formComplaint.setValue("files", selectedFiles, { shouldValidate: true });
+  };
   const validateDocumentNumber = async () => {
     setLoadingSearch(true);
     const documentNumber = formCustomer.getValues("documentNumber");
@@ -216,6 +252,7 @@ export default function ComplaintForm() {
       date: format(formComplaint.getValues("date"), "yyyy-MM-dd"),
       time: formComplaint.getValues("time"),
       description: formComplaint.getValues("description"),
+      request: formComplaint.getValues("request"),
       motive: formWell.getValues("motive"),
       typeWell: formWell.getValues("typeWell"),
       amount: formWell.getValues("amount")
@@ -227,7 +264,9 @@ export default function ComplaintForm() {
       email: formCustomer.getValues("email"),
       phone: formCustomer.getValues("phone"),
       address: formCustomer.getValues("address"),
+      files: formComplaint.getValues("files") ?? [],
     };
+    console.log(data);
 
     await createComplaint(data)
       .then(async (response) => {
@@ -313,7 +352,7 @@ export default function ComplaintForm() {
                         render={({ field }) => (
                           <FormItem className="space-y-3">
                             <FormLabel className="uppercase font-roboto font-bold flex items-center gap-2 text-darknavy">
-                              1. Sede
+                              1. Sede<span className="text-destructive">*</span>
                             </FormLabel>
                             {sedes.isLoading ? (
                               <Skeleton className="h-9 w-full" />
@@ -363,6 +402,7 @@ export default function ComplaintForm() {
                             <FormLabel className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                               El problema no ocurrió en una sede física
                             </FormLabel>
+                            <FormMessage />
                           </FormItem>
                         )}
                       />
@@ -402,6 +442,7 @@ export default function ComplaintForm() {
                                   </RadioGroup>
                                 )}
                               </FormControl>
+                              <FormMessage />
                             </FormItem>
                           )}
                         />
@@ -414,6 +455,7 @@ export default function ComplaintForm() {
                         <FormItem className="space-y-3">
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
                             2. ¿Queja o Reclamo?
+                            <span className="text-destructive">*</span>
                           </FormLabel>
                           <FormControl>
                             <RadioGroup
@@ -451,6 +493,7 @@ export default function ComplaintForm() {
                           <FormItem className="flex flex-col">
                             <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
                               3. Fecha
+                              <span className="text-destructive">*</span>
                             </FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
@@ -497,7 +540,7 @@ export default function ComplaintForm() {
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
                             <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                              4. Hora
+                              4. Hora<span className="text-destructive">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
@@ -518,11 +561,12 @@ export default function ComplaintForm() {
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
                             5. Descripción
+                            <span className="text-destructive">*</span>
                           </FormLabel>
                           <FormControl>
                             <Textarea
                               placeholder="Describa su reclamo"
-                              className="resize-none"
+                              className="resize-y h-fit"
                               {...field}
                             />
                           </FormControl>
@@ -530,13 +574,55 @@ export default function ComplaintForm() {
                         </FormItem>
                       )}
                     />
-                    <Label
-                      htmlFor="files"
-                      className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy"
-                    >
-                      6. Archivos
-                    </Label>
-                    <Input id="files" type="file" multiple />
+                    <FormField
+                      control={formComplaint.control}
+                      name="request"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
+                            6. Pedido
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Describa su pedido o solución"
+                              className="resize-y h-fit"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex flex-col gap-2">
+                      <Label
+                        htmlFor="files"
+                        className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy"
+                      >
+                        7. Archivos
+                      </Label>
+                      <CardDescription>
+                        Adjunte los archivos que considere necesarios para su
+                        reclamo. Máximo 2 archivos (2MB)
+                      </CardDescription>
+                      <Input
+                        id="files"
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                      />
+                      {formComplaint.formState.errors.files &&
+                        formComplaint.formState.errors.files[0]?.message && (
+                          <p className="text-destructive text-xs">
+                            {formComplaint.formState.errors.files[0]?.message}
+                          </p>
+                        )}
+                      {formComplaint.formState.errors.files &&
+                        formComplaint.formState.errors.files?.message && (
+                          <p className="text-destructive text-xs">
+                            {formComplaint.formState.errors.files?.message}
+                          </p>
+                        )}
+                    </div>
                   </CardContent>
                   <CardFooter className="flex justify-end">
                     <Button
@@ -574,7 +660,8 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem className="space-y-3">
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            7. ¿Bien o Servicio?
+                            8. ¿Bien o Servicio?
+                            <span className="text-destructive">*</span>
                           </FormLabel>
                           <FormControl>
                             <RadioGroup
@@ -612,8 +699,9 @@ export default function ComplaintForm() {
                         <FormItem className="space-y-1">
                           <div className="mb-4">
                             <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                              8. Identifica el motivo del reclamo. Puedes
+                              9. Identifica el motivo del reclamo. Puedes
                               seleccionar máximo 2 opciones.
+                              <span className="text-destructive">*</span>
                             </FormLabel>
                           </div>
                           {motives.map((motive) => (
@@ -666,11 +754,11 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            9. Monto reclamado
+                            10. Monto reclamado (Opcional)
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="100"
+                              placeholder="0"
                               type="number"
                               step={0.01}
                               {...field}
@@ -727,7 +815,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
-                            10. DNI
+                            11. DNI
                           </FormLabel>
                           <div className="flex gap-4">
                             <FormControl>
@@ -761,7 +849,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            11. Nombre Completo
+                            12. Nombre Completo
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -780,7 +868,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            12. Correo Electrónico
+                            13. Correo Electrónico
                           </FormLabel>
                           <FormControl>
                             <Input placeholder="example@gmail.com" {...field} />
@@ -795,7 +883,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            13. Teléfono
+                            14. Teléfono
                           </FormLabel>
                           <FormControl>
                             <Input placeholder="936852147" {...field} />
@@ -810,7 +898,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            14. Dirección
+                            15. Dirección
                           </FormLabel>
                           <FormControl>
                             <Input placeholder="Calle Nueva 123" {...field} />

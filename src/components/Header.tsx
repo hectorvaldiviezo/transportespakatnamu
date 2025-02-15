@@ -51,7 +51,7 @@ export default function Header({
       >
         <Link href="/" className="flex items-center justify-center gap-2">
           <Avatar className="rounded-xl">
-            <AvatarImage src="/tplogowhite.svg" alt="tp"/>
+            <AvatarImage src="/tplogowhite.svg" alt="tp" />
             <AvatarFallback className="bg-transparent text-secondary">
               TP
             </AvatarFallback>
@@ -114,13 +114,13 @@ export default function Header({
                 <SheetDescription></SheetDescription>
                 <nav className="grid place-items-start gap-2">
                   <Link
-                    href="nosotros"
+                    href="/nosotros"
                     className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
                     NOSOTROS
                   </Link>
                   <Link
-                    href="cotizar"
+                    href="/cotizar"
                     className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
                   >
                     COTIZAR
