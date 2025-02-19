@@ -39,7 +39,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
-import { CalendarIcon, LoaderPinwheel, Search } from "lucide-react";
+import { CalendarIcon, LoaderPinwheel, Search, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
@@ -71,7 +71,7 @@ const FormComplaint = z
   .object({
     isVirtual: z.boolean(),
     sedeVirtualId: z.string().optional(),
-    sedeId: z.string().optional(),
+    sedeId: z.string(),
     type: z.string().min(1, "Seleccione un tipo."),
     date: z.date({
       required_error: "Seleccione una fecha.",
@@ -245,9 +245,7 @@ export default function ComplaintForm() {
       sedeVirtualId: formComplaint.getValues("sedeVirtualId")
         ? Number(formComplaint.getValues("sedeVirtualId"))
         : undefined,
-      sedeId: formComplaint.getValues("sedeId")
-        ? Number(formComplaint.getValues("sedeId"))
-        : undefined,
+      sedeId: Number(formComplaint.getValues("sedeId")),
       type: formComplaint.getValues("type"),
       date: format(formComplaint.getValues("date"), "yyyy-MM-dd"),
       time: formComplaint.getValues("time"),
@@ -275,8 +273,8 @@ export default function ComplaintForm() {
         await loadComplaint();
         navigate.push("/libro-reclamaciones/consulta");
       })
-      .catch(() => {
-        errorToast("error.response.data.message");
+      .catch((error: any) => {
+        errorToast(error.response.data.message);
         // window.location.reload();
       });
   };
@@ -360,7 +358,6 @@ export default function ComplaintForm() {
                               <Select
                                 onValueChange={field.onChange}
                                 value={field.value}
-                                disabled={formComplaint.getValues("isVirtual")}
                               >
                                 <FormControl>
                                   <SelectTrigger>
@@ -394,7 +391,6 @@ export default function ComplaintForm() {
                                 checked={field.value}
                                 onCheckedChange={() => {
                                   field.onChange(!field.value);
-                                  formComplaint.setValue("sedeId", "");
                                   formComplaint.setValue("sedeVirtualId", "");
                                 }}
                               />
@@ -540,12 +536,21 @@ export default function ComplaintForm() {
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
                             <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                              4. Hora<span className="text-destructive">*</span>
+                              4. Hora{" "}
+                              <span className="text-destructive">*</span>
                             </FormLabel>
                             <FormControl>
                               <Input
                                 type="time"
                                 placeholder="hora"
+                                max={
+                                  format(
+                                    formComplaint.watch("date") ?? new Date(),
+                                    "yyyy-MM-dd"
+                                  ) === format(new Date(), "yyyy-MM-dd")
+                                    ? format(new Date(), "HH:mm")
+                                    : undefined
+                                }
                                 {...field}
                               />
                             </FormControl>
@@ -917,7 +922,7 @@ export default function ComplaintForm() {
                     </Button>
                     <Button
                       type="submit"
-                      className="bg-navy hover:bg-navy/95"
+                      className={`bg-navy hover:bg-navy/95`}
                       disabled={
                         !formComplaint.formState.isValid ||
                         !formWell.formState.isValid ||
@@ -929,6 +934,11 @@ export default function ComplaintForm() {
                         formCustomer.handleSubmit(onSubmit)(e);
                       }}
                     >
+                      {submitting ? (
+                        <LoaderPinwheel className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Send className="w-4 h-4" />
+                      )}
                       Enviar
                     </Button>
                   </CardFooter>

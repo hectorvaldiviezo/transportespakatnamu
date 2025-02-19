@@ -4,6 +4,7 @@ import { useComplaintStore } from "@/components/complaints/lib/complaint.store";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import { MILLA_BASE } from "@/lib/config";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 export const dynamic = "force-dynamic";
@@ -27,7 +28,10 @@ export default function Page() {
           title="LIBRO DE RECLAMACIONES"
           subtitle=""
           description=""
-          src="/cascadiablue.jpg"
+          src={
+            MILLA_BASE +
+            "/transportes/administradorweb/hero_libro_reclamaciones.png"
+          }
           height="h-[400px]"
           gradient={true}
         />

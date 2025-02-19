@@ -59,6 +59,8 @@ export interface ComplaintSearch {
   documentNumber: string;
   fullName: string;
   email: string;
+  file1?: string;
+  file2?: string;
   phone: string;
   address: string;
   sedeName: string;

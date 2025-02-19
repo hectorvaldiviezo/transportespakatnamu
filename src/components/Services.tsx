@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { MILLA_BASE } from "@/lib/config";
 import {
   Truck,
   Globe,
@@ -13,25 +14,26 @@ export default function Services() {
       title: "Nacional",
       description: "Transporte de carga a nivel nacional",
       icon: Truck,
-      image: "/nacional.jpg",
+      image: MILLA_BASE + "/transportes/administradorweb/inicio_nacional.png",
     },
     {
       title: "Internacional",
       description: "Soluciones para carga internacional",
       icon: Globe,
-      image: "/internacional.jpg",
+      image:
+        MILLA_BASE + "/transportes/administradorweb/inicio_internacional.png",
     },
     {
       title: "IQBF",
       description: "Transporte de Insumos Químicos y Bienes Fiscalizados",
       icon: Flask,
-      image: "/IQBF2.jpg",
+      image: MILLA_BASE + "/transportes/administradorweb/inicio_IQBF.png",
     },
     {
       title: "MATPEL",
       description: "Transporte seguro de Materiales Peligrosos",
       icon: AlertTriangle,
-      image: "/matpel.jpg",
+      image: MILLA_BASE + "/transportes/administradorweb/inicio_matpel.png",
     },
   ];
 

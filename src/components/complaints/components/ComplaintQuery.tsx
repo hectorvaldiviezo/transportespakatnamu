@@ -10,7 +10,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CheckCircle2, Clock, Download, Plus, XCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock,
+  Download,
+  FileDown,
+  Plus,
+  XCircle,
+} from "lucide-react";
 import { useComplaintStore } from "../lib/complaint.store";
 import { timeAgo } from "@/lib/utils";
 import { useRouter } from "next/navigation";
@@ -232,11 +239,7 @@ export default function ComplaintQuery({
                       <Label className="text-sm text-gray-600">
                         Asignado a
                       </Label>
-                      <div>
-                        {reclamo.isVirtual
-                          ? reclamo.sedeVirtualName
-                          : reclamo.sedeName}
-                      </div>
+                      <div>{reclamo.sedeName}</div>
                     </div>
                     <div>
                       <Label className="text-sm text-gray-600">
@@ -260,16 +263,57 @@ export default function ComplaintQuery({
                       </Label>
                       <div>{reclamo.description}</div>
                     </div>
-                    {/* <div className="flex justify-between items-center">
+                    {reclamo.request && (
                       <div>
-                        <span className="font-semibold mr-2">Sí</span>
-                        intentaron solución previa.
+                        <Label className="text-sm text-gray-600">Pedido</Label>
+                        <div>{reclamo.request}</div>
                       </div>
+                    )}
+                    {reclamo.amount > 0 && (
                       <div>
-                        Solicité <span className="font-semibold">Sí</span>{" "}
-                        enviar notificaciones de avance.
+                        <Label className="text-sm text-gray-600">Monto</Label>
+                        <div>{reclamo.amount}</div>
                       </div>
-                    </div> */}
+                    )}
+                    {(reclamo.file1 || reclamo.file2) && (
+                      <div>
+                        <Label className="text-sm text-gray-600">
+                          Archivos
+                        </Label>
+                        <div className="flex gap-2">
+                          {reclamo.file1 && (
+                            <a
+                              href={reclamo.file1}
+                              target="_blank"
+                              className="text-blue-500 underline"
+                            >
+                              <Button
+                                variant="default"
+                                size="icon"
+                                className="p-0"
+                              >
+                                <FileDown className="max-w-3.5 max-h-3.5" />
+                              </Button>
+                            </a>
+                          )}
+                          {reclamo.file2 && (
+                            <a
+                              href={reclamo.file2}
+                              target="_blank"
+                              className="text-blue-500 underline"
+                            >
+                              <Button
+                                variant="default"
+                                size="icon"
+                                className="p-0"
+                              >
+                                <FileDown className="max-w-3.5 max-h-3.5" />
+                              </Button>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <div className="flex w-full justify-end py-4">
                     <Button

@@ -1,10 +1,8 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import AboutUs from "@/components/AboutUs";
-import Principles from "@/components/Principles";
-import Security from "@/components/Security";
 import Footer from "@/components/Footer";
-import MisionVision from "@/components/MisionVision";
+import { MILLA_BASE } from "@/lib/config";
 
 export default function Home() {
   return (
@@ -15,7 +13,7 @@ export default function Home() {
           title="NOSOTROS"
           description="Llevamos carga, "
           descriptions={[" con cuidado", " con confianza", " con puntualidad"]}
-          src="/IQBF.jpg"
+          src={MILLA_BASE + "/transportes/administradorweb/hero_nosotros.png"}
           height="h-[500px]"
           gradient={true}
         />

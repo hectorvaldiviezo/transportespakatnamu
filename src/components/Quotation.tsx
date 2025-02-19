@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 import { FileCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { MILLA_BASE } from "@/lib/config";
 
 export default function Quotation() {
   const navigate = useRouter();
@@ -16,7 +17,7 @@ export default function Quotation() {
     >
       <div className="container max-w-screen-xl mx-auto relative h-full rounded">
         <Image
-          src="/people.svg"
+          src={MILLA_BASE + "/transportes/administradorweb/inicio_cotizar.png"}
           alt="Transporte de carga"
           fill={true}
           style={{ objectFit: "cover" }}
