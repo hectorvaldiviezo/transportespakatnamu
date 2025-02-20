@@ -279,12 +279,12 @@ export default function ComplaintQuery({
                       <Label className="text-sm text-gray-600 break-words">
                         Descripción
                       </Label>
-                      <div>{reclamo.description}</div>
+                      <div className="break-words">{reclamo.description}</div>
                     </div>
                     {reclamo.request && (
                       <div>
                         <Label className="text-sm text-gray-600 break-words">Pedido</Label>
-                        <div>{reclamo.request}</div>
+                        <div className="break-words">{reclamo.request}</div>
                       </div>
                     )}
                     {reclamo.amount > 0 && (
