@@ -222,18 +222,34 @@ export default function ComplaintQuery({
                     Hoja de Reclamo
                   </h3>
                   <div className="space-y-2">
-                    <div className="flex justify-between flex-col md:flex-row md:items-center">
-                      <span className="font-semibold">{reclamo.fullName}</span>
-                      <span>
-                        <strong>{reclamo.typeDocument}</strong>{" "}
-                        {reclamo.documentNumber}
-                      </span>
-                      <span>
-                        {reclamo.phone.replace(
-                          /(\d{1})\d+(\d{1})/,
-                          "$1*******$2"
-                        )}
-                      </span>
+                    <div>
+                      <Label className="text-sm text-gray-600">
+                        Nombre Completo
+                      </Label>
+                      <div>{reclamo.fullName}</div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm text-gray-600">
+                          {reclamo.typeDocument}
+                        </Label>
+                        <div>{reclamo.documentNumber}</div>
+                      </div>
+                      <div>
+                        <Label className="text-sm text-gray-600">
+                          Teléfono
+                        </Label>
+                        <div>
+                          {reclamo.phone.replace(
+                            /(\d{1})\d+(\d{1})/,
+                            "$1*******$2"
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <Label className="text-sm text-gray-600">Correo</Label>
+                      <div>{reclamo.email}</div>
                     </div>
                     <div>
                       <Label className="text-sm text-gray-600">
@@ -241,15 +257,17 @@ export default function ComplaintQuery({
                       </Label>
                       <div>{reclamo.sedeName}</div>
                     </div>
-                    <div>
-                      <Label className="text-sm text-gray-600">
-                        Fecha evento
-                      </Label>
-                      <div>{reclamo.date.toString()}</div>
-                    </div>
-                    <div>
-                      <Label className="text-sm text-gray-600">Hora</Label>
-                      <div>{reclamo.time}</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm text-gray-600">
+                          Fecha evento
+                        </Label>
+                        <div>{reclamo.date.toString()}</div>
+                      </div>
+                      <div>
+                        <Label className="text-sm text-gray-600">Hora</Label>
+                        <div>{reclamo.time}</div>
+                      </div>
                     </div>
                     <div>
                       <Label className="text-sm text-gray-600">Motivo</Label>

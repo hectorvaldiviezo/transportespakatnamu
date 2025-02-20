@@ -75,6 +75,7 @@ const FormComplaint = z
     type: z.string().min(1, "Seleccione un tipo."),
     date: z.date({
       required_error: "Seleccione una fecha.",
+      invalid_type_error: "Seleccione una fecha válida.",
     }),
     time: z.string().min(1, "Seleccione una hora."),
     description: z
@@ -111,20 +112,24 @@ const FormWell = z.object({
     }),
   amount: z.string().optional(),
 });
-const FormCustomer = z.object({
-  typeDocument: z.enum(["DNI", "RUC"]),
-  documentNumber: z
-    .string()
-    .min(8, "Ingrese un DNI válido.")
-    .max(8, "Ingrese un DNI válido.")
-    .refine((value) => /^\d+$/.test(value), {
-      message: "Ingrese un DNI válido.",
-    }),
-  fullName: z.string().min(1, "Ingrese un nombre."),
-  email: z.string().email("Ingrese un correo válido."),
-  phone: z.string().min(1, "Ingrese un teléfono."),
-  address: z.string().min(1, "Ingrese una dirección."),
-});
+const FormCustomer = z
+  .object({
+    typeDocument: z.enum(["DNI", "CARNET EXTRANJERIA", "PASAPORTE", "OTROS"]),
+    documentNumber: z.string().min(1, "Ingrese un número de documento."),
+    fullName: z.string().min(1, "Ingrese un nombre."),
+    email: z.string().email("Ingrese un correo válido."),
+    phone: z.string().min(1, "Ingrese un teléfono."),
+    address: z.string().min(1, "Ingrese una dirección."),
+  })
+  .superRefine((data, ctx) => {
+    if (data.typeDocument === "DNI" && !/^\d{8}$/.test(data.documentNumber)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Ingrese un DNI válido (8 dígitos).",
+        path: ["documentNumber"],
+      });
+    }
+  });
 
 const motives = [
   {
@@ -178,7 +183,7 @@ export default function ComplaintForm() {
       sedeVirtualId: "",
       sedeId: "",
       type: "",
-      date: undefined,
+      date: new Date(),
       time: "",
       description: "",
       request: "",
@@ -516,8 +521,10 @@ export default function ComplaintForm() {
                               >
                                 <Calendar
                                   mode="single"
-                                  selected={field.value}
-                                  onSelect={field.onChange}
+                                  selected={field.value || null} // Asegura que pueda vaciarse
+                                  onSelect={(date) =>
+                                    field.onChange(date ?? null)
+                                  } // Permite deseleccionar
                                   disabled={(date) =>
                                     date > new Date() ||
                                     date < new Date("1900-01-01")
@@ -571,7 +578,7 @@ export default function ComplaintForm() {
                           <FormControl>
                             <Textarea
                               placeholder="Describa su reclamo"
-                              className="resize-y h-fit"
+                              className="resize-y h-fit uppercase"
                               {...field}
                             />
                           </FormControl>
@@ -590,7 +597,7 @@ export default function ComplaintForm() {
                           <FormControl>
                             <Textarea
                               placeholder="Describa su pedido o solución"
-                              className="resize-y h-fit"
+                              className="resize-y h-fit uppercase"
                               {...field}
                             />
                           </FormControl>
@@ -715,6 +722,11 @@ export default function ComplaintForm() {
                               control={formWell.control}
                               name="motive"
                               render={({ field }) => {
+                                const isSelected = field.value?.includes(
+                                  motive.label
+                                );
+                                const isMaxSelected = field.value?.length >= 2;
+
                                 return (
                                   <FormItem
                                     key={motive.label}
@@ -722,21 +734,24 @@ export default function ComplaintForm() {
                                   >
                                     <FormControl>
                                       <Checkbox
-                                        checked={field.value?.includes(
-                                          motive.label
-                                        )}
+                                        checked={isSelected}
+                                        disabled={!isSelected && isMaxSelected} // Desactiva el checkbox si ya hay dos seleccionados
                                         onCheckedChange={(checked) => {
-                                          return checked
-                                            ? field.onChange([
+                                          if (checked) {
+                                            if (field.value.length < 2) {
+                                              field.onChange([
                                                 ...field.value,
                                                 motive.label,
-                                              ])
-                                            : field.onChange(
-                                                field.value?.filter(
-                                                  (value) =>
-                                                    value !== motive.label
-                                                )
-                                              );
+                                              ]);
+                                            }
+                                          } else {
+                                            field.onChange(
+                                              field.value.filter(
+                                                (value) =>
+                                                  value !== motive.label
+                                              )
+                                            );
+                                          }
                                         }}
                                       />
                                     </FormControl>
@@ -748,6 +763,7 @@ export default function ComplaintForm() {
                               }}
                             />
                           ))}
+
                           <FormMessage />
                         </FormItem>
                       )}
@@ -816,33 +832,74 @@ export default function ComplaintForm() {
                   <CardContent className="grid grid-cols-1 gap-6">
                     <FormField
                       control={formCustomer.control}
+                      name="typeDocument"
+                      render={({ field }) => (
+                        <FormItem className="space-y-3">
+                          <FormLabel className="uppercase font-roboto font-bold flex items-center gap-2 text-darknavy">
+                            11. Tipo de Documento
+                            <span className="text-destructive">*</span>
+                          </FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Selecciona una sede" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="DNI">DNI</SelectItem>
+                              <SelectItem value="CARNET EXTRANJERIA">
+                                Carnet de Extranjería
+                              </SelectItem>
+                              <SelectItem value="PASAPORTE">
+                                Pasaporte
+                              </SelectItem>
+                              <SelectItem value="OTROS">Otros</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={formCustomer.control}
                       name="documentNumber"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="uppercase font-roboto flex items-center gap-2 text-darknavy">
-                            11. DNI
+                          <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
+                            12. Número de Documento
                           </FormLabel>
                           <div className="flex gap-4">
                             <FormControl>
                               <Input
-                                placeholder="54718590"
-                                maxLength={8}
+                                placeholder="Valide su Documento"
+                                maxLength={
+                                  formCustomer.getValues("typeDocument") ===
+                                  "DNI"
+                                    ? 8
+                                    : 20
+                                }
                                 {...field}
                               />
                             </FormControl>
-                            <Button
-                              className="flex items-center gap-2"
-                              type="button"
-                              disabled={loadingSearch}
-                              onClick={validateDocumentNumber}
-                            >
-                              {loadingSearch ? (
-                                <LoaderPinwheel className="w-4 h-4 animate-spin" />
-                              ) : (
-                                <Search className="w-4 h-4" />
-                              )}
-                              <span>Validar DNI</span>
-                            </Button>
+                            {formCustomer.getValues("typeDocument") ===
+                              "DNI" && (
+                              <Button
+                                className="flex items-center gap-2"
+                                type="button"
+                                disabled={loadingSearch}
+                                onClick={validateDocumentNumber}
+                              >
+                                {loadingSearch ? (
+                                  <LoaderPinwheel className="w-4 h-4 animate-spin" />
+                                ) : (
+                                  <Search className="w-4 h-4" />
+                                )}
+                                <span>Validar DNI</span>
+                              </Button>
+                            )}
                           </div>
                           <FormMessage />
                         </FormItem>
@@ -858,8 +915,11 @@ export default function ComplaintForm() {
                           </FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="Valide su Documento"
-                              disabled
+                              placeholder="Ingrese su nombre completo"
+                              className="uppercase"
+                              disabled={
+                                formCustomer.getValues("typeDocument") === "DNI"
+                              }
                               {...field}
                             />
                           </FormControl>
@@ -912,6 +972,15 @@ export default function ComplaintForm() {
                         </FormItem>
                       )}
                     />
+                    <div>
+                      <p className="text-gray-500 text-sm text-justify">
+                        La formulación del reclamo no impide acudir a otras vías
+                        de solución de controversias ni es requisito previo para
+                        interponer una denuncia ante INDECOPI. El proveedor debe
+                        dar respuesta al reclamo o queja en un plazo no mayor a
+                        treinta (30) días hábiles, el cual es improrrogable.
+                      </p>
+                    </div>
                   </CardContent>
                   <CardFooter className="flex justify-between">
                     <Button

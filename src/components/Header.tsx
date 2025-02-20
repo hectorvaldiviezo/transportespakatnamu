@@ -64,7 +64,7 @@ export default function Header({
           <ul className="flex space-x-4">
             <li>
               <Link
-                href="nosotros"
+                href="/nosotros"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
                 NOSOTROS
@@ -80,7 +80,7 @@ export default function Header({
             </li> */}
             <li>
               <Link
-                href="cotizar"
+                href="/cotizar"
                 className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
               >
                 COTIZAR
