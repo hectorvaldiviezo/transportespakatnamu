@@ -211,7 +211,7 @@ export default function ComplaintQuery({
                   <h3 className="font-semibold mb-2 text-base text-navy">
                     Respuesta
                   </h3>
-                  <p className="text-gray-700 mb-2">
+                  <p className="text-gray-700 mb-2 break-words">
                     {reclamo.answer || "Sin respuesta aún"}
                   </p>
                 </div>
@@ -272,18 +272,18 @@ export default function ComplaintQuery({
                     <div>
                       <Label className="text-sm text-gray-600">Motivo</Label>
                       {reclamo.motive.map((m, i) => (
-                        <li key={i + m}>{m}</li>
+                        <li className="break-words" key={i + m}>{m}</li>
                       ))}
                     </div>
                     <div>
-                      <Label className="text-sm text-gray-600">
+                      <Label className="text-sm text-gray-600 break-words">
                         Descripción
                       </Label>
                       <div>{reclamo.description}</div>
                     </div>
                     {reclamo.request && (
                       <div>
-                        <Label className="text-sm text-gray-600">Pedido</Label>
+                        <Label className="text-sm text-gray-600 break-words">Pedido</Label>
                         <div>{reclamo.request}</div>
                       </div>
                     )}
