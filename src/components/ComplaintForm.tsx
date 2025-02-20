@@ -840,7 +840,11 @@ export default function ComplaintForm() {
                             <span className="text-destructive">*</span>
                           </FormLabel>
                           <Select
-                            onValueChange={field.onChange}
+                            onValueChange={(value) => {
+                              field.onChange(value);
+                              formCustomer.setValue("documentNumber", "");
+                              formCustomer.setValue("fullName", "");
+                            }}
                             value={field.value}
                           >
                             <FormControl>
@@ -911,7 +915,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            12. Nombre Completo
+                            13. Nombre Completo
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -933,7 +937,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            13. Correo Electrónico
+                            14. Correo Electrónico
                           </FormLabel>
                           <FormControl>
                             <Input placeholder="example@gmail.com" {...field} />
@@ -948,7 +952,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            14. Teléfono
+                            15. Teléfono
                           </FormLabel>
                           <FormControl>
                             <Input placeholder="936852147" {...field} />
@@ -963,7 +967,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            15. Dirección
+                            16. Dirección
                           </FormLabel>
                           <FormControl>
                             <Input placeholder="Calle Nueva 123" {...field} />
