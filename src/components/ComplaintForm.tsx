@@ -288,6 +288,8 @@ export default function ComplaintForm() {
     const currentIndex = tabs.indexOf(activeTab);
     if (currentIndex < tabs.length - 1) {
       setActiveTab(tabs[currentIndex + 1]);
+      const heroHeight = document.querySelector("#hero")?.clientHeight ?? 0;
+      window.scrollTo({ top: heroHeight, behavior: "smooth" }); // Desplazamiento suave al inicio
     }
   };
 

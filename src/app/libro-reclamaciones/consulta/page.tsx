@@ -13,10 +13,18 @@ export default function Page() {
   const [complaintCode, setComplaintCode] = useState<string | undefined>(
     undefined
   );
+  const [error, setError] = useState<string | undefined>(undefined);
   useEffect(() => {
     const complaintCodeParam = params.get("complaintCode");
     if (complaintCodeParam) {
       setComplaintCode(complaintCodeParam);
+    }
+  }, [params]);
+
+  useEffect(() => {
+    const errorParam = params.get("error");
+    if (errorParam) {
+      setError(errorParam);
     }
   }, [params]);
 
@@ -35,7 +43,7 @@ export default function Page() {
           height="h-[400px]"
           gradient={true}
         />
-        <ComplaintQuery complaintCodeParam={complaintCode} />
+        <ComplaintQuery complaintCodeParam={complaintCode} error={error} />
       </main>
       <Footer />
     </div>

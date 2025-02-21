@@ -22,11 +22,14 @@ import { useComplaintStore } from "../lib/complaint.store";
 import { timeAgo } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { errorToast } from "@/lib/core.function";
 
 export default function ComplaintQuery({
   complaintCodeParam,
+  error,
 }: {
   complaintCodeParam?: string;
+  error?: string;
 }) {
   const {
     complaintCode,
@@ -53,6 +56,12 @@ export default function ComplaintQuery({
       }
     }
   }, [complaintCodeParam]);
+
+  useEffect(() => {
+    if (error) {
+      errorToast(error);
+    }
+  }, [error]);
 
   const handleDownloadComplaint = (pdfComplaint: string) => {
     window.open(pdfComplaint, "_blank");
@@ -272,7 +281,9 @@ export default function ComplaintQuery({
                     <div>
                       <Label className="text-sm text-gray-600">Motivo</Label>
                       {reclamo.motive.map((m, i) => (
-                        <li className="break-words" key={i + m}>{m}</li>
+                        <li className="break-words" key={i + m}>
+                          {m}
+                        </li>
                       ))}
                     </div>
                     <div>
@@ -283,7 +294,9 @@ export default function ComplaintQuery({
                     </div>
                     {reclamo.request && (
                       <div>
-                        <Label className="text-sm text-gray-600 break-words">Pedido</Label>
+                        <Label className="text-sm text-gray-600 break-words">
+                          Pedido
+                        </Label>
                         <div className="break-words">{reclamo.request}</div>
                       </div>
                     )}

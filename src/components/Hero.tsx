@@ -29,7 +29,7 @@ export default function Hero({
   const navigate = useRouter();
 
   return (
-    <section className={`relative ${height} flex items-center`}>
+    <section className={`relative ${height} flex items-center`} id="hero">
       <Image
         src={src}
         alt="Transporte de carga"
