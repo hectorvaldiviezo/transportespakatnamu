@@ -980,11 +980,11 @@ export default function ComplaintForm() {
                     />
                     <div>
                       <p className="text-gray-500 text-sm text-justify">
-                        La formulación del reclamo no impide acudir a otras vías
+                        La formulación de la queja o reclamo no impide acudir a otras vías
                         de solución de controversias ni es requisito previo para
                         interponer una denuncia ante INDECOPI. El proveedor debe
                         dar respuesta al reclamo o queja en un plazo no mayor a
-                        treinta (30) días hábiles, el cual es improrrogable.
+                        quince (15) días hábiles, el cual es improrrogable.
                       </p>
                     </div>
                   </CardContent>
