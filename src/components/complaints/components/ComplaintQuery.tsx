@@ -120,7 +120,7 @@ export default function ComplaintQuery({
               <div className="grid grid-cols-1 gap-6  text-xs md:text-base">
                 {/* Información del reclamo */}
                 <div className="bg-white p-4 rounded-lg shadow">
-                  <h2 className="text-xl font-semibold mb-2">Reclamo</h2>
+                  <h2 className="text-xl font-semibold mb-2">{reclamo.type}</h2>
                   <div className="flex md:flex-row flex-col justify-between md:items-center">
                     <span className="text-danger font-bold md:text-lg">
                       N° {reclamo.complaintCode}
@@ -326,7 +326,7 @@ export default function ComplaintQuery({
                     {reclamo.amount > 0 && (
                       <div>
                         <Label className="text-sm text-gray-600">Monto</Label>
-                        <div>{reclamo.amount}</div>
+                        <div>S/ {reclamo.amount.toFixed(2)}</div>
                       </div>
                     )}
                     {(reclamo.file1 || reclamo.file2) && (

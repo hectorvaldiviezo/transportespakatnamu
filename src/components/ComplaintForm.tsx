@@ -580,7 +580,7 @@ export default function ComplaintForm() {
                           <FormControl>
                             <Textarea
                               placeholder="Describa su reclamo"
-                              className="resize-y h-fit uppercase"
+                              className="resize-y min-h-40 h-fit uppercase"
                               {...field}
                             />
                           </FormControl>
@@ -777,7 +777,7 @@ export default function ComplaintForm() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="uppercase font-bold font-roboto flex items-center gap-2 text-darknavy">
-                            10. Monto reclamado (Opcional)
+                            10. Monto reclamado S/.
                           </FormLabel>
                           <FormControl>
                             <Input
@@ -980,11 +980,12 @@ export default function ComplaintForm() {
                     />
                     <div>
                       <p className="text-gray-500 text-sm text-justify">
-                        La formulación de la queja o reclamo no impide acudir a otras vías
-                        de solución de controversias ni es requisito previo para
-                        interponer una denuncia ante INDECOPI. El proveedor debe
-                        dar respuesta al reclamo o queja en un plazo no mayor a
-                        quince (15) días hábiles, el cual es improrrogable.
+                        La formulación de la queja o reclamo no impide acudir a
+                        otras vías de solución de controversias ni es requisito
+                        previo para interponer una denuncia ante INDECOPI. El
+                        proveedor debe dar respuesta al reclamo o queja en un
+                        plazo no mayor a quince (15) días hábiles, el cual es
+                        improrrogable.
                       </p>
                     </div>
                   </CardContent>
