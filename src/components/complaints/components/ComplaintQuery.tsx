@@ -223,6 +223,29 @@ export default function ComplaintQuery({
                   <p className="text-gray-700 mb-2 break-words">
                     {reclamo.answer || "Sin respuesta aún"}
                   </p>
+
+                  {reclamo.fileAnswer && (
+                    <div>
+                      <Label className="text-sm text-gray-600">Archivos</Label>
+                      <div className="flex gap-2">
+                        {reclamo.fileAnswer && (
+                          <a
+                            href={reclamo.fileAnswer}
+                            target="_blank"
+                            className="text-blue-500 underline"
+                          >
+                            <Button
+                              variant="default"
+                              size="icon"
+                              className="p-0"
+                            >
+                              <FileDown className="max-w-3.5 max-h-3.5" />
+                            </Button>
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Hoja de Reclamo */}

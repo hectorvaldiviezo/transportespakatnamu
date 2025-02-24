@@ -37,6 +37,7 @@ export interface ComplaintSearch {
   daysRegistered?: number;
   hash: string;
   answer?: string;
+  fileAnswer?: string;
   verified: boolean;
   dateVerified?: Date;
   confirmed: boolean;
