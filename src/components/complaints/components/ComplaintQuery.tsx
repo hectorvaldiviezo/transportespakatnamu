@@ -125,11 +125,14 @@ export default function ComplaintQuery({
                     <span className="text-danger font-bold md:text-lg">
                       N° {reclamo.complaintCode}
                     </span>
-                    <span className="text-gray-600 text-xs md:text-base">
-                      {reclamo.isVirtual
-                        ? reclamo.sedeVirtualName
-                        : reclamo.sedeName}
-                    </span>
+                    <div className="flex flex-col items-end">
+                      <p className="text-gray-600 text-xs md:text-base mb-0 font-bold">
+                        {reclamo.sedeName}
+                      </p>
+                      <p className="text-gray-600 text-xs md:text-base mb-0">
+                        {reclamo.isVirtual ? reclamo.sedeVirtualName : ""}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
