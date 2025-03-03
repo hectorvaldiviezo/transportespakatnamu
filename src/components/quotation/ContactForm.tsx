@@ -41,7 +41,11 @@ const FormSchema = z.object({
   email: z.string().email("Debes ingresar un email válido"),
   phone: z.string().nonempty("Debes ingresar tu número de celular"),
   telephone: z.string(),
-  product: z.string().nonempty("Debes ingresar la descripción del producto"),
+  product: z
+    .string()
+    .nonempty("Debes ingresar la descripción del producto")
+    .min(50, "Mínimo 200 caracteres")
+    .max(1000, "Máximo 1000 caracteres."),
   origin: z.string().nonempty("Debes ingresar el punto de partida"),
   destination: z.string().nonempty("Debes ingresar el punto de llegada"),
   includeDelivery: z.enum(["si", "no"], {
@@ -428,7 +432,10 @@ export default function ContactForm() {
               />
             </div>
             <CardFooter className="p-0 flex justify-end">
-              <Button className="bg-navy hover:bg-navy/95 flex gap-2">
+              <Button
+                className="bg-navy hover:bg-navy/95 flex gap-2"
+                disabled={loadgingSubmit}
+              >
                 {loadgingSubmit ? (
                   <LoaderPinwheel className="w-4 h-4 animate-spin" />
                 ) : (
