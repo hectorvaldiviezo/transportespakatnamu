@@ -44,7 +44,7 @@ const FormSchema = z.object({
   product: z
     .string()
     .nonempty("Debes ingresar la descripción del producto")
-    .min(50, "Mínimo 200 caracteres")
+    .min(50, "Mínimo 50 caracteres")
     .max(1000, "Máximo 1000 caracteres."),
   origin: z.string().nonempty("Debes ingresar el punto de partida"),
   destination: z.string().nonempty("Debes ingresar el punto de llegada"),
