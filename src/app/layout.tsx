@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ReactQueryClientProvider } from "@/components/Provider";
+import ButtonWhatsapp from "@/components/button-whatsapp";
 
 export const metadata: Metadata = {
   title: "Transportes Pakatnamu",
@@ -26,6 +27,7 @@ export default function RootLayout({
         <body className={`${roboto.variable}`}>
           {children}
           <Toaster />
+          <ButtonWhatsapp />
         </body>
       </html>
     </ReactQueryClientProvider>

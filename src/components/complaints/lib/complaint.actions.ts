@@ -1,4 +1,4 @@
-import api from "@/lib/config";
+import { api } from "@/lib/config";
 import {
   ComplaintRequest,
   ComplaintSearch,

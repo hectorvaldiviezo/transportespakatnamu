@@ -1,10 +1,4 @@
-import {
-  Facebook,
-  Mail,
-  MapPin,
-  Phone,
-  SquareChartGantt,
-} from "lucide-react";
+import { Facebook, Mail, MapPin, Phone, SquareChartGantt } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -31,8 +25,8 @@ export default function Footer() {
                 info@transportespakatnamu.com
               </div>
               <div className="flex gap-2 items-center text-sm">
-                <MapPin className="fill-secondary w-4 h-4 stroke-gray-800" /> Carretera a Lambayeque
-                Mza. A Lote. 6 Km 4.5
+                <MapPin className="fill-secondary w-4 h-4 stroke-gray-800" />{" "}
+                Carretera a Lambayeque Mza. A Lote. 6 Km 4.5
               </div>
               <div className="flex gap-2 items-start text-sm">
                 <Phone className="fill-secondary w-4 h-4 stroke-gray-800" />
@@ -50,7 +44,18 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div></div>
+          <div>
+            <Link href="/docs/codigo_etica_TP.pdf" target="_blank">
+              <Button
+                size="default"
+                variant="link"
+                className="flex items-center gap-2 text-secondary group"
+              >
+                <SquareChartGantt className="min-w-6 min-h-6 group-hover:fill-muted group-hover:stroke-gray-800 transition-colors duration-200" />{" "}
+                Código de Ética
+              </Button>
+            </Link>
+          </div>
           <div className="flex flex-col gap-2 items-center justify-start">
             <Link href="/docs/codigo_etica_TP.pdf" target="_blank">
               <Button

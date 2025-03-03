@@ -1,23 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -37,18 +21,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "@/hooks/use-toast";
-import Link from "next/link";
-import { Switch } from "./ui/switch";
-import { format } from "date-fns";
-import { CalendarIcon, LoaderPinwheel, Search } from "lucide-react";
-import { Textarea } from "./ui/textarea";
-import { Checkbox } from "./ui/checkbox";
-import { Separator } from "./ui/separator";
+import { LoaderPinwheel, Search, Send } from "lucide-react";
+import { Textarea } from "../ui/textarea";
+import { Separator } from "../ui/separator";
 import { useEffect, useState } from "react";
 import { errorToast, successToast } from "@/lib/core.function";
 import { searchByDNI, searchByRUC } from "@/lib/search.actions";
+import { QuotationRequest } from "./lib/quotation.interface";
+import { sendQuotation } from "./lib/quotation.actions";
 const FormSchema = z.object({
   document: z
     .string()
@@ -64,20 +44,6 @@ const FormSchema = z.object({
   product: z.string().nonempty("Debes ingresar la descripción del producto"),
   origin: z.string().nonempty("Debes ingresar el punto de partida"),
   destination: z.string().nonempty("Debes ingresar el punto de llegada"),
-  typeFreight: z.enum(["viaje", "tonelada"], {
-    required_error: "Debes seleccionar un tipo de flete",
-  }),
-  numberTravels: z
-    .string()
-    .nonempty("Debes ingresar el número de viajes")
-    .refine((value) => !isNaN(Number(value)), {
-      message: "Debes ingresar un número válido",
-    })
-    .transform((value) => Number(value))
-    .refine((value) => value > 0, {
-      message: "Debes ingresar un número mayor a 0",
-    }),
-  freightProposal: z.string().nonempty("Debes ingresar el flete propuesto"),
   includeDelivery: z.enum(["si", "no"], {
     required_error: "Debes seleccionar si incluye entrega",
   }),
@@ -87,7 +53,6 @@ const FormSchema = z.object({
       required_error: "Debes seleccionar si incluye carga o descarga",
     }
   ),
-  reference: z.string().nonempty("Debes ingresar la referencia del viaje"),
   observations: z.string(),
 });
 
@@ -103,12 +68,8 @@ export default function ContactForm() {
       product: "",
       origin: "",
       destination: "",
-      typeFreight: "viaje",
-      numberTravels: 0,
-      freightProposal: "",
       includeDelivery: "no",
       includeLoadingOrUnloading: "no",
-      reference: "",
       observations: "",
     },
     mode: "onChange", // Valida en cada cambio
@@ -116,6 +77,7 @@ export default function ContactForm() {
   });
 
   const [loadingSearch, setLoadingSearch] = useState(false);
+  const [loadgingSubmit, setLoadingSubmit] = useState(false);
 
   const validateDocumentNumber = async () => {
     setLoadingSearch(true);
@@ -160,8 +122,40 @@ export default function ContactForm() {
     }
   }, []);
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    successToast("Formulario enviado correctamente");
+  async function onSubmit() {
+    setLoadingSubmit(true);
+    const data = await form.getValues();
+
+    const quotationRequest: QuotationRequest = {
+      document: data.document,
+      fullName: data.fullName,
+      email: data.email,
+      phone: data.phone,
+      telephone: data.telephone,
+      product: data.product,
+      origin: data.origin,
+      destination: data.destination,
+      includeDelivery: data.includeDelivery === "si",
+      includeLoadingOrUnloading: data.includeLoadingOrUnloading,
+      observations: data.observations,
+    };
+
+    await sendQuotation(quotationRequest)
+      .then((response) => {
+        if (response.status === 200) {
+          successToast(response.message);
+        } else {
+          errorToast(response.message);
+        }
+      })
+      .catch((error: any) => {
+        errorToast(error.response.data.message);
+      })
+      .finally(() => {
+        setLoadingSubmit(false);
+        form.reset();
+      });
+    setLoadingSubmit(false);
   }
 
   return (
@@ -350,70 +344,7 @@ export default function ContactForm() {
                   )}
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField
-                  control={form.control}
-                  name="typeFreight"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-darknavy font-semibold">
-                        Tipo de Flete
-                        <span className="text-destructive ml-1">*</span>
-                      </FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Seleccionar" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="viaje">Por Viaje</SelectItem>
-                          <SelectItem value="tonelada">Por Tonelada</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormDescription></FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="numberTravels"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-darknavy font-semibold">
-                        Numero de Viajes
-                        <span className="text-destructive ml-1">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="1" type="number" {...field} />
-                      </FormControl>
-                      <FormDescription></FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="freightProposal"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-darknavy font-semibold">
-                        Flete Propuesto
-                        <span className="text-destructive ml-1">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input placeholder="4000" type="number" {...field} />
-                      </FormControl>
-                      <FormDescription></FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -481,28 +412,11 @@ export default function ContactForm() {
               <Separator className="w-full my-4" />
               <FormField
                 control={form.control}
-                name="reference"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-darknavy font-semibold">
-                      Referencia del viaje
-                      <span className="text-destructive ml-1">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Debe ser..." {...field} />
-                    </FormControl>
-                    <FormDescription></FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="observations"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-darknavy font-semibold">
-                      Observaciones de la carga
+                      Puntos a tener en cuenta
                     </FormLabel>
                     <FormControl>
                       <Textarea placeholder="La Carga lleva..." {...field} />
@@ -514,7 +428,14 @@ export default function ContactForm() {
               />
             </div>
             <CardFooter className="p-0 flex justify-end">
-              <Button className="bg-navy hover:bg-navy/95">Enviar</Button>
+              <Button className="bg-navy hover:bg-navy/95 flex gap-2">
+                {loadgingSubmit ? (
+                  <LoaderPinwheel className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
+                Solicitar Cotización
+              </Button>
             </CardFooter>
           </div>
         </form>
