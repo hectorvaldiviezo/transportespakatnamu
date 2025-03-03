@@ -1,4 +1,13 @@
-import { Facebook, Mail, MapPin, Phone, SquareChartGantt } from "lucide-react";
+import {
+  Facebook,
+  Group,
+  Home,
+  ListTree,
+  Mail,
+  MapPin,
+  Phone,
+  SquareChartGantt,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -44,17 +53,36 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div>
-            <Link href="/docs/codigo_etica_TP.pdf" target="_blank">
-              <Button
-                size="default"
-                variant="link"
-                className="flex items-center gap-2 text-secondary group"
-              >
-                <SquareChartGantt className="min-w-6 min-h-6 group-hover:fill-muted group-hover:stroke-gray-800 transition-colors duration-200" />{" "}
-                Código de Ética
-              </Button>
-            </Link>
+          <div className="flex flex-col gap-2 items-center justify-start">
+            <div className="max-w-fit">
+              <Link href="/">
+                <Button
+                  size="default"
+                  variant="link"
+                  className="flex items-center gap-2 text-secondary group"
+                >
+                  <Home className="min-w-6 min-h-6" /> Inicio
+                </Button>
+              </Link>
+              <Link href="/nosotros">
+                <Button
+                  size="default"
+                  variant="link"
+                  className="flex items-center gap-2 text-secondary group"
+                >
+                  <Group className="min-w-6 min-h-6" /> Nosotros
+                </Button>
+              </Link>
+              <Link href="/cotizar">
+                <Button
+                  size="default"
+                  variant="link"
+                  className="flex items-center gap-2 text-secondary group"
+                >
+                  <ListTree className="min-w-6 min-h-6" /> Cotizar
+                </Button>
+              </Link>
+            </div>
           </div>
           <div className="flex flex-col gap-2 items-center justify-start">
             <Link href="/docs/codigo_etica_TP.pdf" target="_blank">
