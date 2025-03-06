@@ -4,8 +4,18 @@ const nextConfig = {
         missingSuspenseWithCSRBailout: false,
     },
     images: {
-        // domains: ["127.0.0.1"],
-        domains: ["milla.grupopakatnamu.com"],
+        remotePatterns: [
+            {
+                protocol: 'http',
+                hostname: '127.0.0.1',
+                pathname: '**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'milla.grupopakatnamu.com',
+                pathname: '**'
+            }
+        ]
     },
 };
 
