@@ -1015,7 +1015,7 @@ export default function ComplaintForm() {
                       ) : (
                         <Send className="w-4 h-4" />
                       )}
-                      Enviar
+                      {submitting ? "Enviando..." : "Enviar"}
                     </Button>
                   </CardFooter>
                 </Card>
