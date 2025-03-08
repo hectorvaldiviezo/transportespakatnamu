@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: '/transportespakatnamu',
+    basePath: "/transportespakatnamu",
+    assetPrefix: "/transportespakatnamu",
     experimental: {
         missingSuspenseWithCSRBailout: false,
     },
