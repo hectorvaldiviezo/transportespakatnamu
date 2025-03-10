@@ -1,12 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: "/transportespakatnamu",
-    assetPrefix: "/transportespakatnamu/",
     experimental: {
         missingSuspenseWithCSRBailout: false,
     },
     images: {
-        unoptimized: true,
         remotePatterns: [
             {
                 protocol: 'http',
