@@ -53,28 +53,6 @@ export default function AboutUs() {
   return (
     <section id="about" className="md:py-20 py-6 bg-muted">
       <div className="container max-w-screen-xl mx-auto p-4">
-        <div className="flex flex-col md:flex-row items-start gap-24">
-          {/* <div className="md:w-1/2 px-12">
-            <Carousel>
-              <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem key={index}>
-                    <Image
-                      src={`/slider${index + 1}.jpg`}
-                      alt="Transporte de carga"
-                      width={800}
-                      height={500}
-                      quality={100}
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div> */}
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 flex flex-col gap-8 md:gap-16">
             {" "}

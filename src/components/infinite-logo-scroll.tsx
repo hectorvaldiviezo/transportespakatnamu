@@ -1,4 +1,5 @@
 "use client";
+import { BASE_PATH } from "@/lib/config";
 import Image from "next/image";
 
 // Ejemplo de logos (reemplaza con tus propios logos)
@@ -20,7 +21,7 @@ export function InfiniteLogoScroll() {
           {[...logos, ...logos].map((logo, index) => (
             <div key={index} className="flex-shrink-0 w-36 md:w-[200px] p-6">
               <Image
-                src={logo || "/peru.svg"}
+                src={BASE_PATH + (logo || "/peru.svg")}
                 alt={`Logo ${index + 1}`}
                 width={1200}
                 height={600}

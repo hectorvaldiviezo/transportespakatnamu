@@ -1,4 +1,5 @@
 "use client";
+import { BASE_PATH } from "@/lib/config";
 import Image from "next/image";
 
 interface InfiniteLogoRowProps {
@@ -32,7 +33,7 @@ export function InfiniteLogoRow({
             className="flex-shrink-0 transition-transform duration-300 ease-in-out hover:scale-110"
           >
             <Image
-              src={logo || "/placeholder.svg"}
+              src={BASE_PATH + (logo || "/placeholder.svg")}
               alt={`Logo ${index + 1}`}
               width={180}
               height={90}

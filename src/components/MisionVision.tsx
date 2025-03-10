@@ -10,6 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { BASE_PATH } from "@/lib/config";
 
 export default function MisionVision() {
   const features = [
@@ -41,7 +42,7 @@ export default function MisionVision() {
               </div>
               <CardFooter className="p-0 pt-4">
                 <Image
-                  src="/freighliner.png"
+                  src={BASE_PATH + "/freighliner.png"}
                   alt="Misión"
                   height={1000}
                   width={1000}
@@ -69,7 +70,7 @@ export default function MisionVision() {
               </div>
               <CardFooter className="p-0 pt-4">
                 <Image
-                  src="/IQBF.jpg"
+                  src={BASE_PATH + "/IQBF.jpg"}
                   alt="Misión"
                   height={1000}
                   width={1000}

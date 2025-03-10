@@ -1,4 +1,5 @@
 "use client";
+import { BASE_PATH } from "@/lib/config";
 import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 import Tilt from "react-parallax-tilt";
@@ -21,7 +22,7 @@ export default function Security() {
           <div className="md:w-1/2 flex items-center justify-center">
             <Tilt>
               <Image
-                src="/transporte.png"
+                src={BASE_PATH + "/transporte.png"}
                 alt="Seguridad en el transporte"
                 width={300}
                 height={300}

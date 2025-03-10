@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { useRouter } from "next/navigation";
+import { BASE_PATH } from "@/lib/config";
 
 const departments = [
   "Amazonas",
@@ -117,11 +118,16 @@ export default function NationwideMap() {
               <Image
                 width={1000}
                 height={1000}
-                src={`/peru/${images[hoveredDepartment]}`}
+                src={`${BASE_PATH}/peru/${images[hoveredDepartment]}`}
                 alt=""
               />
             ) : (
-              <Image width={1000} height={1000} src={`/peru.svg`} alt="" />
+              <Image
+                width={1000}
+                height={1000}
+                src={`${BASE_PATH}/peru.svg`}
+                alt=""
+              />
             )}
           </div>
         </div>
