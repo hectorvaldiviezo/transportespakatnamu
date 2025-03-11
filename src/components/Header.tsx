@@ -150,6 +150,7 @@ export default function Header({
                   </Link>
                   <Link
                     href="https://www.nubefact.com/find_document?ruc=20480582561"
+                    target="_blank"
                     className="text-primary/85 hover:text-primary/80 text-sm font-roboto font-semibold"
                   >
                     CONSULTAR COMPROBANTES
