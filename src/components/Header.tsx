@@ -12,6 +12,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { useEffect, useState } from "react";
 export default function Header({
   heightToScroll = 500,
@@ -87,13 +94,20 @@ export default function Header({
               </Link>
             </li>
             <li>
-              <Link
-                href="https://www.nubefact.com/find_document?ruc=20480582561"
-                target="_blank"
-                className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
-              >
-                COMPROBANTES
-              </Link>
+              <TooltipProvider>
+                <Tooltip delayDuration={50}>
+                  <Link
+                    href="https://www.nubefact.com/find_document?ruc=20480582561"
+                    target="_blank"
+                    className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
+                  >
+                    <TooltipTrigger>COMPROBANTES</TooltipTrigger>
+                    <TooltipContent side="bottom" className="bg-navy">
+                      <p className="font-semibold">Consultar Comprobantes Electrónicos</p>
+                    </TooltipContent>
+                  </Link>
+                </Tooltip>
+              </TooltipProvider>
             </li>
           </ul>
         </nav>

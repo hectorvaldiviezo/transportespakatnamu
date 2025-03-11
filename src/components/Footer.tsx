@@ -2,11 +2,14 @@ import {
   Facebook,
   Group,
   Home,
-  ListTree,
+  Instagram,
+  Linkedin,
   Mail,
   MapPin,
   Phone,
+  ReceiptText,
   SquareChartGantt,
+  TextSelect,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,8 +22,8 @@ export default function Footer() {
   return (
     <footer className="bg-gray-800 text-white py-8">
       <div className="container max-w-screen-xl flex flex-col gap-2 mx-auto px-4 text-start">
-        <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
-          <div className="flex gap-4">
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-3">
+          <div className="flex gap-4 col-span-2 md:col-span-1">
             <div>
               <Image
                 src={BASE_PATH + "/lambayequemap.svg"}
@@ -45,13 +48,6 @@ export default function Footer() {
                   <p>924 040 350</p>
                 </div>
               </div>
-              <div className="flex gap-2 items-start text-sm">
-                <Facebook className="fill-secondary w-4 h-4 stroke-gray-800" />
-                <div>
-                  <p>TRANSPORTES PAKATNAMU SAC</p>
-                  <p>@TRANSPASAC</p>
-                </div>
-              </div>
             </div>
           </div>
           <div className="flex flex-col gap-2 items-center justify-start">
@@ -62,7 +58,7 @@ export default function Footer() {
                   variant="link"
                   className="flex items-center gap-2 text-secondary group"
                 >
-                  <Home className="min-w-6 min-h-6" /> Inicio
+                  <Home className="min-w-5 min-h-6" /> Inicio
                 </Button>
               </Link>
               <Link href="/nosotros">
@@ -71,7 +67,7 @@ export default function Footer() {
                   variant="link"
                   className="flex items-center gap-2 text-secondary group"
                 >
-                  <Group className="min-w-6 min-h-6" /> Nosotros
+                  <Group className="min-w-5 min-h-5" /> Nosotros
                 </Button>
               </Link>
               <Link href="/cotizar">
@@ -80,7 +76,17 @@ export default function Footer() {
                   variant="link"
                   className="flex items-center gap-2 text-secondary group"
                 >
-                  <ListTree className="min-w-6 min-h-6" /> Cotizar
+                  <TextSelect className="min-w-5 min-h-5" /> Cotizar
+                </Button>
+              </Link>
+              <Link href="https://www.nubefact.com/find_document?ruc=20480582561">
+                <Button
+                  size="default"
+                  variant="link"
+                  className="flex items-start gap-2 text-secondary group text-wrap text-start"
+                >
+                  <ReceiptText className="min-w-5 min-h-5" /> Comprobantes
+                  Electrónicos
                 </Button>
               </Link>
             </div>
@@ -92,7 +98,7 @@ export default function Footer() {
                 variant="link"
                 className="flex items-center gap-2 text-secondary group"
               >
-                <SquareChartGantt className="min-w-6 min-h-6 group-hover:fill-muted group-hover:stroke-gray-800 transition-colors duration-200" />{" "}
+                <SquareChartGantt className="min-w-6 min-h-5 group-hover:fill-muted group-hover:stroke-gray-800 transition-colors duration-200" />{" "}
                 Código de Ética
               </Button>
             </Link>
@@ -102,11 +108,53 @@ export default function Footer() {
                 width={150}
                 height={60}
                 alt="Transportes Pakatnamu"
+                className="py-2 px-4"
               />
             </Link>
           </div>
         </div>
-        <p className="text-center text-xs md:text-sm">
+        <div className="w-full flex flex-wrap justify-center gap-4 pt-6">
+          <Link
+            href="https://www.facebook.com/transportespakatnamu"
+            target="_blank"
+          >
+            <Button
+              size="sm"
+              variant="secondary"
+              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-roboto text-gray-800 rounded-full"
+            >
+              <Facebook className="w-4 h-4 stroke-transparent fill-gray-800" />
+              @TransportesPakatnamu
+            </Button>
+          </Link>
+          <Link
+            href="https://www.instagram.com/transportespakatnamu/"
+            target="_blank"
+          >
+            <Button
+              size="sm"
+              variant="secondary"
+              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-roboto text-gray-800 rounded-full"
+            >
+              <Instagram className="w-4 h-4 fill-transparent stroke-gray-800" />
+              @transportespakatnamu
+            </Button>
+          </Link>
+          <Link
+            href="https://pe.linkedin.com/company/transportespakatnamu"
+            target="_blank"
+          >
+            <Button
+              size="sm"
+              variant="secondary"
+              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-roboto text-gray-800 rounded-full"
+            >
+              <Linkedin className="w-4 h-4 fill-transparent stroke-gray-800" />
+              @transportespakatnamu
+            </Button>
+          </Link>
+        </div>
+        <p className="text-center pt-4 text-xs md:text-sm">
           &copy; {year} Transportes Pakatnamu. Todos los derechos reservados.
         </p>
       </div>
