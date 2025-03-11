@@ -86,6 +86,15 @@ export default function Header({
                 COTIZAR
               </Link>
             </li>
+            <li>
+              <Link
+                href="https://www.nubefact.com/find_document?ruc=20480582561"
+                target="_blank"
+                className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
+              >
+                COMPROBANTES
+              </Link>
+            </li>
           </ul>
         </nav>
         <div className="block md:hidden">
@@ -98,15 +107,15 @@ export default function Header({
             >
               <Menu size={24} />
             </SheetTrigger>
-            <SheetContent>
+            <SheetContent className="bg-accent">
               <SheetHeader>
                 <SheetTitle>
-                  <div className="flex items-center justify-center gap-1">
+                  <div className="flex items-center justify-center gap-1 pt-6">
                     <Avatar>
-                      <AvatarImage src="/tplogowhite.svg" alt="tp" />
+                      <AvatarImage src="/tplogo.svg" alt="tp" />
                       <AvatarFallback>TP</AvatarFallback>
                     </Avatar>
-                    <div className="text-base font-roboto font-normal flex flex-col">
+                    <div className="text-base font-roboto font-bold flex flex-col bg-gradient-to-r from-navy to-danger bg-clip-text text-transparent">
                       TRANSPORTES PAKATNAMU
                     </div>
                   </div>
@@ -115,15 +124,21 @@ export default function Header({
                 <nav className="grid place-items-start gap-2">
                   <Link
                     href="/nosotros"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
+                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto font-semibold"
                   >
                     NOSOTROS
                   </Link>
                   <Link
                     href="/cotizar"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto"
+                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto font-semibold"
                   >
                     COTIZAR
+                  </Link>
+                  <Link
+                    href="https://www.nubefact.com/find_document?ruc=20480582561"
+                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto font-semibold"
+                  >
+                    CONSULTAR COMPROBANTES
                   </Link>
                 </nav>
               </SheetHeader>

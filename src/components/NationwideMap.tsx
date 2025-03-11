@@ -80,14 +80,14 @@ export default function NationwideMap() {
         <div className="flex flex-col lg:flex-row items-center justify-center gap-12 md:px-12">
           <div className="w-full lg:w-1/2">
             <div className="border-l-8 border-danger pl-4 mb-6">
-              <h3 className="text-4xl font-semibold text-danger">
+              <h3 className="text-2xl md:text-4xl font-semibold text-danger">
                 {hoveredDepartment || "Cobertura Nacional"}
               </h3>
-              <p className="mb-4 text-lg font-bold text-navy">
+              <p className="mb-4 text-base md:text-lg font-bold text-navy">
                 SERVICIO A TODO EL PERÚ
               </p>
             </div>
-            <p className="mb-6 text-muted-foreground text-justify font-roboto">
+            <p className="mb-6 text-sm md:text-base text-muted-foreground text-justify font-roboto">
               En Transportes Pakatnamu, nos enorgullece ofrecer nuestros
               servicios de transporte de carga en todos los departamentos del
               Perú. Nuestra extensa red logística nos permite llegar a cada
