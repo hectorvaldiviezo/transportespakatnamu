@@ -8,6 +8,10 @@ import ButtonWhatsapp from "@/components/button-whatsapp";
 export const metadata: Metadata = {
   title: "Transportes Pakatnamu",
   description: "Página web de Transportes Pakatnamu",
+  manifest: "/manifest.json",
+  icons: {
+    apple: "/icon.png",
+  },
 };
 
 const roboto = Roboto({
