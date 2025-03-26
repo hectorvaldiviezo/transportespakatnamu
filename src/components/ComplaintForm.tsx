@@ -51,6 +51,7 @@ import { useSedes } from "./sedes/lib/sedes.hook";
 import { Skeleton } from "./ui/skeleton";
 import { createComplaint } from "./complaints/lib/complaint.actions";
 import { useComplaintStore } from "./complaints/lib/complaint.store";
+import { EMPRESA_ID } from "@/lib/config";
 
 const fileSchema = z
   .array(
@@ -300,7 +301,7 @@ export default function ComplaintForm() {
     }
   };
 
-  const sedes = useSedes(1);
+  const sedes = useSedes(EMPRESA_ID);
 
   return (
     <div className="w-full py-20 px-2 flex justify-center items-center bg-muted">
