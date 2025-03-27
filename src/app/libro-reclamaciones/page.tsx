@@ -2,9 +2,11 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import ComplaintForm from "@/components/ComplaintForm";
-import { MILLA_BASE } from "@/lib/config";
+import { EMPRESA_ID, MILLA_BASE } from "@/lib/config";
+import { getSedes } from "@/components/sedes/lib/sedes.actions";
 
-export default function Home() {
+export default async function Home() {
+  const sedes = await getSedes(EMPRESA_ID);
   return (
     <div className="min-h-screen bg-gray-50">
       <Header heightToScroll={250} />
@@ -21,7 +23,7 @@ export default function Home() {
           gradient={true}
           complaint={true}
         />
-        <ComplaintForm />
+        <ComplaintForm sedes={sedes} />
       </main>
       <Footer />
     </div>

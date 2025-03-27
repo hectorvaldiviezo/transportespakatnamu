@@ -47,11 +47,9 @@ import { searchByDNI } from "@/lib/search.actions";
 import { useState } from "react";
 import { errorToast, successToast } from "@/lib/core.function";
 import { ComplaintRequest } from "@/components/complaints/lib/complaint.interface";
-import { useSedes } from "./sedes/lib/sedes.hook";
-import { Skeleton } from "./ui/skeleton";
 import { createComplaint } from "./complaints/lib/complaint.actions";
 import { useComplaintStore } from "./complaints/lib/complaint.store";
-import { EMPRESA_ID } from "@/lib/config";
+import { SedeResponse } from "./sedes/lib/sedes.interface";
 
 const fileSchema = z
   .array(
@@ -174,7 +172,7 @@ const motives = [
   },
 ];
 
-export default function ComplaintForm() {
+export default function ComplaintForm({ sedes }: { sedes: SedeResponse }) {
   const navigate = useRouter();
   const { setComplaintCode, loadComplaint } = useComplaintStore();
   const formComplaint = useForm<z.infer<typeof FormComplaint>>({
@@ -301,8 +299,6 @@ export default function ComplaintForm() {
     }
   };
 
-  const sedes = useSedes(EMPRESA_ID);
-
   return (
     <div className="w-full py-20 px-2 flex justify-center items-center bg-muted">
       <div className="container max-w-screen-xl flex items-center justify-center">
@@ -360,30 +356,26 @@ export default function ComplaintForm() {
                             <FormLabel className="uppercase font-roboto font-bold flex items-center gap-2 text-darknavy">
                               1. Sede<span className="text-destructive">*</span>
                             </FormLabel>
-                            {sedes.isLoading ? (
-                              <Skeleton className="h-9 w-full" />
-                            ) : (
-                              <Select
-                                onValueChange={field.onChange}
-                                value={field.value}
-                              >
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona una sede" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {sedes.data!.sedes.map((sede) => (
-                                    <SelectItem
-                                      key={sede.id}
-                                      value={sede.id.toString()}
-                                    >
-                                      {sede.razon_social} - {sede.suc_abrev}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            )}
+                            <Select
+                              onValueChange={field.onChange}
+                              value={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Selecciona una sede" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {sedes.sedes.map((sede) => (
+                                  <SelectItem
+                                    key={sede.id}
+                                    value={sede.id.toString()}
+                                  >
+                                    {sede.razon_social} - {sede.suc_abrev}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                             <FormMessage />
                           </FormItem>
                         )}
@@ -418,33 +410,27 @@ export default function ComplaintForm() {
                           render={({ field }) => (
                             <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md px-4 py-2">
                               <FormControl>
-                                {sedes.isLoading ? (
-                                  <Skeleton className="h-9 w-full" />
-                                ) : (
-                                  <RadioGroup
-                                    onValueChange={field.onChange}
-                                    value={field.value}
-                                    className="flex flex-col space-y-1"
-                                  >
-                                    {sedes.data!.sedesVirtuals.map(
-                                      (virtual) => (
-                                        <FormItem
-                                          key={virtual.id}
-                                          className="flex items-center space-x-3 space-y-0"
-                                        >
-                                          <FormControl>
-                                            <RadioGroupItem
-                                              value={virtual.id.toString()}
-                                            />
-                                          </FormControl>
-                                          <FormLabel className="font-normal">
-                                            {virtual.name}
-                                          </FormLabel>
-                                        </FormItem>
-                                      )
-                                    )}
-                                  </RadioGroup>
-                                )}
+                                <RadioGroup
+                                  onValueChange={field.onChange}
+                                  value={field.value}
+                                  className="flex flex-col space-y-1"
+                                >
+                                  {sedes.sedesVirtuals.map((virtual) => (
+                                    <FormItem
+                                      key={virtual.id}
+                                      className="flex items-center space-x-3 space-y-0"
+                                    >
+                                      <FormControl>
+                                        <RadioGroupItem
+                                          value={virtual.id.toString()}
+                                        />
+                                      </FormControl>
+                                      <FormLabel className="font-normal">
+                                        {virtual.name}
+                                      </FormLabel>
+                                    </FormItem>
+                                  ))}
+                                </RadioGroup>
                               </FormControl>
                               <FormMessage />
                             </FormItem>
