@@ -1,6 +1,6 @@
 "use client";
+
 import Image from "next/image";
-// import { AnimatedElement } from "./animated-element";
 import { SocioResource } from "./socios/lib/socios.interface";
 import { Marquee } from "./magicui/marquee";
 
