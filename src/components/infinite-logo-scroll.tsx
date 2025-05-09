@@ -1,38 +1,31 @@
 "use client";
-import { BASE_PATH } from "@/lib/config";
 import Image from "next/image";
+// import { AnimatedElement } from "./animated-element";
+import { SocioResource } from "./socios/lib/socios.interface";
+import { Marquee } from "./magicui/marquee";
 
-// Ejemplo de logos (reemplaza con tus propios logos)
-const logos = [
-  "/gloria_color.png",
-  "/celima_color.png",
-  "/sanlorenzo.png",
-  // "/pacasmayo_color.png",
-  "/inka.png",
-  "/racionalizacion.png",
-  "/coali.png",
-];
+export interface SociosSectionProps {
+  socios: SocioResource[];
+}
 
-export function InfiniteLogoScroll() {
+export function InfiniteLogoScroll({ socios }: SociosSectionProps) {
   return (
-    <div className="w-full overflow-hidden bg-secondary">
-      <div className="relative">
-        <div className="flex animate-scroll">
-          {[...logos, ...logos].map((logo, index) => (
-            <div key={index} className="flex-shrink-0 w-36 md:w-[200px] p-6">
-              <Image
-                src={BASE_PATH + (logo || "/peru.svg")}
-                alt={`Logo ${index + 1}`}
-                width={1200}
-                height={600}
-                className="h-full max-h-8 md:max-h-14 w-full object-contain filter grayscale hover:grayscale-0 transition-transform duration-300 ease-in-out hover:scale-90"
-              />
-            </div>
-          ))}
-        </div>
-        <div className="absolute top-0 left-0 w-20 h-full bg-gradient-to-r from-secondary to-transparent" />
-        <div className="absolute top-0 right-0 w-20 h-full bg-gradient-to-l from-secondary to-transparent" />
-      </div>
+    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+      <Marquee pauseOnHover className="[--duration:10s]">
+        {socios.map((socio, index) => (
+          <Image
+            key={index}
+            src={socio.image}
+            alt={`Logo ${index + 1}`}
+            width={1200}
+            height={1200}
+            className="h-full px-8 py-4 max-h-24 md:max-h-32 w-full object-contain filter transition-transform duration-300 ease-in-out hover:scale-90"
+          />
+        ))}
+      </Marquee>
+
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-secondary"></div>
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-secondary"></div>
     </div>
   );
 }

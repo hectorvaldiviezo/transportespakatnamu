@@ -21,7 +21,6 @@ import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -221,7 +220,6 @@ export default function ComplaintForm({ sedes }: { sedes: SedeResponse }) {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [submitting, setSubmitting] = useState(false);
 
-  const files = formComplaint.watch("files", []);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
     formComplaint.setValue("files", selectedFiles, { shouldValidate: true });

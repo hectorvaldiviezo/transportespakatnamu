@@ -1,7 +1,5 @@
 "use client";
-import { CheckCircle } from "lucide-react";
 import Image from "next/image";
-import Tilt from "react-parallax-tilt";
 import {
   Card,
   CardContent,
@@ -13,13 +11,6 @@ import {
 import { BASE_PATH } from "@/lib/config";
 
 export default function MisionVision() {
-  const features = [
-    "Atención y monitoreo las 24 horas",
-    "Cobertura a nivel nacional",
-    "Unidades equipadas con implementos de seguridad",
-    "Rastreo satelital telemetría",
-  ];
-
   return (
     <section className="pb-20 bg-muted">
       <div className="container max-w-screen-md mx-auto px-4">

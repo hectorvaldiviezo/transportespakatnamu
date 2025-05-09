@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Typewriter from "typewriter-effect";
 import { Button } from "./ui/button";
-import { FileCheck, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export interface HeroProps {

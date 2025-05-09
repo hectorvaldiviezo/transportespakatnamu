@@ -16,8 +16,8 @@ body {
   :root {
     --darknavy: 238 53% 11%;
     --marine: 215 28% 17%;
-    --navy: 215 74% 25%;
-    --danger: 356 95% 46%;
+    --navy: 224 98% 25%;
+    --danger: 0 97% 49%;
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -86,6 +86,10 @@ body {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  .theme {
+    --animate-marquee: marquee var(--duration) infinite linear;
+    --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  }
 }
 
 @layer base {
@@ -109,5 +113,24 @@ body {
 
   .animate-scroll {
     animation: scroll 30s linear infinite;
+  }
+}
+
+@theme inline {
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
   }
 }

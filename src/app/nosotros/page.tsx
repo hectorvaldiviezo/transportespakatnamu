@@ -3,8 +3,11 @@ import Hero from "@/components/Hero";
 import AboutUs from "@/components/AboutUs";
 import Footer from "@/components/Footer";
 import { MILLA_BASE } from "@/lib/config";
+import { getStats } from "@/components/stats/lib/stats.actions";
+export const dynamic = "force-dynamic";
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getStats();
   return (
     <div className="min-h-screen bg-gray-50">
       <Header heightToScroll={300} />
@@ -18,7 +21,7 @@ export default function Home() {
           gradient={true}
         />
         {/* <Quotation /> */}
-        <AboutUs />
+        <AboutUs stats={stats} />
         {/* <Principles /> */}
         {/* <MisionVision /> */}
         {/* <Contact /> */}

@@ -20,11 +20,11 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="bg-navy text-white py-8">
       <div className="container max-w-screen-xl flex flex-col gap-2 mx-auto px-4 text-start">
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3">
           <div className="col-span-2 md:col-span-1 grid gap-2">
-            <p className="text-gray-500 font-bold">Contacto</p>
+            <p className="text-background font-bold">Contacto</p>
             <div className="flex gap-4">
               <div>
                 <Image
@@ -55,7 +55,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-col gap-2 items-center justify-start">
             <div className="max-w-fit">
-              <p className="text-gray-500 font-bold">Enlaces</p>
+              <p className="text-background font-bold">Enlaces</p>
               <Link href="/">
                 <Button
                   size="default"
@@ -97,7 +97,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-col items-center justify-start">
             <div className="max-w-fit">
-              <p className="text-gray-500 font-bold">Políticas</p>
+              <p className="text-background font-bold">Políticas</p>
               <Link href="/docs/codigo_etica_TP.pdf" target="_blank">
                 <Button
                   size="default"
