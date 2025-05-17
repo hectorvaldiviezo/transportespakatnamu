@@ -10,6 +10,11 @@ import {
 } from "@/components/ui/card";
 import { BASE_PATH } from "@/lib/config";
 
+const PROPOSITO =
+  "Conectar los sueños de los peruanos, trasladando sus esfuerzos y logros, impulsando el desarrollo y fortalecimiento integral del país.";
+const VISION =
+  "Ser una empresa líder en el sector transporte y de servicio logístico a nivel nacional.";
+
 export default function MisionVision() {
   return (
     <section className="pb-20 bg-muted">
@@ -20,14 +25,13 @@ export default function MisionVision() {
               <div>
                 <CardHeader>
                   <CardTitle className="text-xl uppercase text-navy border-l-4 border-navy pl-4">
-                    Misión
+                    Propósito
                   </CardTitle>
                   <CardDescription className="hidden" />
                 </CardHeader>
                 <CardContent>
                   <p className="text-justify text-muted-foreground font-medium font-roboto">
-                    Ser un trasportista de carga pesada, reconocido en Perú y
-                    más allá de nuestras fronteras.
+                    {PROPOSITO}
                   </p>
                 </CardContent>
               </div>
@@ -53,9 +57,7 @@ export default function MisionVision() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-justify text-muted-foreground font-medium font-roboto">
-                    Brindar servicio de Transporte de carga, rentablemente, con
-                    procesos flexibles, oportunos y en condiciones económicas
-                    que satisfagan a nuestros clientes.
+                    {VISION}
                   </p>
                 </CardContent>
               </div>
