@@ -6,7 +6,7 @@ import {
 
 export default function SociosSection({ socios }: SociosSectionProps) {
   return (
-    <section className="pb-10 md:pb-10 px-4 md:px-6">
+    <section className="pb-10 md:pb-10 px-4 md:px-6 bg-muted">
       <div className="max-w-(--breakpoint-xl) mx-auto">
         <AnimatedElement
           animation="fade-up"

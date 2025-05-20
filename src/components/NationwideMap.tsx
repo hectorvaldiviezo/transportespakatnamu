@@ -71,10 +71,10 @@ export default function NationwideMap() {
   };
 
   return (
-    <section className="py-16 bg-muted">
+    <section className="py-16">
       <div className="container max-w-screen-xl rounded mx-auto py-16 px-4 bg-background relative shadow-lg">
         <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
-        {/* <h2 className="text-4xl font-roboto mb-12 text-center text-[#e30613] font-bold">
+        {/* <h2 className="text-4xl font-poppins mb-12 text-center text-[#e30613] font-bold">
           COBERTURA NACIONAL
         </h2> */}
         <div className="flex flex-col lg:flex-row items-center justify-center gap-12 md:px-12">
@@ -87,14 +87,14 @@ export default function NationwideMap() {
                 SERVICIO A TODO EL PERÚ
               </p>
             </div>
-            <p className="mb-6 text-sm md:text-base text-muted-foreground text-justify font-roboto">
+            <p className="mb-6 text-sm md:text-base text-muted-foreground text-justify font-poppins">
               En Transportes Pakatnamu, nos enorgullece ofrecer nuestros
               servicios de transporte de carga en todos los departamentos del
               Perú. Nuestra extensa red logística nos permite llegar a cada
               rincón del país, garantizando entregas seguras y puntuales sin
               importar el destino.
             </p>
-            <p className="mb-6 text-navy text-center font-bold font-roboto text-xl">
+            <p className="mb-6 text-navy text-center font-bold font-poppins text-xl">
               ¿Desde donde deseas enviar tu carga?
             </p>
             <div className="grid grid-cols-3 sm:grid-cols-3 text-sm">
@@ -103,7 +103,7 @@ export default function NationwideMap() {
                   key={dept}
                   size="default"
                   variant={hoveredDepartment === dept ? "destructive" : "ghost"}
-                  className="p-0 justify-start px-2 font-medium font-roboto"
+                  className="p-0 justify-start px-2 font-medium font-poppins"
                   onMouseEnter={() => setHoveredDepartment(dept)}
                   onMouseLeave={() => setHoveredDepartment("")}
                   onClick={() => handleClickedDepartment(dept)}

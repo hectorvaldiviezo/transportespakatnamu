@@ -73,7 +73,7 @@ export default function ComplaintQuery({
   };
 
   return (
-    <div className="bg-gray-100 px-4 font-roboto py-10 md:py-20">
+    <div className="bg-gray-100 px-4 font-poppins py-10 md:py-20">
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">

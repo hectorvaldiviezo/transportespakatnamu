@@ -30,7 +30,7 @@ export default function MisionVision() {
                   <CardDescription className="hidden" />
                 </CardHeader>
                 <CardContent>
-                  <p className="text-justify text-muted-foreground font-medium font-roboto">
+                  <p className="text-justify text-muted-foreground font-medium font-poppins">
                     {PROPOSITO}
                   </p>
                 </CardContent>
@@ -56,7 +56,7 @@ export default function MisionVision() {
                   <CardDescription className="hidden" />
                 </CardHeader>
                 <CardContent>
-                  <p className="text-justify text-muted-foreground font-medium font-roboto">
+                  <p className="text-justify text-muted-foreground font-medium font-poppins">
                     {VISION}
                   </p>
                 </CardContent>

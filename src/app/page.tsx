@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   const socios = await getSocios();
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen">
       <Header />
       <main>
         <Hero

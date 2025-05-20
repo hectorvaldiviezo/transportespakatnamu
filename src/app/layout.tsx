@@ -28,7 +28,15 @@ export default function RootLayout({
   return (
     <ReactQueryClientProvider>
       <html lang="en">
-        <body className={`${poppins.variable}`}>
+        <body
+          className={`${poppins.variable} bg-muted`}
+          style={{
+            backgroundImage: "url('/pattern.svg')",
+            backgroundSize: "contain",
+            backgroundPosition: "center",
+            backgroundRepeat: "repeat",
+          }}
+        >
           {children}
           <Toaster />
           <ButtonWhatsapp />

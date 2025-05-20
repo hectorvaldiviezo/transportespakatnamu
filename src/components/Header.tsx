@@ -20,6 +20,52 @@ import {
 } from "@/components/ui/tooltip";
 
 import { useEffect, useState } from "react";
+
+const navLinks = [
+  {
+    href: "/nosotros",
+    label: "NOSOTROS",
+    className: "text-secondary hover:text-secondary/80",
+    showTooltip: false,
+  },
+  // {
+  //   href: "#services",
+  //   label: "SERVICIOS",
+  //   className: "text-secondary hover:text-secondary/80",
+  //   showTooltip: false,
+  // },
+  {
+    href: "/cotizar",
+    label: "COTIZAR",
+    className: "text-secondary hover:text-secondary/80",
+    showTooltip: false,
+  },
+  {
+    href: "https://www.nubefact.com/find_document?ruc=20480582561",
+    label: "COMPROBANTES",
+    className: "text-secondary hover:text-secondary/80",
+    showTooltip: true,
+    tooltip: "Consultar Comprobantes Electrónicos",
+    external: true,
+  },
+];
+
+const mobileLinks = [
+  {
+    href: "/nosotros",
+    label: "NOSOTROS",
+  },
+  {
+    href: "/cotizar",
+    label: "COTIZAR",
+  },
+  {
+    href: "https://www.nubefact.com/find_document?ruc=20480582561",
+    label: "CONSULTAR COMPROBANTES",
+    external: true,
+  },
+];
+
 export default function Header({
   heightToScroll = 500,
   gradient = "bg-gradient-to-r from-navy via-navy to-danger",
@@ -34,7 +80,6 @@ export default function Header({
       setIsScrolled(window.scrollY > heightToScroll);
     };
 
-    // Ejecutar al inicio para evitar que quede transparente tras la recarga
     handleScroll();
 
     window.addEventListener("scroll", handleScroll);
@@ -47,68 +92,58 @@ export default function Header({
     >
       <div
         className={`container max-w-screen-xl mx-auto px-4 py-3 m-2 rounded-xl flex justify-between items-center ${
-          isScrolled
-            ? // ? "bg-gradient-to-r from-indigo-800 to-red-900"
-              // ? "bg-gradient-to-r from-indigo-800 to-blue-800"
-              // ? "bg-gradient-to-r from-navy to-indigo-800"
-              // ? ""
-              gradient
-            : "bg-transparent"
+          isScrolled ? gradient : "bg-transparent"
         }`}
       >
         <Link href="/" className="flex items-center justify-center gap-2">
-          <Avatar className="rounded-xl">
-            <AvatarImage src="/tplogowhite.svg" alt="tp" />
+          <Avatar className="rounded-none w-full h-full">
+            <AvatarImage
+              src="/largelogowhite.svg"
+              className="aspect-auto h-8"
+              alt="tp"
+            />
             <AvatarFallback className="bg-transparent text-secondary">
               TP
             </AvatarFallback>
           </Avatar>
-          <div className="text-base sm:text-xl tracking-tight font-bold text-secondary flex flex-col">
-            TRANSPORTES PAKATNAMU
-          </div>
+          {/* <div className="text-base sm:text-xl tracking-tight font-extrabold flex flex-col items-center">
+            <span className="text-white sm:text-lg tracking-tighter">
+              TRANSPORTES
+            </span>{" "}
+            <span className="text-white -mt-2">PAKATNAMU</span>
+          </div> */}
         </Link>
         <nav className="hidden md:block">
           <ul className="flex space-x-4">
-            <li>
-              <Link
-                href="/nosotros"
-                className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
-              >
-                NOSOTROS
-              </Link>
-            </li>
-            {/* <li>
-              <Link
-                href="#services"
-                className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
-              >
-                SERVICIOS
-              </Link>
-            </li> */}
-            <li>
-              <Link
-                href="/cotizar"
-                className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
-              >
-                COTIZAR
-              </Link>
-            </li>
-            <li>
-              <TooltipProvider>
-                <Tooltip delayDuration={50}>
+            {navLinks.map((link) =>
+              link.showTooltip ? (
+                <li key={link.label}>
+                  <TooltipProvider>
+                    <Tooltip delayDuration={50}>
+                      <Link
+                        href={link.href}
+                        target={link.external ? "_blank" : undefined}
+                        className={link.className}
+                      >
+                        <TooltipTrigger>{link.label}</TooltipTrigger>
+                        <TooltipContent side="bottom" className="bg-navy">
+                          <p className="font-semibold">{link.tooltip}</p>
+                        </TooltipContent>
+                      </Link>
+                    </Tooltip>
+                  </TooltipProvider>
+                </li>
+              ) : (
+                <li key={link.label}>
                   <Link
-                    href="https://www.nubefact.com/find_document?ruc=20480582561"
-                    target="_blank"
-                    className="text-secondary hover:text-secondary/80 text-xs font-bold tracking-tight"
+                    href={link.href}
+                    className={`${link.className} font-bold text-sm`}
                   >
-                    <TooltipTrigger>COMPROBANTES</TooltipTrigger>
-                    <TooltipContent side="bottom" className="bg-navy">
-                      <p className="font-semibold">Consultar Comprobantes Electrónicos</p>
-                    </TooltipContent>
+                    {link.label}
                   </Link>
-                </Tooltip>
-              </TooltipProvider>
-            </li>
+                </li>
+              )
+            )}
           </ul>
         </nav>
         <div className="block md:hidden">
@@ -129,32 +164,23 @@ export default function Header({
                       <AvatarImage src="/tplogo.svg" alt="tp" />
                       <AvatarFallback>TP</AvatarFallback>
                     </Avatar>
-                    <div className="text-base font-roboto font-bold flex flex-col bg-gradient-to-r from-navy to-danger bg-clip-text text-transparent">
+                    <div className="text-base font-poppins font-bold flex flex-col bg-gradient-to-r from-navy to-danger bg-clip-text text-transparent">
                       TRANSPORTES PAKATNAMU
                     </div>
                   </div>
                 </SheetTitle>
                 <SheetDescription></SheetDescription>
                 <nav className="grid place-items-start gap-2">
-                  <Link
-                    href="/nosotros"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto font-semibold"
-                  >
-                    NOSOTROS
-                  </Link>
-                  <Link
-                    href="/cotizar"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto font-semibold"
-                  >
-                    COTIZAR
-                  </Link>
-                  <Link
-                    href="https://www.nubefact.com/find_document?ruc=20480582561"
-                    target="_blank"
-                    className="text-primary/85 hover:text-primary/80 text-sm font-roboto font-semibold"
-                  >
-                    CONSULTAR COMPROBANTES
-                  </Link>
+                  {mobileLinks.map((link) => (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      className="text-primary/85 hover:text-primary/80 text-sm font-poppins font-semibold"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
                 </nav>
               </SheetHeader>
             </SheetContent>

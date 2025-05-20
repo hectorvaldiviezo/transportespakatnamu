@@ -62,7 +62,7 @@ export default function Footer() {
                   variant="link"
                   className="flex items-center gap-2 text-secondary group"
                 >
-                  <Home className="min-w-5 min-h-6" /> Inicio
+                  <Home className="min-w-5 min-h-6 text-terciary" /> Inicio
                 </Button>
               </Link>
               <Link href="/nosotros">
@@ -71,7 +71,7 @@ export default function Footer() {
                   variant="link"
                   className="flex items-center gap-2 text-secondary group"
                 >
-                  <Group className="min-w-5 min-h-5" /> Nosotros
+                  <Group className="min-w-5 min-h-5 text-terciary" /> Nosotros
                 </Button>
               </Link>
               <Link href="/cotizar">
@@ -80,7 +80,8 @@ export default function Footer() {
                   variant="link"
                   className="flex items-center gap-2 text-secondary group"
                 >
-                  <TextSelect className="min-w-5 min-h-5" /> Cotizar
+                  <TextSelect className="min-w-5 min-h-5 text-terciary" />{" "}
+                  Cotizar
                 </Button>
               </Link>
               <Link href="https://www.nubefact.com/find_document?ruc=20480582561">
@@ -89,8 +90,8 @@ export default function Footer() {
                   variant="link"
                   className="flex items-start gap-2 text-secondary group text-wrap text-start"
                 >
-                  <ReceiptText className="min-w-5 min-h-5" /> Comprobantes
-                  Electrónicos
+                  <ReceiptText className="min-w-5 min-h-5 text-terciary" />{" "}
+                  Comprobantes Electrónicos
                 </Button>
               </Link>
             </div>
@@ -128,7 +129,7 @@ export default function Footer() {
             <Button
               size="sm"
               variant="secondary"
-              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-roboto text-gray-800 rounded-full"
+              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-poppins text-gray-800 rounded-full"
             >
               <Facebook className="w-4 h-4 stroke-transparent fill-gray-800" />
               @TransportesPakatnamu
@@ -141,7 +142,7 @@ export default function Footer() {
             <Button
               size="sm"
               variant="secondary"
-              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-roboto text-gray-800 rounded-full"
+              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-poppins text-gray-800 rounded-full"
             >
               <Instagram className="w-4 h-4 fill-transparent stroke-gray-800" />
               @transportespakatnamu
@@ -154,7 +155,7 @@ export default function Footer() {
             <Button
               size="sm"
               variant="secondary"
-              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-roboto text-gray-800 rounded-full"
+              className="flex w-fit gap-2 px-2 items-center text-xs font-medium font-poppins text-gray-800 rounded-full"
             >
               <Linkedin className="w-4 h-4 fill-transparent stroke-gray-800" />
               @transportespakatnamu

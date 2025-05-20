@@ -172,7 +172,7 @@ export default function ContactForm() {
         >
           <div className="w-full flex flex-col justify-center max-w-screen-md bg-background p-6 rounded-xl shadow-lg">
             <div className="border-l-4 border-danger px-2">
-              <div className="text-2xl font-roboto uppercase font-bold text-danger">
+              <div className="text-2xl font-poppins uppercase font-bold text-danger">
                 Información de Contacto
               </div>
               <div className="text-sm text-muted-foreground">

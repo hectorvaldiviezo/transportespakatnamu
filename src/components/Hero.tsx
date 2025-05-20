@@ -48,11 +48,11 @@ export default function Hero({
       <div className="container max-w-screen-lg mx-auto px-4 relative z-10">
         <div className="max-w-full">
           <div className="w-full mb-4 text-secondary flex flex-col items-center text-center">
-            <h1 className="text-4xl md:text-7xl font-bold font-roboto animate-fade-left animate-once animate-duration-1000 animate-delay-0 animate-ease-in animate-alternate animate-fill-forwards">
+            <h1 className="text-4xl md:text-7xl font-bold animate-fade-left animate-once animate-duration-1000 animate-delay-0 animate-ease-in animate-alternate animate-fill-forwards">
               {title}
             </h1>
 
-            <h1 className="text-3xl md:text-5xl font-roboto text-secondary">
+            <h1 className="text-3xl md:text-5xl text-secondary">
               {subtitle}
             </h1>
             <h1 className="text-xs md:text-2xl mb-8 text-secondary">
