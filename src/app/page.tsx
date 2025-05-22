@@ -17,8 +17,8 @@ export default async function Home() {
       <main>
         <Hero
           title="TRANSPORTE DE CARGA"
-          description="Conectamos destinos, "
-          descriptions={[" sin límites", " sin demoras", " sin preocupaciones"]}
+          description="Conectamos sueños, trasladando"
+          descriptions={[" sus esfuerzos", " y logros"]}
           src={MILLA_BASE + "/transportes/administradorweb/hero_inicio.png"}
           height="h-screen"
           gradient={false}

@@ -71,7 +71,7 @@ export default function NationwideMap() {
   };
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-gradient-to-b from-background/70">
       <div className="container max-w-screen-xl rounded mx-auto py-16 px-4 bg-background relative shadow-lg">
         <div className="absolute top-[-8px] left-1/2 transform -translate-x-1/2 w-24 h-4 bg-danger"></div>
         {/* <h2 className="text-4xl font-poppins mb-12 text-center text-[#e30613] font-bold">
@@ -88,11 +88,9 @@ export default function NationwideMap() {
               </p>
             </div>
             <p className="mb-6 text-sm md:text-base text-muted-foreground text-justify font-poppins">
-              En Transportes Pakatnamu, nos enorgullece ofrecer nuestros
-              servicios de transporte de carga en todos los departamentos del
-              Perú. Nuestra extensa red logística nos permite llegar a cada
-              rincón del país, garantizando entregas seguras y puntuales sin
-              importar el destino.
+              En Transportes Pakatnamu, impulsamos a nuestros clientes a seguir
+              creciendo y expandiendo su futuro por todo el Perú, con seguridad
+              y eficiencia
             </p>
             <p className="mb-6 text-navy text-center font-bold font-poppins text-xl">
               ¿Desde donde deseas enviar tu carga?

@@ -3,10 +3,15 @@
 import { motion } from "framer-motion";
 import { Truck, Shield, Award, Compass } from "lucide-react";
 import { useRef } from "react";
-import { StatsResource } from "./stats/lib/stats.interface";
+import type { StatsResource } from "./stats/lib/stats.interface";
 import { StatsSection } from "./stats/stats-section";
 import Link from "next/link";
 import Image from "next/image";
+
+const PROPOSITO =
+  "Conectar los sueños de los peruanos, trasladando sus esfuerzos y logros, impulsando el desarrollo y fortalecimiento integral del país.";
+const VISION =
+  "Ser una empresa líder en el sector transporte y de servicio logístico a nivel nacional.";
 
 interface Props {
   stats: StatsResource[];
@@ -15,7 +20,17 @@ interface Props {
 export default function AboutUs({ stats }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const containerVariants = {
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
+
+  const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -25,161 +40,102 @@ export default function AboutUs({ stats }: Props) {
     },
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
-  const cardVariants = {
-    initial: { scale: 0.9, opacity: 0 },
-    animate: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
+  const cardHover = {
+    rest: { scale: 1 },
     hover: {
-      scale: 1.05,
+      scale: 1.03,
       boxShadow: "0 10px 25px rgba(0, 0, 0, 0.1)",
-      transition: {
-        duration: 0.2,
-        ease: "easeInOut",
-      },
+      transition: { duration: 0.3, ease: "easeInOut" },
     },
   };
 
   return (
-    <main className="flex min-h-screen max-w-screen-xl mx-auto flex-col items-center">
-      {/* Quiénes Somos Section */}
-      <div ref={scrollRef}>
-        <section className="py-20 relative overflow-hidden">
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              className="text-center mb-16"
+    <main className="flex min-h-screen flex-col items-center bg-gray-50">
+      {/* Hero Section */}
+      <section className="w-full bg-gradient-to-b from-navy to-blue-900 text-white py-20">
+        <div className="container mx-auto px-4 max-w-screen-xl">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+            className="text-center max-w-3xl mx-auto"
+          >
+            <motion.h1
+              variants={fadeIn}
+              className="text-5xl md:text-6xl font-bold mb-6"
             >
-              <motion.h2
-                variants={itemVariants}
-                className="text-5xl font-bold mb-4 text-navy relative flex flex-col items-center"
-              >
-                ¿Quiénes Somos?
-                <motion.div
-                  className="parallax relative mb-4 h-1 w-40 overflow-hidden rounded-full bg-white/20"
-                  data-speed="0.2"
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: 160, opacity: 1 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
-                >
-                  <motion.div
-                    className="absolute left-0 top-0 h-full w-full bg-gradient-to-r from-navy to-danger"
-                    animate={{ x: ["0%", "100%", "0%"] }}
-                    transition={{
-                      duration: 3,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                  />
-                </motion.div>
-              </motion.h2>
+              ¿Quiénes Somos?
+            </motion.h1>
 
-              <motion.p
-                variants={itemVariants}
-                className="text-xl text-gray-600 max-w-3xl mx-auto mt-8"
-              >
-                Somos una empresa de transporte comprometida con la excelencia y
-                el crecimiento sostenible. Nuestra visión se basa en dos pilares
-                fundamentales:
-              </motion.p>
+            <motion.div
+              className="h-1 w-40 bg-danger mx-auto mb-8"
+              initial={{ width: 0 }}
+              animate={{ width: 160 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            />
 
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="flex flex-col items-center justify-center my-16 relative"
-              >
-                <div className="relative">
-                  <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    viewport={{ once: true }}
-                    className="text-4xl font-bold text-danger bg-white px-10 py-6 rounded-lg shadow-lg z-10 relative"
-                  >
-                    Oportunidad
-                  </motion.div>
+            <motion.p variants={fadeIn} className="text-xl mb-10">
+              En Transportes Pakatnamu, impulsamos a nuestros clientes a seguir
+              creciendo y expandiendo su futuro por todo el Perú con
+            </motion.p>
 
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                    viewport={{ once: true }}
-                    className="text-6xl font-bold text-white bg-danger w-20 h-20 rounded-full flex items-center justify-center mx-auto my-6 shadow-lg"
-                  >
-                    +
-                  </motion.div>
+            <motion.div
+              className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12"
+              variants={fadeIn}
+            >
+              <div className="text-3xl font-bold bg-white text-danger px-8 py-4 rounded-lg shadow-lg">
+                Seguridad
+              </div>
+              <div className="text-5xl font-bold bg-danger w-16 h-16 rounded-full flex items-center justify-center shadow-lg">
+                +
+              </div>
+              <div className="text-3xl font-bold bg-white text-navy px-8 py-4 rounded-lg shadow-lg">
+                Eficiencia
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
 
-                  <motion.div
-                    initial={{ y: -20, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.6 }}
-                    viewport={{ once: true }}
-                    className="text-4xl font-bold text-navy bg-white px-10 py-6 rounded-lg shadow-lg z-10 relative"
-                  >
-                    Competencia
-                  </motion.div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1 }}
-                viewport={{ once: true }}
-                className="bg-gray-50 p-8 rounded-xl shadow-lg max-w-4xl mx-auto border-l-4 border-danger"
-              >
-                <p className="text-xl text-gray-700 italic">
-                  "Contamos con un equipo altamente capacitado y proveedores de
-                  primer nivel, lo que nos permite ofrecer soluciones logísticas
-                  adaptadas a las necesidades específicas de cada cliente."
-                </p>
-              </motion.div>
+      {/* Mission & Vision Section */}
+      <section className="w-full py-20 bg-white" ref={scrollRef}>
+        <div className="container mx-auto px-4 max-w-screen-xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={staggerContainer}
+            className="text-center mb-16"
+          >
+            <motion.div
+              variants={fadeIn}
+              className="bg-gray-50 p-8 rounded-xl shadow-lg max-w-3xl mx-auto border-b-4 border-danger mb-16"
+            >
+              <p className="text-xl text-gray-700 font-medium">
+                Ofrecemos a nuestros clientes emprendedores un servicio de
+                transporte de carga destacado por su{" "}
+                <span className="font-bold text-danger">seguridad</span>,
+                <span className="font-bold text-navy"> modernidad</span> y
+                <span className="font-bold text-danger"> eficiencia</span>.
+              </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               <motion.div
-                initial={{ x: -50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
-                whileHover={{
-                  y: -10,
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                }}
-                className="bg-gradient-to-br from-navy via-navy to-blue-800 p-10 rounded-xl shadow-md text-white overflow-hidden relative"
+                whileHover={cardHover.hover}
+                className="bg-gradient-to-br from-navy to-blue-800 p-10 rounded-xl shadow-md text-white overflow-hidden relative"
               >
                 <div className="absolute -right-10 -bottom-10 opacity-10">
                   <Truck size={150} />
                 </div>
                 <h3 className="text-3xl font-bold mb-6 border-b border-blue-200 pb-4">
-                  Misión
+                  Propósito
                 </h3>
-                <p className="text-xl relative z-10">
-                  Ser un trasportista de carga pesada, reconocido en Perú y más
-                  allá de nuestras fronteras.
-                </p>
+                <p className="text-xl relative z-10">{PROPOSITO}</p>
                 <div className="mt-8 flex justify-end">
                   <motion.div
                     animate={{
@@ -196,15 +152,11 @@ export default function AboutUs({ stats }: Props) {
               </motion.div>
 
               <motion.div
-                initial={{ x: 50, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
-                whileHover={{
-                  y: -10,
-                  boxShadow:
-                    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                }}
+                whileHover={cardHover.hover}
                 className="bg-white border-2 border-danger p-10 rounded-xl shadow-md overflow-hidden relative"
               >
                 <div className="absolute -right-10 -bottom-10 text-red-100">
@@ -213,11 +165,7 @@ export default function AboutUs({ stats }: Props) {
                 <h3 className="text-3xl font-bold mb-6 text-danger border-b border-red-200 pb-4">
                   Visión
                 </h3>
-                <p className="text-xl text-gray-700 relative z-10">
-                  Brindar servicio de Transporte de carga, rentablemente, con
-                  procesos flexibles, oportunos y en condiciones económicas que
-                  satisfagan a nuestros clientes.
-                </p>
+                <p className="text-xl text-gray-700 relative z-10">{VISION}</p>
                 <div className="mt-8 flex justify-end">
                   <motion.div
                     animate={{
@@ -233,44 +181,53 @@ export default function AboutUs({ stats }: Props) {
                 </div>
               </motion.div>
             </div>
+          </motion.div>
+        </div>
+      </section>
 
-            {/* Estadísticas */}
-            <StatsSection stats={stats} />
-          </div>
-        </section>
-      </div>
+      {/* Stats Section */}
+      <section className="w-full py-16 bg-gradient-to-r from-navy/10 to-danger/10">
+        <div className="container mx-auto px-4 max-w-screen-xl">
+          <StatsSection stats={stats} />
+        </div>
+      </section>
 
-      {/* Valores Section */}
-
-      <section className="pt-10 pb-20">
-        <div className="container mx-auto px-8">
+      {/* Principios Section */}
+      <section className="w-full py-20 bg-white">
+        <div className="container mx-auto px-4 max-w-screen-xl">
           <motion.div
-            variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
+            variants={staggerContainer}
             className="text-center mb-16"
           >
             <motion.h2
-              variants={itemVariants}
+              variants={fadeIn}
               className="text-4xl font-bold mb-4 text-navy"
             >
-              Nuestros Valores
+              Nuestros Principios
             </motion.h2>
             <motion.div
-              variants={itemVariants}
+              variants={fadeIn}
               className="w-20 h-1 bg-danger mx-auto mb-8"
             ></motion.div>
             <motion.p
-              variants={itemVariants}
-              className="text-xl text-gray-600 max-w-3xl mx-auto"
+              variants={fadeIn}
+              className="text-xl text-gray-600 max-w-3xl mx-auto mb-16"
             >
-              En Transportes Pakatnamu, nuestros valores definen quiénes somos y
-              cómo operamos cada día.
+              En Transportes Pakatnamu, nuestros principios definen quiénes
+              somos y cómo operamos cada día.
             </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {[
               {
                 imgSrc:
@@ -314,65 +271,62 @@ export default function AboutUs({ stats }: Props) {
                 description:
                   "Trabajamos con disciplina y perseverancia desde el inicio para lograr los resultados esperados, sin transgredir los lineamientos de la compañía.",
               },
-            ].map((value, index) => (
+            ].map((principle, index) => (
               <motion.div
                 key={index}
-                variants={cardVariants}
-                initial="initial"
-                whileInView="animate"
-                whileHover="hover"
-                viewport={{ once: true, amount: 0.3 }}
-                className="bg-white p-8 rounded-xl shadow-md"
+                variants={fadeIn}
+                whileHover={cardHover.hover}
+                className="bg-white p-8  shadow-md border border-gray-100 flex flex-col items-center relative min-h-56 overflow-hidden"
               >
-                <div className="size-24 rounded-full flex items-center justify-center mb-6 mx-auto relative">
-                  <Image
-                    src={value.imgSrc}
-                    alt={value.title}
-                    fill
-                    className="aspect-square object-cover rounded-full"
-                  />
+                <Image
+                  src={principle.imgSrc || "/placeholder.svg"}
+                  alt={principle.title}
+                  fill
+                  className="object-cover z-0"
+                  style={{ objectFit: "cover" }}
+                />
+                <div
+                  className={`absolute top-0 left-0 w-full h-full group overflow-hidden 
+    ${index % 2 === 0 ? "bg-danger/80" : "bg-navy/80"}`}
+                >
+                  <div className="flex flex-col items-center justify-center h-full text-center px-6 transition-all duration-500">
+                    <h3 className="text-2xl font-bold text-white transition-transform duration-500">
+                      {principle.title}
+                    </h3>
+                    <p className="text-white text-sm text-justify max-w-md mt-2 opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-40 transition-all duration-500 overflow-hidden">
+                      {principle.description}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-gray-800 text-center">
-                  {value.title}
-                </h3>
-                <p className="text-gray-600 text-center text-sm">
-                  {value.description}
-                </p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-10 bg-danger text-white w-full">
-        <div className="container mx-auto px-4">
+      <section className="w-full py-16 bg-gradient-to-r from-danger to-red-700 text-white">
+        <div className="container mx-auto px-4 max-w-screen-xl">
           <motion.div
-            variants={containerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="text-center"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+            className="text-center max-w-3xl mx-auto"
           >
-            <motion.h2
-              variants={itemVariants}
-              className="text-4xl font-bold mb-6"
-            >
+            <motion.h2 variants={fadeIn} className="text-4xl font-bold mb-6">
               ¿Listo para trabajar con nosotros?
             </motion.h2>
-            <motion.p
-              variants={itemVariants}
-              className="text-xl mb-10 max-w-3xl mx-auto"
-            >
+            <motion.p variants={fadeIn} className="text-xl mb-10">
               Ofrecemos soluciones logísticas adaptadas a las necesidades
               específicas de cada cliente.
             </motion.p>
             <Link href="/cotizar">
               <motion.button
-                variants={itemVariants}
+                variants={fadeIn}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-2 bg-white text-red-700 rounded-full font-bold text-lg shadow-lg"
+                className="px-10 py-3 bg-white text-red-700 rounded-full font-bold text-lg shadow-lg"
               >
                 Cotiza Ahora
               </motion.button>

@@ -6,10 +6,8 @@ import { MILLA_BASE } from "@/lib/config";
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header
-        heightToScroll={200}
-      />
+    <div className="min-h-screen ">
+      <Header heightToScroll={200} />
       <main>
         <Hero
           title="COTIZAR"

@@ -125,7 +125,9 @@ export default function Header({
                         target={link.external ? "_blank" : undefined}
                         className={link.className}
                       >
-                        <TooltipTrigger>{link.label}</TooltipTrigger>
+                        <TooltipTrigger className="font-bold text-sm">
+                          {link.label}
+                        </TooltipTrigger>
                         <TooltipContent side="bottom" className="bg-navy">
                           <p className="font-semibold">{link.tooltip}</p>
                         </TooltipContent>
