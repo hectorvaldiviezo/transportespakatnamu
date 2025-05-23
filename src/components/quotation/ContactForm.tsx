@@ -164,7 +164,7 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="w-full py-20 px-2 flex justify-center items-center bg-muted">
+    <div className="w-full py-20 px-2 flex justify-center items-center">
       <Form {...form}>
         <form
           action=""
